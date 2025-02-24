@@ -878,17 +878,27 @@
 								showDropdown = !showDropdown;
 							}}
 						>
-							<div class=" self-center mr-3">
+							<div class="self-center mr-3">
 								<img
 									src={$user.profile_image_url}
-									class=" max-w-[30px] object-cover rounded-full"
+									class="max-w-[1.5rem] object-cover rounded-full"
 									alt="User profile"
 								/>
 							</div>
-							<div class=" self-center font-medium">{truncateName($user.name)}</div>
+							<div class="self-center  font-medium mt-1">{truncateName($user.name)}</div>
 						</button>
 					</UserMenu>
 				{/if}
+				<a
+					class=" flex items-center rounded-xl py-2.5 px-2.5 w-full hover:bg-gray-100 dark:hover:bg-gray-900 transition"
+					href="https://x.com/MyeongAi"
+					target="_blank"
+				>
+					<div class="self-center font-medium  mr-4 ml-1">
+						<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1rem" width="1rem" xmlns="http://www.w3.org/2000/svg"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>
+					</div>
+					<div class="self-center font-medium mt-0.5">{$i18n.t('Follow Us')}</div>
+				</a>
 			</div>
 		</div>
 
