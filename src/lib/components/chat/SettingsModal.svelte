@@ -318,7 +318,7 @@
 		return await _getModels(localStorage.token);
 	};
 
-	let selectedTab = 'general';
+	let selectedTab = 'account';
 
 	// Function to handle sideways scrolling
 	const scrollHandler = (event) => {
@@ -354,7 +354,7 @@
 
 <Modal size="xl" bind:show>
 	<div class="text-gray-700 dark:text-gray-100">
-		<div class=" flex justify-between dark:text-gray-300 px-5 pt-4 pb-1">
+		<div class=" flex justify-between dark:text-gray-300 px-10 pt-4 pb-1">
 			<div class=" text-lg font-medium self-center">{$i18n.t('Settings')}</div>
 			<button
 				class="self-center"
@@ -375,8 +375,8 @@
 			</button>
 		</div>
 
-		<div class="flex flex-col md:flex-row w-full px-4 pt-1 pb-4 md:space-x-4">
-			<div
+		<div class="flex flex-col md:flex-row w-full px-10 pt-4 pb-4 md:space-x-4">
+			<!-- <div
 				id="settings-tabs-container"
 				class="tabs flex flex-row overflow-x-auto gap-2.5 md:gap-1 md:flex-col flex-1 md:flex-none md:w-40 dark:text-gray-200 text-sm font-medium text-left mb-1 md:mb-0 -translate-y-1"
 			>
@@ -602,7 +602,7 @@
 						{$i18n.t('No results found')}
 					</div>
 				{/if}
-			</div>
+			</div> -->
 			<div class="flex-1 md:min-h-[32rem] max-h-[32rem]">
 				{#if selectedTab === 'general'}
 					<General

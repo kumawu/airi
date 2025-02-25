@@ -239,7 +239,7 @@
 				</div>
 			</div>
 
-			<div class="pt-2">
+			<!-- <div class="pt-2">
 				<div class="flex flex-col w-full">
 					<div class=" mb-1 text-xs font-medium">{$i18n.t('Notification Webhook')}</div>
 
@@ -253,10 +253,10 @@
 						/>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 
-		<div class="py-0.5">
+		<!-- <div class="py-0.5">
 			<UpdatePassword />
 		</div>
 
@@ -420,7 +420,7 @@
 					</div>
 				{/if}
 			</div>
-		{/if}
+		{/if} -->
 	</div>
 
 	<div class="flex justify-end pt-3 text-sm font-medium">
