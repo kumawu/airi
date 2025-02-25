@@ -28,7 +28,7 @@
 	export let id = '';
 	export let value = '';
 	export let placeholder = 'Select a model';
-	export let searchEnabled = true;
+	export let searchEnabled = false;
 	export let searchPlaceholder = $i18n.t('Search a model');
 
 	export let showTemporaryChatControl = false;
@@ -242,7 +242,7 @@
 			{:else}
 				{placeholder}
 			{/if}
-			<ChevronDown className=" self-center ml-2 size-3" strokeWidth="2.5" />
+			<!-- <ChevronDown className=" self-center ml-2 size-3" strokeWidth="2.5" /> -->
 		</div>
 	</DropdownMenu.Trigger>
 
@@ -288,7 +288,7 @@
 				<hr class="border-gray-50 dark:border-gray-800" />
 			{/if}
 
-			<div class="px-3 my-2 max-h-64 overflow-y-auto scrollbar-hidden group">
+			<div class="px-3 my-2 max-h-64 overflow-y-auto scrollbar-hidden group hidden">
 				{#each filteredItems as item, index}
 					<button
 						aria-label="model-item"

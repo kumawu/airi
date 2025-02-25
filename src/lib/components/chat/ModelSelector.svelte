@@ -11,7 +11,7 @@
 	export let selectedModels = [''];
 	export let disabled = false;
 
-	export let showSetDefault = true;
+	export let showSetDefault = false;
 
 	const saveDefaultModel = async () => {
 		const hasEmptyModel = selectedModels.filter((it) => it === '');
@@ -45,15 +45,25 @@
 							label: model.name,
 							model: model
 						}))}
-						showTemporaryChatControl={$user.role === 'user'
-							? ($user?.permissions?.chat?.temporary ?? true)
-							: true}
+						showTemporaryChatControl={false}
 						bind:value={selectedModel}
 					/>
+					<!-- <Selector
+						id={`${selectedModelIdx}`}
+						placeholder={$i18n.t('Select a model')}
+						items={$models.map((model) => ({
+							value: model.id,
+							label: model.name,
+							model: model
+						}))}
+						showTemporaryChatControl={false}
+						bind:value={selectedModel}
+						className="hidden"
+					/> -->
 				</div>
 			</div>
 
-			{#if selectedModelIdx === 0}
+			<!-- {#if selectedModelIdx === 0}
 				<div
 					class="  self-center mx-1 disabled:text-gray-600 disabled:hover:text-gray-600 -translate-y-[0.5px]"
 				>
@@ -105,13 +115,13 @@
 						</button>
 					</Tooltip>
 				</div>
-			{/if}
+			{/if} -->
 		</div>
 	{/each}
 </div>
 
-{#if showSetDefault}
+<!-- {#if showSetDefault}
 	<div class=" absolute text-left mt-[1px] ml-1 text-[0.7rem] text-gray-500 font-primary">
 		<button on:click={saveDefaultModel}> {$i18n.t('Set as default')}</button>
 	</div>
-{/if}
+{/if} -->
