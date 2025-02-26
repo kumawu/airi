@@ -1049,7 +1049,7 @@
 	"WebUI will make requests to \"{{url}}/chat/completions\"": "",
 	"What are you trying to achieve?": "",
 	"What are you working on?": "",
-	"What’s New in": "新機能",
+	"What's New in": "新機能",
 	"When enabled, the model will respond to each chat message in real-time, generating a response as soon as the user sends a message. This mode is useful for live chat applications, but may impact performance on slower hardware.": "",
 	"wherever you are": "",
 	"Whisper (Local)": "",
@@ -1079,5 +1079,16 @@
 	"Your entire contribution will go directly to the plugin developer; Airi does not take any percentage. However, the chosen funding platform might have its own fees.": "",
 	"Youtube": "YouTube",
 	"Youtube Loader Settings": "YouTubeローダー設定(日本語はja)",
-	"Follow Us": "フォローする"
+	"Follow Us": "フォローする",
+	"Today's Fortune": "今日の運勢",
+    "Analyze today's financial outlook and provide trading advice": "🧐今日の金運を分析してトレードアドバイスを提供します💰",
+    "Token Compatibility": "トークン相性",
+    "Enter your CA to check token compatibility with your wallet": "🌟気になるCAアドレスを入力して、ウォレットとの相性を確認してみましょう🔮",
+    "Check 9DHe3pycTuymFk4H4bbPoAJ4hQrr2kaLDF6J6aAKpump": "このCAアドレスの相性を確認: 9DHe3pycTuymFk4H4bbPoAJ4hQrr2kaLDF6J6aAKpump",
+    "My Assets": "保有資産",
+    "Review your wallet's current asset performance": "🤔保有トークンの今後の動向はどうでしょうか📈",
+    "Review my wallet's current asset performance": "ウォレットの現在の資産パフォーマンスを確認",
+    "Top Picks": "おすすめ銘柄",
+    "Get the hottest trending tokens based on GMGN and choose your compatible picks": "🔍人気のトークンをおすすめし、相性も確認します🔥",
+    "Tell me the hottest trending tokens based on GMGN and choose my compatible picks": "現在人気のトークンをおすすめして、相性も確認してください"
 }

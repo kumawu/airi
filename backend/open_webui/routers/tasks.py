@@ -174,6 +174,7 @@ async def generate_title(
         "model": task_model_id,
         "messages": [{"role": "user", "content": content}],
         "stream": False,
+        "locale": form_data.get("locale", "en_US"),
         **(
             {"max_tokens": 50}
             if models[task_model_id]["owned_by"] == "ollama"

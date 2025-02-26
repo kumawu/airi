@@ -1049,7 +1049,7 @@
 	"WebUI will make requests to \"{{url}}/chat/completions\"": "WebUI 將向 \"{{url}}/chat/completions\" 發送請求",
 	"What are you trying to achieve?": "您正在試圖完成什麽？",
 	"What are you working on?": "您正在工作什麽？",
-	"What’s New in": "新功能",
+	"What's New in": "新功能",
 	"When enabled, the model will respond to each chat message in real-time, generating a response as soon as the user sends a message. This mode is useful for live chat applications, but may impact performance on slower hardware.": "啟用時，模型將即時回應每個對話訊息，在使用者傳送訊息後立即生成回應。此模式適用於即時對話應用程式，但在較慢的硬體上可能會影響效能。",
 	"wherever you are": "無論您在何處",
 	"Whisper (Local)": "Whisper（本機）",
@@ -1079,5 +1079,16 @@
 	"Your entire contribution will go directly to the plugin developer; Airi does not take any percentage. However, the chosen funding platform might have its own fees.": "您的所有貢獻將會直接交給外掛開發者；Airi 不會收取任何百分比。然而，所選擇的贊助平臺可能有其自身的費用。",
 	"Youtube": "YouTube",
 	"Youtube Loader Settings": "YouTube 載入器設定",
-	"Follow Us": "關注我們"
+	"Follow Us": "關注我們",
+	"Today's Fortune": "今日運勢",
+    "Analyze today's financial outlook and provide trading advice": "🧐今天我旺不旺呀💰",
+    "Token Compatibility": "代幣合盤",
+    "Enter your CA to check token compatibility with your wallet": "🌟丟個你有興趣的 CA 地址，我幫你看看合盤資訊🔮",
+    "Check 9DHe3pycTuymFk4H4bbPoAJ4hQrr2kaLDF6J6aAKpump": "看下這個 CA 地址的合盤情況 9DHe3pycTuymFk4H4bbPoAJ4hQrr2kaLDF6J6aAKpump",
+    "My Assets": "我的標的",
+    "Review your wallet's current asset performance": "🤔手頭持幣，未來走勢怎樣，能漲不📈",
+    "Review my wallet's current asset performance": "看下我的錢包的當前資產表現",
+    "Top Picks": "推薦標的",
+    "Get the hottest trending tokens based on GMGN and choose your compatible picks": "🔍推薦幾個熱門幣，順便看看合盤情況🔥",
+    "Tell me the hottest trending tokens based on GMGN and choose my compatible picks": "推薦當前熱門幣，順便看看合盤情況"
 }

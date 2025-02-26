@@ -125,7 +125,7 @@
 
 		<div class=" w-full font-primary" in:fade={{ duration: 200, delay: 300 }}>
 			<Suggestions
-				className="grid grid-cols-2"
+				className="grid grid-cols-2 gap-2 max-w-2xl"
 				suggestionPrompts={models[selectedModelIdx]?.info?.meta?.suggestion_prompts ??
 					$config?.default_prompt_suggestions ??
 					[]}

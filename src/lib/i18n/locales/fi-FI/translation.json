@@ -1049,7 +1049,7 @@
 	"WebUI will make requests to \"{{url}}/chat/completions\"": "WebUI lähettää pyyntöjä osoitteeseen \"{{url}}/chat/completions\"",
 	"What are you trying to achieve?": "Mitä yrität saavuttaa?",
 	"What are you working on?": "Mihin olet työskentelemässä?",
-	"What’s New in": "",
+	"What's New in": "",
 	"When enabled, the model will respond to each chat message in real-time, generating a response as soon as the user sends a message. This mode is useful for live chat applications, but may impact performance on slower hardware.": "Kun käytössä, malli vastaa jokaiseen chatviestiin reaaliajassa, tuottaen vastauksen heti kun käyttäjä lähettää viestin. Tämä tila on hyödyllinen reaaliaikaisissa chat-sovelluksissa, mutta voi vaikuttaa suorituskykyyn hitaammilla laitteistoilla.",
 	"wherever you are": "missä tahansa oletkin",
 	"Whisper (Local)": "Whisper (paikallinen)",

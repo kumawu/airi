@@ -27,7 +27,7 @@
 		<button
 			class="flex flex-col flex-1 shrink-0 w-full justify-between px-3 py-2 rounded-xl bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition group"
 			on:click={() => {
-				dispatch('select', prompt.content);
+				dispatch('select', $i18n.t(prompt.content));
 			}}
 		>
 			<div class="flex flex-col text-left">
@@ -35,14 +35,14 @@
 					<div
 						class="  font-medium dark:text-gray-300 dark:group-hover:text-gray-200 transition line-clamp-1"
 					>
-						{prompt.title[0]}
+						{$i18n.t(prompt.title[0])}
 					</div>
-					<div class="text-xs text-gray-500 font-normal line-clamp-1">{prompt.title[1]}</div>
+					<div class="text-xs text-gray-500 font-normal line-clamp-1">{$i18n.t(prompt.title[1])}</div>
 				{:else}
 					<div
 						class="  font-medium dark:text-gray-300 dark:group-hover:text-gray-200 transition line-clamp-1"
 					>
-						{prompt.content}
+						{$i18n.t(prompt.content)}
 					</div>
 
 					<div class="text-xs text-gray-500 font-normal line-clamp-1">Prompt</div>

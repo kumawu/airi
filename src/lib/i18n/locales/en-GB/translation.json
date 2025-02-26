@@ -1049,7 +1049,7 @@
 	"WebUI will make requests to \"{{url}}/chat/completions\"": "",
 	"What are you trying to achieve?": "",
 	"What are you working on?": "",
-	"What’s New in": "",
+	"What's New in": "",
 	"When enabled, the model will respond to each chat message in real-time, generating a response as soon as the user sends a message. This mode is useful for live chat applications, but may impact performance on slower hardware.": "",
 	"wherever you are": "",
 	"Whisper (Local)": "",
@@ -1079,5 +1079,16 @@
 	"Your entire contribution will go directly to the plugin developer; Airi does not take any percentage. However, the chosen funding platform might have its own fees.": "",
 	"Youtube": "",
 	"Youtube Loader Settings": "",
-	"Follow Us": ""
+	"Follow Us": "",
+	"Today's Fortune":"",
+	"Analyze today's financial outlook and provide trading advice":"",
+	"Token Compatibility":"",
+	"Enter your CA to check token compatibility with your wallet":"",
+	"Check 9DHe3pycTuymFk4H4bbPoAJ4hQrr2kaLDF6J6aAKpump":"",
+	"My Assets":"",
+	"Review your wallet's current asset performance":"",
+	"Review my wallet's current asset performance":"",
+	"Top Picks":"", 
+	"Get the hottest trending tokens based on GMGN and choose your compatible picks":"",
+	"Tell me the hottest trending tokens based on GMGN and choose my compatible picks":""
 }

@@ -1049,7 +1049,7 @@
 	"WebUI will make requests to \"{{url}}/chat/completions\"": "Το WebUI θα κάνει αιτήματα στο \"{{url}}/chat/completions\"",
 	"What are you trying to achieve?": "Τι προσπαθείτε να πετύχετε?",
 	"What are you working on?": "Τι εργάζεστε;",
-	"What’s New in": "Τι νέο υπάρχει στο",
+	"What's New in": "Τι νέο υπάρχει στο",
 	"When enabled, the model will respond to each chat message in real-time, generating a response as soon as the user sends a message. This mode is useful for live chat applications, but may impact performance on slower hardware.": "Όταν ενεργοποιηθεί, το μοντέλο θα ανταποκρίνεται σε κάθε μήνυμα συνομιλίας σε πραγματικό χρόνο, δημιουργώντας μια απάντηση μόλις ο χρήστης στείλει ένα μήνυμα. Αυτή η λειτουργία είναι χρήσιμη για εφαρμογές ζωντανής συνομιλίας, αλλά μπορεί να επηρεάσει την απόδοση σε πιο αργό υλικό.",
 	"wherever you are": "οπουδήποτε βρίσκεστε",
 	"Whisper (Local)": "Whisper (Τοπικό)",

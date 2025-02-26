@@ -1049,7 +1049,7 @@
 	"WebUI will make requests to \"{{url}}/chat/completions\"": "WebUI надсилатиме запити до \"{{url}}/chat/completions\"",
 	"What are you trying to achieve?": "Чого ви прагнете досягти?",
 	"What are you working on?": "Над чим ти працюєш?",
-	"What’s New in": "Що нового в",
+	"What's New in": "Що нового в",
 	"When enabled, the model will respond to each chat message in real-time, generating a response as soon as the user sends a message. This mode is useful for live chat applications, but may impact performance on slower hardware.": "Коли активовано, модель буде відповідати на кожне повідомлення чату в режимі реального часу, генеруючи відповідь, як тільки користувач надішле повідомлення. Цей режим корисний для застосувань життєвих вітань чатів, але може позначитися на продуктивності на повільнішому апаратному забезпеченні.",
 	"wherever you are": "де б ви не були",
 	"Whisper (Local)": "Whisper (Локально)",

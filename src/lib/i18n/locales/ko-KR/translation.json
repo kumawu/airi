@@ -1049,7 +1049,7 @@
 	"WebUI will make requests to \"{{url}}/chat/completions\"": "WebUI가 \"{{url}}/chat/completions\"로 요청을 보냅니다",
 	"What are you trying to achieve?": "",
 	"What are you working on?": "",
-	"What’s New in": "새로운 기능:",
+	"What's New in": "새로운 기능:",
 	"When enabled, the model will respond to each chat message in real-time, generating a response as soon as the user sends a message. This mode is useful for live chat applications, but may impact performance on slower hardware.": "활성화하면 모델이 각 채팅 메시지에 실시간으로 응답하여 사용자가 메시지를 보내는 즉시 응답을 생성합니다. 이 모드는 실시간 채팅 애플리케이션에 유용하지만, 느린 하드웨어에서는 성능에 영향을 미칠 수 있습니다.",
 	"wherever you are": "",
 	"Whisper (Local)": "Whisper (로컬)",
@@ -1079,5 +1079,16 @@
 	"Your entire contribution will go directly to the plugin developer; Airi does not take any percentage. However, the chosen funding platform might have its own fees.": "당신의 모든 기여는 곧바로 플러그인 개발자에게 갑니다; Airi는 일절 가져가지 않습니다 하지만, 선택한 후원 플랫폼은 수수료를 가져갈 수 있습니다.",
 	"Youtube": "유튜브",
 	"Youtube Loader Settings": "유튜브 로더 설정",
-	"Follow Us": "팔로우하기"
+	"Follow Us": "팔로우하기",
+	"Today's Fortune": "오늘의 운세",
+    "Analyze today's financial outlook and provide trading advice": "🧐오늘의 재운을 분석하고 거래 조언을 제공합니다💰",
+    "Token Compatibility": "토큰 궁합",
+    "Enter your CA to check token compatibility with your wallet": "🌟관심있는 CA 주소를 입력하여 지갑과의 궁합을 확인해보세요🔮",
+    "Check 9DHe3pycTuymFk4H4bbPoAJ4hQrr2kaLDF6J6aAKpump": "이 CA 주소의 궁합 확인: 9DHe3pycTuymFk4H4bbPoAJ4hQrr2kaLDF6J6aAKpump",
+    "My Assets": "내 자산",
+    "Review your wallet's current asset performance": "🤔보유 중인 토큰의 향후 동향은 어떨까요📈",
+    "Review my wallet's current asset performance": "내 지갑의 현재 자산 성과 확인",
+    "Top Picks": "추천 종목",
+    "Get the hottest trending tokens based on GMGN and choose your compatible picks": "🔍인기 토큰을 추천하고 궁합도 확인해드립니다🔥",
+    "Tell me the hottest trending tokens based on GMGN and choose my compatible picks": "현재 인기 토큰을 추천하고 궁합도 확인해주세요"
 }

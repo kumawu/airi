@@ -1049,7 +1049,7 @@
 	"WebUI will make requests to \"{{url}}/chat/completions\"": "Déanfaidh WebUI iarratais ar \"{{url}}/chat/completions\"",
 	"What are you trying to achieve?": "Cad atá tú ag iarraidh a bhaint amach?",
 	"What are you working on?": "Cad air a bhfuil tú ag obair?",
-	"What’s New in": "Cad atá Nua i",
+	"What's New in": "Cad atá Nua i",
 	"When enabled, the model will respond to each chat message in real-time, generating a response as soon as the user sends a message. This mode is useful for live chat applications, but may impact performance on slower hardware.": "Nuair a bheidh sé cumasaithe, freagróidh an múnla gach teachtaireacht comhrá i bhfíor-am, ag giniúint freagra a luaithe a sheolann an t-úsáideoir teachtaireacht. Tá an mód seo úsáideach le haghaidh feidhmchláir chomhrá beo, ach d’fhéadfadh tionchar a bheith aige ar fheidhmíocht ar chrua-earraí níos moille.",
 	"wherever you are": "aon áit a bhfuil tú",
 	"Whisper (Local)": "Whisper (Áitiúil)",

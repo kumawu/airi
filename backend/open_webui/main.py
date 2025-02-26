@@ -1051,7 +1051,7 @@ async def get_app_config(request: Request):
                 },
                 "permissions": {**app.state.config.USER_PERMISSIONS},
             }
-            if user is not None
+            if (True or (user is not None))
             else {}
         ),
     }

@@ -883,6 +883,7 @@ async def process_chat_response(
                                 "model": message["model"],
                                 "messages": messages,
                                 "chat_id": metadata["chat_id"],
+                                "locale": form_data.get("locale", "en_US"),
                             },
                             user,
                         )
