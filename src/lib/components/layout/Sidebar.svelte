@@ -57,6 +57,10 @@
 	import ChannelModal from './Sidebar/ChannelModal.svelte';
 	import ChannelItem from './Sidebar/ChannelItem.svelte';
 	import PencilSquare from '../icons/PencilSquare.svelte';
+	import Sunlight from '../icons/Sunlight.svelte';
+	import Moon from '../icons/Moon.svelte';
+	import { changeTheme } from '$lib/utils/theme';
+	let selectedTheme = 'system';
 
 	const BREAKPOINT = 768;
 
@@ -406,6 +410,8 @@
 		dropZone?.addEventListener('dragover', onDragOver);
 		dropZone?.addEventListener('drop', onDrop);
 		dropZone?.addEventListener('dragleave', onDragLeave);
+
+		selectedTheme = localStorage.theme ?? 'system'
 	});
 
 	onDestroy(() => {
@@ -541,6 +547,21 @@
 					<PencilSquare className=" size-5" strokeWidth="2" />
 				</div>
 			</a>
+			<button
+				class=" cursor-pointer p-[7px] px-0 flex rounded-xl hover:bg-gray-100 dark:hover:bg-gray-900 transition"
+				on:click={() => {
+					selectedTheme = selectedTheme=="dark"?"light":"dark";					
+					changeTheme(selectedTheme);
+				}}
+			>
+				<div class=" m-auto self-center">
+					{#if (selectedTheme=="dark")}
+						<Sunlight className="lucide lucide-sun w-4 h-4"/>
+					{:else}
+						<Moon className="lucide lucide-moon w-4 h-4"/>
+					{/if}
+				</div>
+			</button>
 		</div>
 
 		<!-- {#if $user?.role === 'admin' || $user?.permissions?.workspace?.models || $user?.permissions?.workspace?.knowledge || $user?.permissions?.workspace?.prompts || $user?.permissions?.workspace?.tools}
