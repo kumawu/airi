@@ -1038,3 +1038,27 @@ export const getLineCount = (text) => {
 	console.log(typeof text);
 	return text ? text.split('\n').length : 0;
 };
+
+// 截取文本内容，中加加省略号，考虑中文等全角字符占位情况
+export const truncateName = (name='', maxLength=24) => {
+	if (!name) return name;
+	
+	// 计算字符串长度（全角字符算2，半角字符算1）
+	const len = [...name].reduce((len, char) => 
+		len + (/[\u4e00-\u9fa5]|[\uff00-\uffff]/.test(char) ? 2 : 1), 0
+	);
+	
+	if (len <= maxLength) return name;
+	
+	// 如果需要截断，从两端各取一半长度
+	const half = Math.floor((maxLength - 3) / 2);
+	const start = [...name].reduce(([str, len], char) => {
+		return len < half ? [str + char, len + (/[\u4e00-\u9fa5]|[\uff00-\uffff]/.test(char) ? 2 : 1)] : [str, len];
+	}, ['', 0])[0];
+	
+	const end = [...name].reverse().reduce(([str, len], char) => {
+		return len < half ? [char + str, len + (/[\u4e00-\u9fa5]|[\uff00-\uffff]/.test(char) ? 2 : 1)] : [str, len];
+	}, ['', 0])[0];
+	
+	return `${start}...${end}`;
+}

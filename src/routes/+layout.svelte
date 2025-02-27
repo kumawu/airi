@@ -28,7 +28,8 @@
 		temporaryChatEnabled,
 		isLastActiveTab,
 		isApp,
-		appInfo
+		appInfo,
+		fortune
 	} from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -44,10 +45,11 @@
 
 	import { WEBUI_BASE_URL, WEBUI_HOSTNAME } from '$lib/constants';
 	import i18n, { initI18n, getLanguages } from '$lib/i18n';
-	import { bestMatchingLanguage } from '$lib/utils';
+	import { bestMatchingLanguage, getFormattedDate } from '$lib/utils';
 	import { getAllTags, getChatList } from '$lib/apis/chats';
 	import NotificationToast from '$lib/components/NotificationToast.svelte';
 	import AppSidebar from '$lib/components/app/AppSidebar.svelte';
+	import { getUserFortune } from '$lib/apis/users';
 
 	setContext('i18n', i18n);
 
@@ -102,6 +104,15 @@
 			console.log('usage', data);
 			USAGE_POOL.set(data['models']);
 		});
+
+		_socket.on('fortune', (data) => {
+			console.log('fortune', data);
+			fortune.set(data['fortune']?? null);
+		});
+		// _socket.on('wallet', (data) => {
+		// 	console.log('new-wallet-data', data);
+		// 	wallet.set(data['wallet']);
+		// });
 	};
 
 	const chatEventHandler = async (event) => {
@@ -304,6 +315,11 @@
 
 						await user.set(sessionUser);
 						await config.set(await getBackendConfig());
+						
+						console.log(sessionUser);
+						//用户登陆后，获取五行运势数据
+						const fortuneRes =  await getUserFortune(sessionUser.token, localStorage.locale);
+						await fortune.set(fortuneRes['fortune']);
 					} else {
 						// Redirect Invalid Session User to /auth Page
 						localStorage.removeItem('token');

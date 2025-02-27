@@ -3,6 +3,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 
 	import { goto } from '$app/navigation';
+	import { truncateName } from '$lib/utils/index';
 	import {
 		user,
 		chats,
@@ -56,6 +57,7 @@
 	import { getChannels, createNewChannel } from '$lib/apis/channels';
 	import ChannelModal from './Sidebar/ChannelModal.svelte';
 	import ChannelItem from './Sidebar/ChannelItem.svelte';
+	import WuXing from './Sidebar/WuXing.svelte';
 	import PencilSquare from '../icons/PencilSquare.svelte';
 	import Sunlight from '../icons/Sunlight.svelte';
 	import Moon from '../icons/Moon.svelte';
@@ -345,30 +347,6 @@
 		shiftKey = false;
 		selectedChatId = null;
 	};
-
-	// 截取文本内容，中加加省略号，考虑中文等全角字符占位情况
-	function truncateName(name='', maxLength=24) {
-		if (!name) return name;
-		
-		// 计算字符串长度（全角字符算2，半角字符算1）
-		const len = [...name].reduce((len, char) => 
-			len + (/[\u4e00-\u9fa5]|[\uff00-\uffff]/.test(char) ? 2 : 1), 0
-		);
-		
-		if (len <= maxLength) return name;
-		
-		// 如果需要截断，从两端各取一半长度
-		const half = Math.floor((maxLength - 3) / 2);
-		const start = [...name].reduce(([str, len], char) => {
-			return len < half ? [str + char, len + (/[\u4e00-\u9fa5]|[\uff00-\uffff]/.test(char) ? 2 : 1)] : [str, len];
-		}, ['', 0])[0];
-		
-		const end = [...name].reverse().reduce(([str, len], char) => {
-			return len < half ? [char + str, len + (/[\u4e00-\u9fa5]|[\uff00-\uffff]/.test(char) ? 2 : 1)] : [str, len];
-		}, ['', 0])[0];
-		
-		return `${start}...${end}`;
-	}
 
 	onMount(async () => {
 		showPinnedChat = localStorage?.showPinnedChat ? localStorage.showPinnedChat === 'true' : true;
@@ -899,7 +877,7 @@
 			</Folder>
 		</div>
 
-		<div class="px-2">
+		<div class="px-2 py-3">
 			<div class="flex flex-col font-primary">
 				{#if $user !== undefined}
 					<UserMenu
@@ -911,7 +889,7 @@
 						}}
 					>
 						<button
-							class=" flex items-center rounded-xl py-2.5 px-2.5 w-full hover:bg-gray-100 dark:hover:bg-gray-900 transition"
+							class=" flex items-center rounded-xl py-2.5 px-2.5 w-full hover:bg-gray-100 dark:hover:bg-gray-900 transition border border-purple-500 dark:border-purple-400"
 							on:click={() => {
 								showDropdown = !showDropdown;
 							}}
@@ -926,16 +904,17 @@
 							<div class="self-center  font-medium mt-1">{truncateName($user.name, 24)}</div>
 						</button>
 					</UserMenu>
+					<WuXing/>
 				{/if}
 				<a
 					class=" flex items-center rounded-xl py-2.5 px-2.5 w-full hover:bg-gray-100 dark:hover:bg-gray-900 transition"
 					href="https://x.com/MyeongAi"
 					target="_blank"
 				>
-					<div class="self-center font-medium  mr-4 ml-1">
+					<div class="self-center font-medium  mr-4 ">
 						<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1rem" width="1rem" xmlns="http://www.w3.org/2000/svg"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>
 					</div>
-					<div class="self-center font-medium mt-0.5">{$i18n.t('Follow Us')}</div>
+					<div class="self-center text-sm text-gray-800 dark:text-gray-400 mt-0.5">{$i18n.t('Follow Us')}</div>
 				</a>
 			</div>
 		</div>

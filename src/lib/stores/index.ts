@@ -10,6 +10,7 @@ import emojiShortCodes from '$lib/emoji-shortcodes.json';
 export const WEBUI_NAME = writable(APP_NAME);
 export const config: Writable<Config | undefined> = writable(undefined);
 export const user: Writable<SessionUser | undefined> = writable(undefined);
+export const fortune: Writable<Fortune | undefined> = writable(undefined);
 
 // Electron App
 export const isApp = writable(false);
@@ -226,3 +227,14 @@ type SessionUser = {
 	role: string;
 	profile_image_url: string;
 };
+
+
+type WuXingValue = {
+    [key in '金' | '木' | '水' | '火' | '土']: string;
+};
+
+type Fortune = {
+    ba_zi_chart: string;
+    wu_xing_value: WuXingValue;
+    wu_xing_desc: WuXingValue;
+}

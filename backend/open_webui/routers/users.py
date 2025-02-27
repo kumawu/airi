@@ -324,3 +324,23 @@ async def delete_user_by_id(user_id: str, user=Depends(get_admin_user)):
         status_code=status.HTTP_403_FORBIDDEN,
         detail=ERROR_MESSAGES.ACTION_PROHIBITED,
     )
+
+
+############################
+# GetUserFortune
+############################
+
+@router.get("/user/fortune", response_model=Optional[dict])
+async def get_user_fortune(
+    locale: str = 'en-US',
+    user=Depends(get_verified_user)
+):
+    user = Users.get_user_by_id(user.id)
+    if user:
+        return None;
+        # return user.fortune
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=ERROR_MESSAGES.USER_NOT_FOUND,
+        )
