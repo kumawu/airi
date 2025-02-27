@@ -104,8 +104,8 @@
 		class="w-full text-3xl text-gray-800 dark:text-gray-100 font-medium text-center flex items-center gap-4 font-primary"
 	>
 		<div class="w-full flex flex-col justify-center items-center">
-			<div class="flex flex-row justify-center gap-3 sm:gap-3.5 w-fit px-5">
-				<div class="flex flex-shrink-0 justify-center">
+			<div class="flex flex-col justify-center gap-1 sm:gap-1.5 w-fit px-5 mb-2">
+				<div class="flex flex-shrink-0 justify-center mb-2">
 					<div class="flex -space-x-4 mb-0.5" in:fade={{ duration: 100 }}>
 						{#each models as model, modelIdx}
 							<Tooltip
@@ -125,7 +125,7 @@
 											($i18n.language === 'dg-DG'
 												? `/doge.png`
 												: `${WEBUI_BASE_URL}/static/favicon.png`)}
-										class=" size-9 sm:size-10 rounded-full border-[1px] border-gray-200 dark:border-none"
+										class=" size-14 sm:size-16 rounded-full border-[1px] border-gray-200 dark:border-none"
 										alt="logo"
 										draggable="false"
 									/>
@@ -134,17 +134,20 @@
 						{/each}
 					</div>
 				</div>
-
 				<div class=" text-3xl sm:text-4xl line-clamp-1" in:fade={{ duration: 100 }}>
-					{#if models[selectedModelIdx]?.name}
+					How can <span class="text-purple-500 dark:text-purple-400">Airie</span> assist you?
+					<!-- {#if models[selectedModelIdx]?.name}
 						{models[selectedModelIdx]?.name}
 					{:else}
 						{$i18n.t('Hello, {{name}}', { name: $user.name })}
-					{/if}
+					{/if} -->
+				</div>
+				<div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+					{$i18n.t('Aim to find your web3 inner peace in an occult way')}
 				</div>
 			</div>
 
-			<div class="flex mt-1 mb-2">
+			<div class="flex mt-2 mb-2">
 				<div in:fade={{ duration: 100, delay: 50 }}>
 					{#if models[selectedModelIdx]?.info?.meta?.description ?? null}
 						<Tooltip
