@@ -233,8 +233,19 @@ type WuXingValue = {
     [key in '金' | '木' | '水' | '火' | '土']: string;
 };
 
+type WebFormatData = {
+    yong_hu_xin_xi: {
+        xing_ming: string;
+        xing_bie: string;
+    };
+    wu_xing_neng_liang: {
+        [key: string]: string;  // 允许任意的五行能量键值对
+    };
+    [key: string]: any;  // 允许其他任意字段
+}
+
 type Fortune = {
-    ba_zi_chart: string;
+    bazi_info: string;
     wu_xing_value: WuXingValue;
-    wu_xing_desc: WuXingValue;
+    web_format_data: WebFormatData;
 }

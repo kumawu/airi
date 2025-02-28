@@ -18,6 +18,7 @@ from open_webui.env import SRC_LOG_LEVELS
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel
 from open_webui.utils.auth import get_admin_user, get_password_hash, get_verified_user
+from open_webui.utils.fortune import fetch_and_update_fortune
 
 log = logging.getLogger(__name__)
 log.setLevel(SRC_LOG_LEVELS["MODELS"])
@@ -337,8 +338,10 @@ async def get_user_fortune(
 ):
     user = Users.get_user_by_id(user.id)
     if user:
-        return None;
-        # return user.fortune
+        if user.fortune is None:
+            # 异步获取并更新 fortune 数据
+            await fetch_and_update_fortune(user)
+        return user.fortune
     else:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

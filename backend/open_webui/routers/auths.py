@@ -1,9 +1,12 @@
 import re
 import uuid
 import time
-import datetime
 import logging
 from aiohttp import ClientSession
+import datetime
+from datetime import datetime as dt
+
+from open_webui.utils.fortune import format_timestamp, fetch_and_update_fortune
 
 from open_webui.models.auths import (
     AddUserForm,
@@ -58,12 +61,6 @@ router = APIRouter()
 
 log = logging.getLogger(__name__)
 log.setLevel(SRC_LOG_LEVELS["MAIN"])
-
-############################
-# GetSessionUser
-############################
-
-
 class SessionUserResponse(Token, UserResponse):
     expires_at: Optional[int] = None
     permissions: Optional[dict] = None
@@ -84,7 +81,7 @@ async def get_session_user(
     )
 
     datetime_expires_at = (
-        datetime.datetime.fromtimestamp(expires_at, datetime.timezone.utc)
+        dt.fromtimestamp(expires_at, datetime.timezone.utc)
         if expires_at
         else None
     )
@@ -113,7 +110,12 @@ async def get_session_user(
         "role": user.role,
         "profile_image_url": user.profile_image_url,
         "permissions": user_permissions,
+        "created_at":user.created_at,
+        "birthday": format_timestamp(user.created_at),
+        "gender": user.gender,
+        "fortune": user.fortune,
     }
+
 
 
 ############################
@@ -296,6 +298,10 @@ async def ldap_auth(request: Request, response: Response, form_data: LdapForm):
                     "name": user.name,
                     "role": user.role,
                     "profile_image_url": user.profile_image_url,
+                    "created_at":user.created_at,
+                    "birthday": format_timestamp(user.created_at),
+                    "gender": user.gender,
+                    "fortune": user.fortune,
                 }
             else:
                 raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -355,7 +361,7 @@ async def signin(request: Request, response: Response, form_data: SigninForm):
         user = Auths.authenticate_user(form_data.email.lower(), form_data.password)
 
     if user:
-
+        
         expires_delta = parse_duration(request.app.state.config.JWT_EXPIRES_IN)
         expires_at = None
         if expires_delta:
@@ -367,7 +373,7 @@ async def signin(request: Request, response: Response, form_data: SigninForm):
         )
 
         datetime_expires_at = (
-            datetime.datetime.fromtimestamp(expires_at, datetime.timezone.utc)
+            dt.fromtimestamp(expires_at, datetime.timezone.utc)
             if expires_at
             else None
         )
@@ -396,6 +402,10 @@ async def signin(request: Request, response: Response, form_data: SigninForm):
             "role": user.role,
             "profile_image_url": user.profile_image_url,
             "permissions": user_permissions,
+            "created_at":user.created_at,
+            "birthday": format_timestamp(user.created_at),
+            "gender": user.gender,
+            "fortune": user.fortune,
         }
     else:
         raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -451,6 +461,11 @@ async def signup(request: Request, response: Response, form_data: SignupForm):
         )
 
         if user:
+            # 获取并更新 fortune 数据
+            await fetch_and_update_fortune(user)
+            # 在后台获取 fortune 数据
+            # asyncio.create_task(fetch_and_update_fortune(user))
+            
             expires_delta = parse_duration(request.app.state.config.JWT_EXPIRES_IN)
             expires_at = None
             if expires_delta:
@@ -462,7 +477,7 @@ async def signup(request: Request, response: Response, form_data: SignupForm):
             )
 
             datetime_expires_at = (
-                datetime.datetime.fromtimestamp(expires_at, datetime.timezone.utc)
+                dt.fromtimestamp(expires_at, datetime.timezone.utc)
                 if expires_at
                 else None
             )
@@ -502,6 +517,10 @@ async def signup(request: Request, response: Response, form_data: SignupForm):
                 "role": user.role,
                 "profile_image_url": user.profile_image_url,
                 "permissions": user_permissions,
+                "created_at":user.created_at,
+                "birthday": format_timestamp(user.created_at),
+                "gender": user.gender,
+                "fortune": user.fortune,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)
@@ -573,6 +592,10 @@ async def add_user(form_data: AddUserForm, user=Depends(get_admin_user)):
                 "name": user.name,
                 "role": user.role,
                 "profile_image_url": user.profile_image_url,
+                "created_at":user.created_at,
+                "birthday": format_timestamp(user.created_at),
+                "gender": user.gender,
+                "fortune": user.fortune,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)
@@ -840,3 +863,4 @@ async def get_api_key(user=Depends(get_current_user)):
         }
     else:
         raise HTTPException(404, detail=ERROR_MESSAGES.API_KEY_NOT_FOUND)
+

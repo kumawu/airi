@@ -105,8 +105,8 @@
 			USAGE_POOL.set(data['models']);
 		});
 
-		_socket.on('fortune', (data) => {
-			console.log('fortune', data);
+		_socket.on('fortune_updated', (data) => {
+			console.log('fortune_updated', data);
 			fortune.set(data['fortune']?? null);
 		});
 		// _socket.on('wallet', (data) => {

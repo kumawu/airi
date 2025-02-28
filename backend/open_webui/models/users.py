@@ -9,12 +9,17 @@ from open_webui.models.groups import Groups
 
 
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy import BigInteger, Column, String, Text
+from sqlalchemy import BigInteger, Column, String, Text, Integer
+
+from enum import IntEnum
 
 ####################
 # User DB Schema
 ####################
 
+class Gender(IntEnum):
+    FEMALE = 0
+    MALE = 1
 
 class User(Base):
     __tablename__ = "user"
@@ -35,12 +40,12 @@ class User(Base):
 
     oauth_sub = Column(Text, unique=True)
 
+    gender = Column(Integer, default=Gender.FEMALE)
+    fortune = Column(JSONField, nullable=True)
 
 class UserSettings(BaseModel):
     ui: Optional[dict] = {}
     model_config = ConfigDict(extra="allow")
-    pass
-
 
 class UserModel(BaseModel):
     id: str
@@ -61,6 +66,9 @@ class UserModel(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+    gender: int = Gender.FEMALE
+    fortune: Optional[dict] = None
+
 
 ####################
 # Forms
@@ -73,6 +81,9 @@ class UserResponse(BaseModel):
     email: str
     role: str
     profile_image_url: str
+    created_at: int
+    gender: int
+    fortune: Optional[dict] = None
 
 
 class UserNameResponse(BaseModel):
@@ -103,6 +114,8 @@ class UsersTable:
         profile_image_url: str = "/user.png",
         role: str = "pending",
         oauth_sub: Optional[str] = None,
+        gender: int = Gender.FEMALE,
+        fortune: Optional[dict] = None
     ) -> Optional[UserModel]:
         with get_db() as db:
             user = UserModel(
@@ -116,6 +129,8 @@ class UsersTable:
                     "created_at": int(time.time()),
                     "updated_at": int(time.time()),
                     "oauth_sub": oauth_sub,
+                    "gender": gender,
+                    "fortune": fortune
                 }
             )
             result = User(**user.model_dump())
@@ -184,7 +199,7 @@ class UsersTable:
         with get_db() as db:
             return db.query(User).count()
 
-    def get_first_user(self) -> UserModel:
+    def get_first_user(self) -> Optional[UserModel]:
         try:
             with get_db() as db:
                 user = db.query(User).order_by(User.created_at).first()
@@ -197,7 +212,7 @@ class UsersTable:
             with get_db() as db:
                 user = db.query(User).filter_by(id=id).first()
 
-                if user.settings is None:
+                if user is None or user.settings is None:
                     return None
                 else:
                     return (
@@ -290,7 +305,7 @@ class UsersTable:
         except Exception:
             return False
 
-    def update_user_api_key_by_id(self, id: str, api_key: str) -> str:
+    def update_user_api_key_by_id(self, id: str, api_key: str) -> bool:
         try:
             with get_db() as db:
                 result = db.query(User).filter_by(id=id).update({"api_key": api_key})
@@ -311,6 +326,36 @@ class UsersTable:
         with get_db() as db:
             users = db.query(User).filter(User.id.in_(user_ids)).all()
             return [user.id for user in users]
+
+    def update_user_fortune_by_id(
+        self, id: str, fortune: dict
+    ) -> Optional[UserModel]:
+        try:
+            with get_db() as db:
+                db.query(User).filter_by(id=id).update(
+                    {"fortune": fortune}
+                )
+                db.commit()
+
+                user = db.query(User).filter_by(id=id).first()
+                return UserModel.model_validate(user)
+        except Exception:
+            return None
+            
+    def update_user_gender_by_id(
+        self, id: str, gender: int
+    ) -> Optional[UserModel]:
+        try:
+            with get_db() as db:
+                db.query(User).filter_by(id=id).update(
+                    {"gender": gender}
+                )
+                db.commit()
+
+                user = db.query(User).filter_by(id=id).first()
+                return UserModel.model_validate(user)
+        except Exception:
+            return None
 
 
 Users = UsersTable()
