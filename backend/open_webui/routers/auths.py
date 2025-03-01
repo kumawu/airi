@@ -100,6 +100,9 @@ async def get_session_user(
         user.id, request.app.state.config.USER_PERMISSIONS
     )
 
+    # 测试 获取并更新 fortune 数据
+    # await fetch_and_update_fortune(user)
+
     return {
         "token": token,
         "token_type": "Bearer",

@@ -106,8 +106,28 @@
 		});
 
 		_socket.on('fortune_updated', (data) => {
-			console.log('fortune_updated', data);
-			fortune.set(data['fortune']?? null);
+			// 更新 user store 中的 fortune 数据
+			console.log('fortune_updated', data, $user);
+			
+			if (!$user) {
+				console.warn('用户数据为空，尝试延迟处理运势更新');
+				// 延迟一段时间后再次尝试更新
+				setTimeout(() => {
+					if ($user) {
+						console.log('延迟后用户数据已加载，更新运势');
+						const updatedUser = { ...$user, fortune: data['fortune'] };
+						user.set(updatedUser);
+					} else {
+						console.error('延迟后用户数据仍为空，无法更新运势');
+						// 将运势数据保存到 localStorage，以便后续使用
+						localStorage.setItem('pendingFortune', JSON.stringify(data['fortune']));
+					}
+				}, 2000); // 延迟2秒再尝试
+				return;
+			}
+			
+			const updatedUser = { ...$user, fortune: data['fortune'] };
+			user.set(updatedUser);
 		});
 		// _socket.on('wallet', (data) => {
 		// 	console.log('new-wallet-data', data);
@@ -308,7 +328,7 @@
 
 					if (sessionUser) {
 						// Save Session User to Store
-						$socket.emit('user-join', { auth: { token: sessionUser.token } });
+						$socket?.emit('user-join', { auth: { token: sessionUser.token } });
 
 						$socket?.on('chat-events', chatEventHandler);
 						$socket?.on('channel-events', channelEventHandler);
@@ -316,10 +336,22 @@
 						await user.set(sessionUser);
 						await config.set(await getBackendConfig());
 						
-						console.log(sessionUser);
+						// 检查是否有待处理的运势数据
+						const pendingFortune = localStorage.getItem('pendingFortune');
+						if (pendingFortune) {
+							try {
+								const fortuneData = JSON.parse(pendingFortune);
+								const updatedUser = { ...sessionUser, fortune: fortuneData };
+								user.set(updatedUser);
+								localStorage.removeItem('pendingFortune'); // 清除已处理的数据
+							} catch (e) {
+								console.error('解析待处理运势数据失败', e);
+							}
+						}
+						
 						//用户登陆后，获取五行运势数据
-						const fortuneRes =  await getUserFortune(sessionUser.token, localStorage.locale);
-						await fortune.set(fortuneRes['fortune']);
+						// const fortuneRes =  await getUserFortune(sessionUser.token, localStorage.locale);
+						// sessionUser?.fortune && await fortune.set(sessionUser.fortune);
 					} else {
 						// Redirect Invalid Session User to /auth Page
 						localStorage.removeItem('token');

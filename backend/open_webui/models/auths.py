@@ -53,6 +53,9 @@ class UserResponse(BaseModel):
     name: str
     role: str
     profile_image_url: str
+    birthday: str
+    gender: int
+    fortune: Optional[dict] = None
 
 
 class SigninResponse(Token, UserResponse):

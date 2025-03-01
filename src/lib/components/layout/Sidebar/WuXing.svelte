@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { fortune } from '$lib/stores';
+	import { user } from '$lib/stores';
 
-	$: wuXingData = $fortune?.wu_xing_value ? Object.entries($fortune.wu_xing_value) : [
+	$: wuXingData = $user?.fortune?.wu_xing_value ? Object.entries($user.fortune.wu_xing_value) : [
 		['\u91d1', '20%'],  // 金
 		['\u6728', '20%'],  // 木
 		['\u6c34', '20%'],  // 水
