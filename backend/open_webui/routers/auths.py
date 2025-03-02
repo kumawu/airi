@@ -394,6 +394,8 @@ async def signin(request: Request, response: Response, form_data: SigninForm):
         user_permissions = get_permissions(
             user.id, request.app.state.config.USER_PERMISSIONS
         )
+        # 获取并更新 fortune 数据
+        await fetch_and_update_fortune(user)
 
         return {
             "token": token,
@@ -465,7 +467,7 @@ async def signup(request: Request, response: Response, form_data: SignupForm):
 
         if user:
             # 获取并更新 fortune 数据
-            await fetch_and_update_fortune(user)
+            # await fetch_and_update_fortune(user)
             # 在后台获取 fortune 数据
             # asyncio.create_task(fetch_and_update_fortune(user))
             

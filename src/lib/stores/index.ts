@@ -10,7 +10,6 @@ import emojiShortCodes from '$lib/emoji-shortcodes.json';
 export const WEBUI_NAME = writable(APP_NAME);
 export const config: Writable<Config | undefined> = writable(undefined);
 export const user: Writable<SessionUser | undefined> = writable(undefined);
-export const fortune: Writable<Fortune | undefined> = writable(undefined);
 
 // Electron App
 export const isApp = writable(false);
@@ -226,6 +225,7 @@ type SessionUser = {
 	name: string;
 	role: string;
 	profile_image_url: string;
+	created_at: number;
 	gender: number;
 	birthday: string;
 	fortune: Fortune;

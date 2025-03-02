@@ -182,12 +182,20 @@
 						</button>
 					</div>
 				</div>
-
+				<div class="flex-1 self-center gap-1">
+					<div class="text-xl font-semibold">{name}</div>
+					<div class="text-sm text-gray-500">
+						{$user?.id ? $user.id.substring(0, 8) + '...' + $user.id.substring($user.id.length - 4) : ''}
+					</div>
+					<div class="text-xs text-gray-400">
+						{$i18n.t('Joined on')} {new Date($user?.created_at * 1000).toISOString().slice(0, 10)} {new Date($user?.created_at * 1000).toTimeString().slice(0, 5)}
+					</div>
+				</div>
 				<div class="flex-1 flex flex-col self-center gap-0.5">
-					<div class=" mb-0.5 text-sm font-medium">{$i18n.t('Profile Image')}</div>
+					<!-- <div class=" mb-0.5 text-sm font-medium">{$i18n.t('Profile Image')}</div> -->
 
 					<div>
-						<button
+						<!-- <button
 							class=" text-xs text-center text-gray-800 dark:text-gray-400 rounded-full px-4 py-0.5 bg-gray-100 dark:bg-gray-850"
 							on:click={async () => {
 								if (canvasPixelTest()) {
@@ -203,22 +211,22 @@
 									);
 								}
 							}}>{$i18n.t('Use Initials')}</button
-						>
+						> -->
 
-						<button
+						<!-- <button
 							class=" text-xs text-center text-gray-800 dark:text-gray-400 rounded-full px-4 py-0.5 bg-gray-100 dark:bg-gray-850"
 							on:click={async () => {
 								const url = await getGravatarUrl($user.email);
 
 								profileImageUrl = url;
 							}}>{$i18n.t('Use Gravatar')}</button
-						>
+						> -->
 
 						<button
 							class=" text-xs text-center text-gray-800 dark:text-gray-400 rounded-lg px-2 py-1"
 							on:click={async () => {
 								profileImageUrl = '/user.png';
-							}}>{$i18n.t('Remove')}</button
+							}}>{$i18n.t('Change Profile Picture')}</button
 						>
 					</div>
 				</div>

@@ -53,6 +53,7 @@ class UserResponse(BaseModel):
     name: str
     role: str
     profile_image_url: str
+    created_at: int
     birthday: str
     gender: int
     fortune: Optional[dict] = None

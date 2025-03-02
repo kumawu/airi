@@ -29,7 +29,6 @@
 		isLastActiveTab,
 		isApp,
 		appInfo,
-		fortune
 	} from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
