@@ -617,6 +617,8 @@ async def generate_chat_completion(
             "email": user.email,
             "role": user.role,
         }
+        
+    payload["user"] =  user.id
 
     url = request.app.state.config.OPENAI_API_BASE_URLS[idx]
     key = request.app.state.config.OPENAI_API_KEYS[idx]

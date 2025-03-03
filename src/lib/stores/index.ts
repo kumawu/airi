@@ -227,7 +227,6 @@ type SessionUser = {
 	profile_image_url: string;
 	created_at: number;
 	gender: number;
-	birthday: string;
 	fortune: Fortune;
 };
 

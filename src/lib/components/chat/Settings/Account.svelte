@@ -12,6 +12,7 @@
 	import Plus from '$lib/components/icons/Plus.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
 	import SensitiveInput from '$lib/components/common/SensitiveInput.svelte';
+	import FortuneInfo from './Account/FortuneInfo.svelte';
 
 	const i18n = getContext('i18n');
 
@@ -20,8 +21,10 @@
 
 	let profileImageUrl = '';
 	let name = '';
+	let id = ''
+	let gender = $user?.gender ?? 0;
 
-	let webhookUrl = '';
+	// let webhookUrl = '';
 	let showAPIKeys = false;
 
 	let JWTTokenCopied = false;
@@ -31,22 +34,22 @@
 	let profileImageInputElement: HTMLInputElement;
 
 	const submitHandler = async () => {
-		if (name !== $user.name) {
-			if (profileImageUrl === generateInitialsImage($user.name) || profileImageUrl === '') {
-				profileImageUrl = generateInitialsImage(name);
-			}
-		}
+		// if (name !== $user.name) {
+		// 	if (profileImageUrl === generateInitialsImage($user.name) || profileImageUrl === '') {
+		// 		profileImageUrl = generateInitialsImage(name);
+		// 	}
+		// }
 
-		if (webhookUrl !== $settings?.notifications?.webhook_url) {
-			saveSettings({
-				notifications: {
-					...$settings.notifications,
-					webhook_url: webhookUrl
-				}
-			});
-		}
+		// if (webhookUrl !== $settings?.notifications?.webhook_url) {
+		// 	saveSettings({
+		// 		notifications: {
+		// 			...$settings.notifications,
+		// 			webhook_url: webhookUrl
+		// 		}
+		// 	});
+		// }
 
-		const updatedUser = await updateUserProfile(localStorage.token, name, profileImageUrl).catch(
+		const updatedUser = await updateUserProfile(localStorage.token, profileImageUrl, gender).catch(
 			(error) => {
 				toast.error(`${error}`);
 			}
@@ -59,29 +62,30 @@
 		return false;
 	};
 
-	const createAPIKeyHandler = async () => {
-		APIKey = await createAPIKey(localStorage.token);
-		if (APIKey) {
-			toast.success($i18n.t('API Key created.'));
-		} else {
-			toast.error($i18n.t('Failed to create API Key.'));
-		}
-	};
+	// const createAPIKeyHandler = async () => {
+	// 	APIKey = await createAPIKey(localStorage.token);
+	// 	if (APIKey) {
+	// 		toast.success($i18n.t('API Key created.'));
+	// 	} else {
+	// 		toast.error($i18n.t('Failed to create API Key.'));
+	// 	}
+	// };
 
 	onMount(async () => {
-		name = $user.name;
-		profileImageUrl = $user.profile_image_url;
-		webhookUrl = $settings?.notifications?.webhook_url ?? '';
+		name = $user?.name??'';
+		id = $user?.id??'';
+		profileImageUrl = $user?.profile_image_url??'';
+		// webhookUrl = $settings?.notifications?.webhook_url ?? '';
 
-		APIKey = await getAPIKey(localStorage.token).catch((error) => {
-			console.log(error);
-			return '';
-		});
+		// APIKey = await getAPIKey(localStorage.token).catch((error) => {
+		// 	console.log(error);
+		// 	return '';
+		// });
 	});
 </script>
 
 <div class="flex flex-col h-full justify-between text-sm">
-	<div class=" space-y-3 overflow-y-scroll max-h-[28rem] lg:max-h-full">
+	<div class=" space-y-3 overflow-y-scroll max-h-[32rem] lg:max-h-full">
 		<input
 			id="profile-image-input"
 			bind:this={profileImageInputElement}
@@ -183,10 +187,10 @@
 					</div>
 				</div>
 				<div class="flex-1 self-center gap-1">
-					<div class="text-xl font-semibold">{name}</div>
-					<div class="text-sm text-gray-500">
+					<div class="text-xl font-semibold">	{name} </div>
+					<!-- <div class="text-sm text-gray-500">
 						{$user?.id ? $user.id.substring(0, 8) + '...' + $user.id.substring($user.id.length - 4) : ''}
-					</div>
+					</div> -->
 					<div class="text-xs text-gray-400">
 						{$i18n.t('Joined on')} {new Date($user?.created_at * 1000).toISOString().slice(0, 10)} {new Date($user?.created_at * 1000).toTimeString().slice(0, 5)}
 					</div>
@@ -213,36 +217,52 @@
 							}}>{$i18n.t('Use Initials')}</button
 						> -->
 
-						<!-- <button
-							class=" text-xs text-center text-gray-800 dark:text-gray-400 rounded-full px-4 py-0.5 bg-gray-100 dark:bg-gray-850"
-							on:click={async () => {
-								const url = await getGravatarUrl($user.email);
-
-								profileImageUrl = url;
-							}}>{$i18n.t('Use Gravatar')}</button
-						> -->
-
 						<button
-							class=" text-xs text-center text-gray-800 dark:text-gray-400 rounded-lg px-2 py-1"
-							on:click={async () => {
-								profileImageUrl = '/user.png';
-							}}>{$i18n.t('Change Profile Picture')}</button
-						>
+							class=" text-xs text-center text-gray-800 dark:text-gray-400 rounded-lg px-2 py-1 border border-gray-300 dark:border-gray-700 dark:text-gray-400 w-60 h-12 hover:bg-gray-200"
+							on:click={() => {
+								profileImageInputElement.click();
+							}}
+						>{$i18n.t('Change Profile Picture')}</button>
 					</div>
 				</div>
 			</div>
 
-			<div class="pt-0.5">
+			<div class="pt-1">
 				<div class="flex flex-col w-full">
-					<div class=" mb-1 text-xs font-medium">{$i18n.t('Name')}</div>
-
-					<div class="flex-1">
+					<div class=" mb-1 text-xs font-medium">{$i18n.t('Connected Wallet')}</div>
+					<div class="flex-1 flex">
 						<input
-							class="w-full rounded-lg py-2 px-4 text-sm dark:text-gray-300 dark:bg-gray-850 outline-none"
+							class="flex-1 w-full rounded-lg py-2 px-4 text-sm bg-gray-200 dark:text-gray-300 dark:bg-gray-850 outline-none"
 							type="text"
-							bind:value={name}
+							disabled={true}
+							bind:value={id}
 							required
 						/>
+						<button
+								class=" px-1.5 py-1 hover:bg-gray-200 dark:hover:bg-gray-850 transition rounded-lg"
+								on:click={() => {
+									copyToClipboard(id);
+									toast.success($i18n.t('Copied to clipboard'));
+								}}
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 16 16"
+									fill="currentColor"
+									class="w-4 h-4"
+								>
+									<path
+										fill-rule="evenodd"
+										d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z"
+										clip-rule="evenodd"
+									/>
+									<path
+										fill-rule="evenodd"
+										d="M3 6a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H3Zm1.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5ZM4 11.75a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+							</button>
 					</div>
 				</div>
 			</div>
@@ -266,11 +286,11 @@
 
 		<!-- <div class="py-0.5">
 			<UpdatePassword />
-		</div>
+		</div> -->
 
 		<hr class=" dark:border-gray-850 my-4" />
 
-		<div class="flex justify-between items-center text-sm">
+		<!-- <div class="flex justify-between items-center text-sm">
 			<div class="  font-medium">{$i18n.t('API keys')}</div>
 			<button
 				class=" text-xs font-medium text-gray-500"
@@ -279,9 +299,12 @@
 					showAPIKeys = !showAPIKeys;
 				}}>{showAPIKeys ? $i18n.t('Hide') : $i18n.t('Show')}</button
 			>
+		</div> -->
+		<div class="flex flex-col gap-4">
+			<!-- <div class=" mb-1 text-xs font-medium">{$i18n.t('命局综述')}</div> -->
+			<FortuneInfo  bind:gender/>
 		</div>
-
-		{#if showAPIKeys}
+		<!-- {#if showAPIKeys}
 			<div class="flex flex-col gap-4">
 				<div class="justify-between w-full">
 					<div class="flex justify-between w-full">
@@ -436,6 +459,7 @@
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 			on:click={async () => {
 				const res = await submitHandler();
+				console.log(res)
 
 				if (res) {
 					saveHandler();

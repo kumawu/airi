@@ -35,7 +35,11 @@ export default {
 			},
 			padding: {
 				'safe-bottom': 'env(safe-area-inset-bottom)'
-			}
+			},
+			fontFamily: {
+				'mf-kesong': ['MFKeSong', 'sans-serif'],
+				'pingfang': ['PingFang SC', 'sans-serif'],
+			},
 		}
 	},
 	plugins: [typography]

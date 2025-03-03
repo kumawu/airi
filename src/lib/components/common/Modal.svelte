@@ -24,7 +24,7 @@
 		} else if (size === 'md') {
 			return 'w-[42rem]';
 		} else {
-			return 'w-[56rem]';
+			return 'w-[50rem]';
 		}
 	};
 
@@ -67,16 +67,14 @@
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
 		bind:this={modalElement}
-		class="modal fixed top-0 right-0 left-0 bottom-0 bg-black/60 w-full h-screen max-h-[100dvh] {containerClassName} flex justify-center z-[9999] overflow-y-auto overscroll-contain"
+		class="modal fixed inset-0 bg-black/60 w-full min-h-screen h-fit max-h-[100dvh] {containerClassName} flex justify-center z-[9999] overflow-y-auto overscroll-contain"
 		in:fade={{ duration: 10 }}
 		on:mousedown={() => {
 			show = false;
 		}}
 	>
 		<div
-			class=" m-auto max-w-full {sizeToWidth(size)} {size !== 'full'
-				? 'mx-2'
-				: ''} shadow-3xl min-h-fit scrollbar-hidden {className}"
+			class="my-auto max-w-full {sizeToWidth(size)} {size !== 'full' ?'mx-2' : ''} shadow-3xl min-h-fit max-h-[calc(100dvh-2rem)] overflow-y-auto scrollbar-hidden {className}"
 			in:flyAndScale
 			on:mousedown={(e) => {
 				e.stopPropagation();

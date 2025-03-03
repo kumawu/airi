@@ -114,9 +114,9 @@ async def get_session_user(
         "profile_image_url": user.profile_image_url,
         "permissions": user_permissions,
         "created_at":user.created_at,
-        "birthday": format_timestamp(user.created_at),
         "gender": user.gender,
         "fortune": user.fortune,
+        "wallet_balance": user.wallet_balance,
     }
 
 
@@ -133,9 +133,10 @@ async def update_profile(
     if session_user:
         user = Users.update_user_by_id(
             session_user.id,
-            {"profile_image_url": form_data.profile_image_url, "name": form_data.name},
+            {"profile_image_url": form_data.profile_image_url, "gender": form_data.gender},
         )
         if user:
+            await fetch_and_update_fortune(user)
             return user
         else:
             raise HTTPException(400, detail=ERROR_MESSAGES.DEFAULT())
@@ -302,9 +303,9 @@ async def ldap_auth(request: Request, response: Response, form_data: LdapForm):
                     "role": user.role,
                     "profile_image_url": user.profile_image_url,
                     "created_at":user.created_at,
-                    "birthday": format_timestamp(user.created_at),
                     "gender": user.gender,
                     "fortune": user.fortune,
+                    "wallet_balance": user.wallet_balance,
                 }
             else:
                 raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -408,9 +409,9 @@ async def signin(request: Request, response: Response, form_data: SigninForm):
             "profile_image_url": user.profile_image_url,
             "permissions": user_permissions,
             "created_at":user.created_at,
-            "birthday": format_timestamp(user.created_at),
             "gender": user.gender,
             "fortune": user.fortune,
+            "wallet_balance": user.wallet_balance,
         }
     else:
         raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -523,9 +524,9 @@ async def signup(request: Request, response: Response, form_data: SignupForm):
                 "profile_image_url": user.profile_image_url,
                 "permissions": user_permissions,
                 "created_at":user.created_at,
-                "birthday": format_timestamp(user.created_at),
                 "gender": user.gender,
                 "fortune": user.fortune,
+                "wallet_balance": user.wallet_balance,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)
@@ -598,9 +599,9 @@ async def add_user(form_data: AddUserForm, user=Depends(get_admin_user)):
                 "role": user.role,
                 "profile_image_url": user.profile_image_url,
                 "created_at":user.created_at,
-                "birthday": format_timestamp(user.created_at),
                 "gender": user.gender,
                 "fortune": user.fortune,
+                "wallet_balance": user.wallet_balance,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)

@@ -738,6 +738,7 @@ ALLOWED_ORIGINS = [
     "http://static.airie.fun",
     "http://localhost:3000",
     "http://127.0.0.1:8080",
+    "http://127.0.0.1:5173",
     "http://localhost:*",
     "http://127.0.0.1:*",
     "http://54.251.139.172:*",
@@ -1213,9 +1214,19 @@ def transform_openai_to_dify(openai_request: Dict[str, Any], endpoint: str, raw_
         stream = openai_request.get("stream", False)
         
         log.info("transform_openai_to_dify raw_data: %s", raw_data)
+        uid = raw_data.get("user", "")
+        user_info = Users.get_user_by_id(uid) if uid else None
+        fortune_data = user_info.fortune if user_info else None
+        bazi_info = fortune_data.get("bazi_info", None) if fortune_data else None
+        wallet_balance = user_info.wallet_balance if user_info else None
+        balance_desc = wallet_balance.get("balanceDesc", None) if wallet_balance else None
+
         dify_request = {
             "inputs": {
-                'language': raw_data.get("locale", "en-US")
+                'language': raw_data.get("locale", "en-US"),
+                'wallet_address': uid,
+                'bazi_info': bazi_info,
+                'balance_desc': balance_desc
             },
             "query": messages[-1]["content"] if messages else "",
             "response_mode": "streaming" if stream else "blocking",

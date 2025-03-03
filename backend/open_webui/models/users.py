@@ -42,6 +42,7 @@ class User(Base):
 
     gender = Column(Integer, default=Gender.FEMALE)
     fortune = Column(JSONField, nullable=True)
+    wallet_balance = Column(JSONField, nullable=True)
 
 class UserSettings(BaseModel):
     ui: Optional[dict] = {}
@@ -68,6 +69,7 @@ class UserModel(BaseModel):
 
     gender: int = Gender.FEMALE
     fortune: Optional[dict] = None
+    wallet_balance: Optional[dict] = None
 
 
 ####################
@@ -84,7 +86,7 @@ class UserResponse(BaseModel):
     created_at: int
     gender: int
     fortune: Optional[dict] = None
-
+    wallet_balance: Optional[dict] = None
 
 class UserNameResponse(BaseModel):
     id: str
@@ -115,7 +117,8 @@ class UsersTable:
         role: str = "pending",
         oauth_sub: Optional[str] = None,
         gender: int = Gender.FEMALE,
-        fortune: Optional[dict] = None
+        fortune: Optional[dict] = None,
+        wallet_balance: Optional[dict] = None
     ) -> Optional[UserModel]:
         with get_db() as db:
             user = UserModel(
@@ -130,7 +133,8 @@ class UsersTable:
                     "updated_at": int(time.time()),
                     "oauth_sub": oauth_sub,
                     "gender": gender,
-                    "fortune": fortune
+                    "fortune": fortune,
+                    "wallet_balance": wallet_balance
                 }
             )
             result = User(**user.model_dump())
