@@ -31,7 +31,7 @@
             <div class="flex-1 flex flex-col gap-1 mt-[18px] w-full self-center">
                 <div class="flex">
                     <div class="flex-[1.3]">
-                        <span class="text-[#717171]">性别：</span>
+                        <span class="text-[#717171] dark:text-[#fff] ">性别：</span>
                         <select 
                             bind:value={gender}
                             class="w-[60px] ml-2 px-2 py-0.5 rounded text-sm bg-transparent border border-gray-200 dark:border-gray-700 outline-none"
@@ -43,19 +43,19 @@
                     </div>
                 </div>
                 <div class="flex font-[PingFang SC] text-sm leading-7">
-                    <span class="text-[#717171]">阳历：</span>
-                    <span class="text-[#333]">{dayjs($user?.created_at * 1000).format('YYYY年MM月DD日HH时')}</span>
+                    <span class="text-[#717171]  dark:text-[#fff] ">阳历：</span>
+                    <span class="text-[#333]  dark:text-[#fff] ">{dayjs($user?.created_at * 1000).format('YYYY年MM月DD日HH时')}</span>
                 </div>
 
                 <div class="font-[PingFang SC] text-sm leading-7">
-                    <span class="text-[#717171]">五行强弱：</span>
-                    <span class="text-[#333]">{@html wxColor}</span>
+                    <span class="text-[#717171]   dark:text-[#fff] ">五行强弱：</span>
+                    <span class="text-[#333]  dark:text-[#fff] ">{@html wxColor}</span>
                 </div>
 
                 <div class="flex">
                     <div class="flex-[1.3] font-[PingFang SC] text-sm leading-7">
-                        <span class="text-[#717171]">日主属性：</span>
-                        <span class="text-[#333]">{dataInfo?.ri_zhu_shu_xing}</span>
+                        <span class="text-[#717171]  dark:text-[#fff] ">日主属性：</span>
+                        <span class="text-[#333]  dark:text-[#fff] ">{dataInfo?.ri_zhu_shu_xing??''}</span>
                     </div>
                     <!-- <div class="flex-1 font-[PingFang SC] text-sm leading-7">
                         <span class="text-[#717171]">阴阳参考：</span>
@@ -63,14 +63,14 @@
                     </div> -->
                 </div>
                 <div class="flex font-[PingFang SC] text-sm leading-7">
-                    <span class="text-[#717171]">阴阳参考：</span>
-                    <span class="text-[#333]">{dataInfo?.yin_yang_can_kao}</span>
+                    <span class="text-[#717171]  dark:text-[#fff] ">阴阳参考：</span>
+                    <span class="text-[#333]  dark:text-[#fff] ">{dataInfo?.yin_yang_can_kao??''}</span>
                 </div>
 
                 <div class="flex">
                     <div class="flex-[1.3] font-[PingFang SC] text-sm leading-7">
-                        <span class="text-[#717171]">格局参考：</span>
-                        <span class="text-[#333]">{dataInfo?.ge_ju_can_kao}</span>
+                        <span class="text-[#717171]  dark:text-[#fff] ">格局参考：</span>
+                        <span class="text-[#333]  dark:text-[#fff] ">{dataInfo?.ge_ju_can_kao??''}</span>
                     </div>
                     <!-- <div class="flex-1 font-[PingFang SC] text-sm leading-7">
                         <span class="text-[#717171]">旺衰参考：</span>
@@ -78,8 +78,8 @@
                     </div> -->
                 </div>
                 <div class="flex font-[PingFang SC] text-sm leading-7">
-                    <span class="text-[#717171]">旺衰参考：</span>
-                    <span class="text-[#333]">{dataInfo?.wang_shuai_can_kao}</span>
+                    <span class="text-[#717171] dark:text-[#fff] ">旺衰参考：</span>
+                    <span class="text-[#333] dark:text-[#fff] ">{dataInfo?.wang_shuai_can_kao??''}</span>
                 </div>
             </div>
             <div class="flex-1">

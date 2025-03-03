@@ -13,6 +13,7 @@
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
 	import SensitiveInput from '$lib/components/common/SensitiveInput.svelte';
 	import FortuneInfo from './Account/FortuneInfo.svelte';
+	import { truncateName } from '$lib/utils/index';
 
 	const i18n = getContext('i18n');
 
@@ -22,7 +23,7 @@
 	let profileImageUrl = '';
 	let name = '';
 	let id = ''
-	let gender = $user?.gender ?? 0;
+	let gender = 0;
 
 	// let webhookUrl = '';
 	let showAPIKeys = false;
@@ -75,6 +76,7 @@
 		name = $user?.name??'';
 		id = $user?.id??'';
 		profileImageUrl = $user?.profile_image_url??'';
+		gender = $user?.gender?? 0;
 		// webhookUrl = $settings?.notifications?.webhook_url ?? '';
 
 		// APIKey = await getAPIKey(localStorage.token).catch((error) => {
@@ -187,7 +189,7 @@
 					</div>
 				</div>
 				<div class="flex-1 self-center gap-1">
-					<div class="text-xl font-semibold">	{name} </div>
+					<div class="text-xl font-semibold">	{truncateName(name)} </div>
 					<!-- <div class="text-sm text-gray-500">
 						{$user?.id ? $user.id.substring(0, 8) + '...' + $user.id.substring($user.id.length - 4) : ''}
 					</div> -->
@@ -218,7 +220,7 @@
 						> -->
 
 						<button
-							class=" text-xs text-center text-gray-800 dark:text-gray-400 rounded-lg px-2 py-1 border border-gray-300 dark:border-gray-700 dark:text-gray-400 w-60 h-12 hover:bg-gray-200"
+							class="w-60 h-12 px-3.5 py-1.5 text-sm font-medium bg-black border hover:bg-gray-600 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 dark:hover:border-purple-100 transition rounded-full"
 							on:click={() => {
 								profileImageInputElement.click();
 							}}
@@ -456,7 +458,7 @@
 
 	<div class="flex justify-end pt-3 text-sm font-medium">
 		<button
-			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
+			class="px-3.5 py-1.5 text-sm font-medium bg-black border hover:bg-gray-600 text-white dark:bg-white dark:text-black dark:hover:bg-gray-200 dark:hover:border-purple-200 transition rounded-full"
 			on:click={async () => {
 				const res = await submitHandler();
 				console.log(res)
