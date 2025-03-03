@@ -128,6 +128,31 @@
 			const updatedUser = { ...$user, fortune: data['fortune'] };
 			user.set(updatedUser);
 		});
+
+		_socket.on('wallet_balance_updated', (data) => {
+			// 更新 user store 中的 wallet_balance 数据
+			console.log('wallet_balance_updated', data, $user);
+			
+			if (!$user) {
+				console.warn('用户数据为空，尝试延迟处理运势更新');
+				// 延迟一段时间后再次尝试更新
+				setTimeout(() => {
+					if ($user) {
+						console.log('延迟后用户数据已加载，更新运势');
+						const updatedUser = { ...$user, wallet_balance: data['wallet_balance'] };
+						user.set(updatedUser);
+					} else {
+						console.error('延迟后用户数据仍为空，无法更新运势');
+						// 将运势数据保存到 localStorage，以便后续使用
+						localStorage.setItem('pendingWalletBalance', JSON.stringify(data['wallet_balance']));
+					}
+				}, 2000); // 延迟2秒再尝试
+				return;
+			}
+			
+			const updatedUser = { ...$user, fortune: data['wallet_balance'] };
+			user.set(updatedUser);
+		});
 		// _socket.on('wallet', (data) => {
 		// 	console.log('new-wallet-data', data);
 		// 	wallet.set(data['wallet']);
@@ -347,10 +372,20 @@
 								console.error('解析待处理运势数据失败', e);
 							}
 						}
+
+						// 检查是否有待处理的钱包数据
+						const pendingWalletBalance = localStorage.getItem('pendingWalletBalance');
+						if (pendingWalletBalance) {
+							try {
+								const wallet_balance = JSON.parse(pendingWalletBalance);
+								const updatedUser = { ...sessionUser, wallet_balance: wallet_balance };
+								user.set(updatedUser);
+								localStorage.removeItem('pendingWalletBalance'); // 清除已处理的数据
+							} catch (e) {
+								console.error('解析待处理钱包数据失败', e);
+							}
+						}
 						
-						//用户登陆后，获取五行运势数据
-						// const fortuneRes =  await getUserFortune(sessionUser.token, localStorage.locale);
-						// sessionUser?.fortune && await fortune.set(sessionUser.fortune);
 					} else {
 						// Redirect Invalid Session User to /auth Page
 						localStorage.removeItem('token');

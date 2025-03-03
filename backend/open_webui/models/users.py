@@ -361,5 +361,19 @@ class UsersTable:
         except Exception:
             return None
 
+    def update_user_wallet_balance_by_id(
+        self, id: str, wallet_balance: dict
+    ) -> Optional[UserModel]:
+        try:
+            with get_db() as db:
+                db.query(User).filter_by(id=id).update(
+                    {"wallet_balance": wallet_balance}
+                )
+                db.commit()
 
+                user = db.query(User).filter_by(id=id).first()
+                return UserModel.model_validate(user)
+        except Exception:
+            return None
+            
 Users = UsersTable()

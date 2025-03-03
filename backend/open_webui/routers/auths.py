@@ -7,6 +7,7 @@ import datetime
 from datetime import datetime as dt
 
 from open_webui.utils.fortune import format_timestamp, fetch_and_update_fortune
+from open_webui.utils.wallet_balance import fetch_and_update_wallet_balance
 
 from open_webui.models.auths import (
     AddUserForm,
@@ -102,6 +103,8 @@ async def get_session_user(
 
     # 测试 获取并更新 fortune 数据
     # await fetch_and_update_fortune(user)
+
+    await fetch_and_update_wallet_balance(user)
 
     return {
         "token": token,
@@ -397,6 +400,7 @@ async def signin(request: Request, response: Response, form_data: SigninForm):
         )
         # 获取并更新 fortune 数据
         await fetch_and_update_fortune(user)
+        await fetch_and_update_wallet_balance(user)
 
         return {
             "token": token,
