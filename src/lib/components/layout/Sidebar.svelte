@@ -62,7 +62,7 @@
 	import Sunlight from '../icons/Sunlight.svelte';
 	import Moon from '../icons/Moon.svelte';
 	import { changeTheme } from '$lib/utils/theme';
-	let selectedTheme = 'system';
+	let selectedTheme = 'dark';
 
 	const BREAKPOINT = 768;
 
@@ -406,7 +406,7 @@
 		dropZone?.addEventListener('drop', onDrop);
 		dropZone?.addEventListener('dragleave', onDragLeave);
 
-		selectedTheme = localStorage.theme ?? 'system'
+		selectedTheme = localStorage.theme ?? 'dark'
 	});
 
 	onDestroy(() => {
@@ -545,7 +545,7 @@
 			<button
 				class=" cursor-pointer p-[7px] px-0 flex rounded-xl hover:bg-gray-100 dark:hover:bg-gray-900 transition"
 				on:click={() => {
-					selectedTheme = selectedTheme=="dark"?"light":"dark";					
+					selectedTheme = selectedTheme=="dark"? "light" : "dark";					
 					changeTheme(selectedTheme);
 				}}
 			>
@@ -908,7 +908,7 @@
 				{/if}
 				<a
 					class=" flex items-center rounded-xl py-2.5 px-2.5 w-full hover:bg-gray-100 dark:hover:bg-gray-900 transition"
-					href="https://x.com/MyeongAi"
+					href="https://x.com/airie_agent"
 					target="_blank"
 				>
 					<div class="self-center font-medium  mr-4 ">

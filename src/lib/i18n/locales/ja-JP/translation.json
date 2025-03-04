@@ -1,4 +1,10 @@
 {
+	"Joined on": "登録日",
+	"No Balance": "残高なし",
+	"Gender": "性別",
+	"Male": "男",
+	"Female": "女",
+	"Unknown": "未設定",
 	"-1 for no limit, or a positive integer for a specific limit": "",
 	"'s', 'm', 'h', 'd', 'w' or '-1' for no expiration.": "'s', 'm', 'h', 'd', 'w' または '-1' で無期限。",
 	"(e.g. `sh webui.sh --api --api-auth username_password`)": "(例: `sh webui.sh --api --api-auth username_password`)",
@@ -130,6 +136,7 @@
 	"Capture": "",
 	"Certificate Path": "",
 	"Change Password": "パスワードを変更",
+	"Change Profile Picture": "プロフィール画像を変更",
 	"Channel Name": "",
 	"Channels": "",
 	"Character": "",
@@ -189,6 +196,7 @@
 	"Confirm your action": "あなたのアクションの確認",
 	"Confirm your new password": "",
 	"Connections": "接続",
+	"Connected Wallet": "ウォレット接続済み",
 	"Constrains effort on reasoning for reasoning models. Only applicable to reasoning models from specific providers that support reasoning effort. (Default: medium)": "",
 	"Contact Admin for WebUI Access": "WEBUIへの接続について管理者に問い合わせ下さい。",
 	"Content": "コンテンツ",
@@ -1015,6 +1023,7 @@
 	"use_mmap (Ollama)": "",
 	"user": "ユーザー",
 	"User": "",
+	"User ID": "ユーザーID",
 	"User location successfully retrieved.": "",
 	"Username": "",
 	"Users": "ユーザー",
@@ -1091,5 +1100,6 @@
     "Top Picks": "おすすめ銘柄",
     "Get the hottest trending tokens based on GMGN and choose your compatible picks": "🔍人気のトークンをおすすめし、相性も確認します🔥",
     "Tell me the hottest trending tokens based on GMGN and choose my compatible picks": "現在人気のトークンをおすすめして、相性も確認してください",
-	"Aim to find your web3 inner peace in an occult way": "神秘的な方法で、あなたの web3 の心の平安を見つけましょう"
+	"Aim to find your web3 inner peace in an occult way": "神秘的な方法で、あなたの web3 の心の平安を見つけましょう",
+	"Unknown Address": "不明なアドレス"
 }

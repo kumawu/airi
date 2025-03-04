@@ -188,19 +188,14 @@
 						</button>
 					</div>
 				</div>
-				<div class="flex-1 self-center gap-1">
+				<div class="flex-1 self-center flex flex-col gap-1">
 					<div class="text-xl font-semibold">	{truncateName(name)} </div>
-					<!-- <div class="text-sm text-gray-500">
-						{$user?.id ? $user.id.substring(0, 8) + '...' + $user.id.substring($user.id.length - 4) : ''}
-					</div> -->
-					<div class="text-xs text-gray-400">
+					<div class="text-xs text-gray-300">
 						{$i18n.t('Joined on')} {new Date($user?.created_at * 1000).toISOString().slice(0, 10)} {new Date($user?.created_at * 1000).toTimeString().slice(0, 5)}
 					</div>
 				</div>
-				<div class="flex-1 flex flex-col self-center gap-0.5">
-					<!-- <div class=" mb-0.5 text-sm font-medium">{$i18n.t('Profile Image')}</div> -->
-
-					<div>
+				<div class="flex-1 flex flex-col self-center gap-0.5 items-end">
+					<!-- <div> -->
 						<!-- <button
 							class=" text-xs text-center text-gray-800 dark:text-gray-400 rounded-full px-4 py-0.5 bg-gray-100 dark:bg-gray-850"
 							on:click={async () => {
@@ -220,28 +215,27 @@
 						> -->
 
 						<button
-							class="w-60 h-12 px-3.5 py-1.5 text-sm font-medium bg-black border hover:bg-gray-600 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 dark:hover:border-purple-100 transition rounded-full"
+							class=" h-12 px-8 py-1.5 text-base font-medium bg-black text-white dark:bg-white dark:text-black hover:bg-purple-800  dark:hover:bg-purple-400 transition rounded-full "
 							on:click={() => {
 								profileImageInputElement.click();
 							}}
 						>{$i18n.t('Change Profile Picture')}</button>
-					</div>
+					<!-- </div> -->
 				</div>
 			</div>
 
 			<div class="pt-1">
 				<div class="flex flex-col w-full">
-					<div class=" mb-1 text-xs font-medium">{$i18n.t('Connected Wallet')}</div>
+					<div class=" mb-1 text-sm font-medium">{$i18n.t('Connected Wallet')}</div>
 					<div class="flex-1 flex">
 						<input
-							class="flex-1 w-full rounded-lg py-2 px-4 text-sm bg-gray-200 dark:text-gray-300 dark:bg-gray-850 outline-none"
+							class="w-full rounded-lg py-2 px-4 text-sm bg-gray-200 dark:text-gray-300 dark:bg-gray-850 outline-none"
 							type="text"
 							disabled={true}
 							bind:value={name}
 							required
 						/>
-						<button
-								class=" px-1.5 py-1 hover:bg-gray-200 dark:hover:bg-gray-850 transition rounded-lg"
+						<button class="-ml-10 px-2 py-1 hover:text-purple-800 dark:hover:text-purple-400 transition rounded-lg"
 								on:click={() => {
 									copyToClipboard(name);
 									toast.success($i18n.t('Copied to clipboard'));
@@ -251,7 +245,7 @@
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 16 16"
 									fill="currentColor"
-									class="w-4 h-4"
+									class="w-5 h-5"
 								>
 									<path
 										fill-rule="evenodd"
@@ -264,10 +258,26 @@
 										clip-rule="evenodd"
 									/>
 								</svg>
-							</button>
+						</button>
 					</div>
 				</div>
 			</div>
+
+			<div class="pt-1">
+				<div class="flex flex-col w-full">
+					<div class=" mb-1 text-sm font-medium">{$i18n.t('User ID')}</div>
+					<div class="flex-1 flex">
+						<input
+							class="flex-1 w-full rounded-lg py-2 px-4 text-sm bg-gray-200 dark:text-gray-300 dark:bg-gray-850 outline-none"
+							type="text"
+							disabled={true}
+							bind:value={id}
+							required
+						/>
+					</div>
+				</div>
+			</div>
+
 
 			<!-- <div class="pt-2">
 				<div class="flex flex-col w-full">
@@ -456,9 +466,9 @@
 		{/if} -->
 	</div>
 
-	<div class="flex justify-end pt-3 text-sm font-medium">
+	<div class="flex justify-end pt-3">
 		<button
-			class="px-3.5 py-1.5 text-sm font-medium bg-black border hover:bg-gray-600 text-white dark:bg-white dark:text-black dark:hover:bg-gray-200 dark:hover:border-purple-200 transition rounded-full"
+			class="px-3.5 py-1.5 text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:bg-purple-800  dark:hover:bg-purple-400 transition rounded-full"
 			on:click={async () => {
 				const res = await submitHandler();
 				console.log(res)

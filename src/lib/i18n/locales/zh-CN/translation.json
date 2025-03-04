@@ -1,4 +1,10 @@
 {
+	"Joined on": "加入时间",
+	"No Balance": "暂无余额",
+	"Gender": "性别",
+	"Male": "男",
+	"Female": "女",
+	"Unknown": "未知",
 	"-1 for no limit, or a positive integer for a specific limit": "-1 表示无限制，正整数表示具体限制”",
 	"'s', 'm', 'h', 'd', 'w' or '-1' for no expiration.": "'s', 'm', 'h', 'd', 'w' 或 '-1' 表示无过期时间。",
 	"(e.g. `sh webui.sh --api --api-auth username_password`)": "（例如 `sh webui.sh --api --api-auth username_password`）",
@@ -130,6 +136,7 @@
 	"Capture": "截图",
 	"Certificate Path": "证书路径",
 	"Change Password": "更改密码",
+	"Change Profile Picture": "更改头像",
 	"Channel Name": "频道名称",
 	"Channels": "频道",
 	"Character": "字符",
@@ -189,6 +196,7 @@
 	"Confirm your action": "确定吗？",
 	"Confirm your new password": "确认新密码",
 	"Connections": "外部连接",
+	"Connected Wallet": "已连接钱包",
 	"Constrains effort on reasoning for reasoning models. Only applicable to reasoning models from specific providers that support reasoning effort. (Default: medium)": "限制推理模型的推理努力。仅适用于支持推理努力的特定提供商的推理模型。（默认值：中等）",
 	"Contact Admin for WebUI Access": "请联系管理员以获取访问权限",
 	"Content": "内容",
@@ -1015,6 +1023,8 @@
 	"use_mmap (Ollama)": "use_mmap （Ollama）",
 	"user": "用户",
 	"User": "用户",
+	"User ID": "用户ID",
+	"User Information": "用户信息",
 	"User location successfully retrieved.": "成功检索到用户位置。",
 	"Username": "用户名",
 	"Users": "用户",
@@ -1091,5 +1101,6 @@
 	"Top Picks":"推荐标的", 
 	"Get the hottest trending tokens based on GMGN and choose your compatible picks":"🔍推荐几个热门币，顺便看看合盘情况🔥",
 	"Tell me the hottest trending tokens based on GMGN and choose my compatible picks":"推荐当前热门币，顺便看看合盘情况",
-	"Aim to find your web3 inner peace in an occult way":"以玄学的方式，寻找你的 web3 内心平静"
+	"Aim to find your web3 inner peace in an occult way":"以玄学的方式，寻找你的 web3 内心平静",
+	"Unknown Address":"未知地址"
 }

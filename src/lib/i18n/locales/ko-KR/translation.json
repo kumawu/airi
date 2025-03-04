@@ -1,4 +1,10 @@
 {
+	"Joined on": "가입일",
+	"No Balance": "잔액 없음",
+	"Gender": "성별",
+	"Male": "남성",
+	"Female": "여성",
+	"Unknown": "알 수 없음",
 	"-1 for no limit, or a positive integer for a specific limit": "",
 	"'s', 'm', 'h', 'd', 'w' or '-1' for no expiration.": "만료 없음은 's', 'm', 'h', 'd', 'w' 아니면 '-1' 중 하나를 사용하세요.",
 	"(e.g. `sh webui.sh --api --api-auth username_password`)": "(예: `sh webui.sh --api --api-auth 사용자이름_비밀번호`)",
@@ -130,6 +136,7 @@
 	"Capture": "",
 	"Certificate Path": "",
 	"Change Password": "비밀번호 변경",
+	"Change Profile Picture": "프로필 사진 변경",
 	"Channel Name": "",
 	"Channels": "채널",
 	"Character": "캐릭터",
@@ -189,6 +196,7 @@
 	"Confirm your action": "액션 확인",
 	"Confirm your new password": "새로운 비밀번호를 한 번 더 입력해 주세요",
 	"Connections": "연결",
+	"Connected Wallet": "연결된 지갑",
 	"Constrains effort on reasoning for reasoning models. Only applicable to reasoning models from specific providers that support reasoning effort. (Default: medium)": "",
 	"Contact Admin for WebUI Access": "WebUI 접속을 위해서는 관리자에게 연락에 연락하십시오",
 	"Content": "내용",
@@ -1015,6 +1023,7 @@
 	"use_mmap (Ollama)": "use_mmap (올라마)",
 	"user": "사용자",
 	"User": "사용자",
+	"User ID": "사용자 ID",
 	"User location successfully retrieved.": "성공적으로 사용자의 위치를 불러왔습니다",
 	"Username": "",
 	"Users": "사용자",
@@ -1091,5 +1100,6 @@
     "Top Picks": "추천 종목",
     "Get the hottest trending tokens based on GMGN and choose your compatible picks": "🔍인기 토큰을 추천하고 궁합도 확인해드립니다🔥",
     "Tell me the hottest trending tokens based on GMGN and choose my compatible picks": "현재 인기 토큰을 추천하고 궁합도 확인해주세요",
-	"Aim to find your web3 inner peace in an occult way": "신비한 방식으로 당신의 web3 내면의 평화를 찾아보세요"
+	"Aim to find your web3 inner peace in an occult way": "신비한 방식으로 당신의 web3 내면의 평화를 찾아보세요",
+	"Unknown Address": "알 수 없는 주소"
 }

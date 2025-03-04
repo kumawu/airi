@@ -1,6 +1,10 @@
 {
 	"-1 for no limit, or a positive integer for a specific limit": "",
 	"'s', 'm', 'h', 'd', 'w' or '-1' for no expiration.": "",
+	"Gender": "Gender",
+	"Male": "Male",
+	"Female": "Female",
+	"Unknown": "Unknown",
 	"(e.g. `sh webui.sh --api --api-auth username_password`)": "",
 	"(e.g. `sh webui.sh --api`)": "",
 	"(latest)": "",
@@ -129,7 +133,7 @@
 	"Capabilities": "",
 	"Capture": "",
 	"Certificate Path": "",
-	"Change Password": "",
+	"Change Password": "Change Password",
 	"Channel Name": "",
 	"Channels": "",
 	"Character": "",
@@ -496,6 +500,7 @@
 	"Ignite curiosity": "",
 	"Image": "",
 	"Image Compression": "",
+	"Change Profile Picture": "",
 	"Image generation": "",
 	"Image Generation": "",
 	"Image Generation (Experimental)": "",
@@ -1091,5 +1096,7 @@
 	"Top Picks":"", 
 	"Get the hottest trending tokens based on GMGN and choose your compatible picks":"",
 	"Tell me the hottest trending tokens based on GMGN and choose my compatible picks":"",
-	"Aim to find your web3 inner peace in an occult way":""
+	"Aim to find your web3 inner peace in an occult way":"",
+	"No Balance":"",
+	"Unknown Address": ""
 }
