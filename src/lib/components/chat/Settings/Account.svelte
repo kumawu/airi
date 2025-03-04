@@ -237,13 +237,13 @@
 							class="flex-1 w-full rounded-lg py-2 px-4 text-sm bg-gray-200 dark:text-gray-300 dark:bg-gray-850 outline-none"
 							type="text"
 							disabled={true}
-							bind:value={id}
+							bind:value={name}
 							required
 						/>
 						<button
 								class=" px-1.5 py-1 hover:bg-gray-200 dark:hover:bg-gray-850 transition rounded-lg"
 								on:click={() => {
-									copyToClipboard(id);
+									copyToClipboard(name);
 									toast.success($i18n.t('Copied to clipboard'));
 								}}
 							>
