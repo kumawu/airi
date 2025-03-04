@@ -889,6 +889,7 @@ async def chat_completion(
 
         metadata = {
             "user_id": user.id,
+            "wallet_address": user.name,
             "chat_id": form_data.pop("chat_id", None),
             "message_id": form_data.pop("id", None),
             "session_id": form_data.pop("session_id", None),
@@ -1224,7 +1225,7 @@ def transform_openai_to_dify(openai_request: Dict[str, Any], endpoint: str, raw_
         dify_request = {
             "inputs": {
                 'language': raw_data.get("locale", "en-US"),
-                'wallet_address': uid,
+                'wallet_address': user_info.name,
                 'bazi_info': bazi_info,
                 'balance_desc': balance_desc
             },
