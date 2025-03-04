@@ -78,12 +78,12 @@
                     </div> -->
                 </div>
                 <div class="flex font-[PingFang SC] text-sm leading-7">
-                    <span class="text-[#717171] dark:text-[#fff] ">旺衰参考：</span>
-                    <span class="text-[#333] dark:text-[#fff] ">{dataInfo?.wang_shuai_can_kao??''}</span>
+                    <span class="text-[#717171] dark:text-[#fff]">旺衰参考：</span>
+                    <span class="text-[#333] dark:text-[#fff]">{dataInfo?.wang_shuai_can_kao??''}</span>
                 </div>
             </div>
             <div class="flex-1">
-                <FortuneChart rizhu={dataInfo?.ri_zhu_shu_xing} />
+                <FortuneChart rizhu={dataInfo?.ri_zhu_shu_xing??''} />
             </div>
         </div>
     </div>

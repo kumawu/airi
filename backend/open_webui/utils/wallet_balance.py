@@ -16,6 +16,11 @@ async def fetch_and_update_wallet_balance(user):
     try:
         async with httpx.AsyncClient() as client:
             print("user.id: ", user.id)
+            
+            # response = await client.get(
+            #     f"http://44.207.149.57:8080/api/airie/account/balance?walletAddress=8DEr3vd9Nrnvpc9qZX3qoeevYTe8qtXbEZQpRwCTf7dC&top=5",
+            #     timeout=10
+            # )
             response = await client.get(
                 f"http://44.207.149.57:8080/api/airie/account/balance?walletAddress={user.id}&top=5",
                 timeout=10

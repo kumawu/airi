@@ -14,6 +14,9 @@
 	const i18n = getContext('i18n');
 	import { writable } from 'svelte/store';
 	import languages from '$lib/i18n/locales/languages.json';
+	import { truncateName } from '$lib/utils/index';
+	import { generateInitialsImage, canvasPixelTest } from '$lib/utils';
+
 
 	const currentLanguage = writable(i18next.language);
 
@@ -58,6 +61,43 @@
 			align="start"
 			transition={(e) => fade(e, { duration: 100 })}
 		>
+			<div class="flex flex-col px-3 py-2 w-full space-y-2">
+				<!-- 钱包地址和总余额 -->
+				<div class="flex items-center justify-between">
+					<div class="flex items-center gap-2">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 dark:text-gray-500">
+							<path d="M2.273 5.625A4.483 4.483 0 0 1 5.25 4.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 3H5.25a3 3 0 0 0-2.977 2.625ZM2.273 8.625A4.483 4.483 0 0 1 5.25 7.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 6H5.25a3 3 0 0 0-2.977 2.625ZM5.25 9a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h13.5a3 3 0 0 0 3-3v-6a3 3 0 0 0-3-3H15a.75.75 0 0 0-.75.75 2.25 2.25 0 0 1-4.5 0A.75.75 0 0 0 9 9H5.25Z" />
+						</svg>
+						<span class="text-sm">{truncateName($user?.wallet_balance?.accountOwner ?? $i18n.t('Unknown Address'), 10)}</span>
+					</div>
+					<span class="text-sm font-medium dark:text-gray-500">
+						${$user?.wallet_balance?.totalValueUsd?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
+					</span>
+				</div>
+
+				<!-- 代币列表 -->
+				{#if $user?.wallet_balance?.totalValueUsd}
+					<div class="space-y-2 ml-1">
+						{#each $user.wallet_balance.balanceInfo.slice(0, 3) as token}
+							<div class="flex items-center justify-between">
+								<div class="flex items-center gap-2">
+									<div class="w-4 h-4">
+										<img src={generateInitialsImage(token.symbol)} alt="Token Logo" class="w-full h-full rounded-full" />
+									</div>
+									<span class="text-xs  dark:text-gray-300 truncate w-20">{token.name}</span>
+								</div>
+								<span class="text-xs dark:text-gray-500">
+									${token.valueUsd?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
+								</span>
+							</div>
+						{/each}
+					</div>
+				{:else}
+					<div class="text-sm text-gray-500">{$i18n.t('No Balance')}</div>
+				{/if}
+			</div>
+
+			<hr class=" border-gray-50 dark:border-gray-850 my-1 p-0" />
 			<button
 				class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
 				on:click={async () => {
@@ -85,7 +125,7 @@
 						/>
 					</svg>
 				</div>
-				<div class=" self-center truncate">{$i18n.t('Account')}</div>
+				<div class="self-center truncate">{$i18n.t('Account')}</div>
 			</button>
 
 			<!-- <button
@@ -166,8 +206,9 @@
 					<div class=" self-center truncate">{$i18n.t('Admin Panel')}</div>
 				</a> -->
 			{/if}
-
 			<hr class=" border-gray-50 dark:border-gray-850 my-1 p-0" />
+
+			
 
 			<DropdownMenu.Sub>
 				<DropdownMenu.SubTrigger
