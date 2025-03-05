@@ -312,7 +312,7 @@
 				}}>{showAPIKeys ? $i18n.t('Hide') : $i18n.t('Show')}</button
 			>
 		</div> -->
-		<div class="flex flex-col gap-4">
+		<div class="flex flex-col gap-4" id="fortune-info">
 			<!-- <div class=" mb-1 text-xs font-medium">{$i18n.t('命局综述')}</div> -->
 			<FortuneInfo  bind:gender/>
 		</div>

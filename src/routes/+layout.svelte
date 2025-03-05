@@ -49,12 +49,14 @@
 	import NotificationToast from '$lib/components/NotificationToast.svelte';
 	import AppSidebar from '$lib/components/app/AppSidebar.svelte';
 	import { getUserFortune } from '$lib/apis/users';
+	import TourGuide from '$lib/components/TourGuide.svelte';
 
 	setContext('i18n', i18n);
 
 	const bc = new BroadcastChannel('active-tab-channel');
 
 	let loaded = false;
+	let tourCompleted = localStorage.getItem('tourCompleted')?? 'false';
 
 	const BREAKPOINT = 768;
 
@@ -464,6 +466,10 @@
 	{:else}
 		<slot />
 	{/if}
+	{#if tourCompleted !=='true'}
+		<TourGuide/>
+	{/if}
+
 {/if}
 
 <Toaster

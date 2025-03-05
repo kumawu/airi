@@ -8,7 +8,6 @@
 		user,
 		chats,
 		settings,
-		showSettings,
 		chatId,
 		tags,
 		showSidebar,
@@ -347,6 +346,13 @@
 		shiftKey = false;
 		selectedChatId = null;
 	};
+	const handleShowUserMenu = () => {
+		// 触发用户菜单按钮的点击事件
+		const userMenuButton = document.querySelector('#sidebar-user-info button');
+		if (userMenuButton) {
+			userMenuButton.click();
+		}
+	};
 
 	onMount(async () => {
 		showPinnedChat = localStorage?.showPinnedChat ? localStorage.showPinnedChat === 'true' : true;
@@ -407,6 +413,9 @@
 		dropZone?.addEventListener('dragleave', onDragLeave);
 
 		selectedTheme = localStorage.theme ?? 'dark'
+
+		window.addEventListener('show-user-menu', handleShowUserMenu);
+		
 	});
 
 	onDestroy(() => {
@@ -418,6 +427,8 @@
 
 		window.removeEventListener('focus', onFocus);
 		window.removeEventListener('blur', onBlur);
+		window.removeEventListener('show-user-menu', handleShowUserMenu);
+
 
 		const dropZone = document.getElementById('sidebar');
 
@@ -878,7 +889,7 @@
 		</div>
 
 		<div class="px-2 py-3">
-			<div class="flex flex-col font-primary">
+			<div class="flex flex-col font-primary" id="sidebar-user-info">
 				{#if $user !== undefined}
 					<UserMenu
 						role={$user.role}
