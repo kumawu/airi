@@ -43,6 +43,7 @@ class User(Base):
     gender = Column(Integer, default=Gender.FEMALE)
     fortune = Column(JSONField, nullable=True)
     wallet_balance = Column(JSONField, nullable=True)
+    remaining_count = Column(Integer, default=10)
 
 class UserSettings(BaseModel):
     ui: Optional[dict] = {}
@@ -70,6 +71,7 @@ class UserModel(BaseModel):
     gender: int = Gender.FEMALE
     fortune: Optional[dict] = None
     wallet_balance: Optional[dict] = None
+    remaining_count: int
 
 
 ####################
@@ -87,6 +89,7 @@ class UserResponse(BaseModel):
     gender: int
     fortune: Optional[dict] = None
     wallet_balance: Optional[dict] = None
+    remaining_count: int
 
 class UserNameResponse(BaseModel):
     id: str
@@ -118,7 +121,8 @@ class UsersTable:
         oauth_sub: Optional[str] = None,
         gender: int = Gender.FEMALE,
         fortune: Optional[dict] = None,
-        wallet_balance: Optional[dict] = None
+        wallet_balance: Optional[dict] = None,
+        remaining_count: int = 10
     ) -> Optional[UserModel]:
         with get_db() as db:
             user = UserModel(
@@ -134,7 +138,8 @@ class UsersTable:
                     "oauth_sub": oauth_sub,
                     "gender": gender,
                     "fortune": fortune,
-                    "wallet_balance": wallet_balance
+                    "wallet_balance": wallet_balance,
+                    "remaining_count": remaining_count,
                 }
             )
             result = User(**user.model_dump())
@@ -374,6 +379,25 @@ class UsersTable:
                 user = db.query(User).filter_by(id=id).first()
                 return UserModel.model_validate(user)
         except Exception:
+            return None
+
+    def update_user_remaining_count_by_id(
+        self, id: str, remaining_count: int
+    ) -> Optional[UserModel]:
+        try:
+            # print(f"更新用户剩余次数: {remaining_count}")
+            with get_db() as db:
+                db.query(User).filter_by(id=id).update(
+                    {"remaining_count": remaining_count}
+                )
+                db.commit()
+
+                user = db.query(User).filter_by(id=id).first()
+                # print(user)
+                
+                return UserModel.model_validate(user)
+        except Exception as e:
+            # print(f"更新用户剩余次数失败: {str(e)}")
             return None
             
 Users = UsersTable()

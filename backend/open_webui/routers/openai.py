@@ -638,7 +638,7 @@ async def generate_chat_completion(
 
     # Convert the modified body back to JSON
     payload = json.dumps(payload)
-    print('dify_request in payload ',payload,url)
+    # print('dify_request in payload ',payload,url)
 
     r = None
     session = None

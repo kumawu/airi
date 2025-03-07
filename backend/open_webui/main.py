@@ -873,6 +873,16 @@ async def chat_completion(
     if not request.app.state.MODELS:
         await get_all_models(request)
 
+    # 检查用户剩余次数
+    # log.info(
+    #     f"Check User {user.id} remaining count: {user.remaining_count}"
+    # )
+    if user.remaining_count <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="剩余次数不足, 关注 + 私信Twitter",
+        )
+
     tasks = form_data.pop("background_tasks", None)
     try:
         model_id = form_data.get("model", None)
@@ -1134,7 +1144,6 @@ class DifyModelManager:
         print("从环境变量加载API Keys", api_keys_str)
         if api_keys_str:
             self.api_keys = [key.strip() for key in api_keys_str.split(',') if key.strip()]
-            log.info(f"Loaded {len(self.api_keys)} API keys")
             print(self.api_keys)
 
     async def fetch_app_info(self, api_key):
@@ -1150,7 +1159,7 @@ class DifyModelManager:
                     headers=headers,
                     params={"user": "default_user"}
                 )
-                print('dify response',response.json())
+                # print('dify response',response.json())
                 
                 if response.status_code == 200:
                     app_info = response.json()
@@ -1214,7 +1223,7 @@ def transform_openai_to_dify(openai_request: Dict[str, Any], endpoint: str, raw_
         messages = openai_request.get("messages", [])
         stream = openai_request.get("stream", False)
         
-        log.info("transform_openai_to_dify raw_data: %s", raw_data)
+        # log.info("transform_openai_to_dify raw_data: %s", raw_data)
         uid = raw_data.get("user", "")
         user_info = Users.get_user_by_id(uid) if uid else None
         fortune_data = user_info.fortune if user_info else None
@@ -1320,12 +1329,11 @@ async def chat_completions(request: Request):
     try:
         # 获取原始请求数据
         raw_data = await request.json()
-        log.info(f"Received raw request data: {raw_data}")
+        # log.info(f"Received raw request data: {raw_data}")
         
         # 验证必需字段
         request_model = ChatCompletionRequest(**raw_data)
         model = request_model.model
-        log.info(f"Using model: {model}")
         
         # 验证模型是否支持
         api_key = get_api_key(model)
@@ -1344,7 +1352,7 @@ async def chat_completions(request: Request):
             )
         # print('raw_data',type(raw_data), raw_data['locale'])   
         dify_request = transform_openai_to_dify(request_model.dict(), "/chat/completions", raw_data)
-        log.info(f"Transformed request: {json.dumps(dify_request, ensure_ascii=False)}")
+        # log.info(f"Transformed request: {json.dumps(dify_request, ensure_ascii=False)}")
         
         if not dify_request:
             log.error("Failed to transform request")
@@ -1363,7 +1371,7 @@ async def chat_completions(request: Request):
             "Content-Type": "application/json"
         }
 
-        print('dify_request',dify_request)
+        # print('dify_request',dify_request)
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{DIFY_API_BASE}/chat-messages",

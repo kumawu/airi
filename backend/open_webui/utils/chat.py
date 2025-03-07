@@ -12,7 +12,7 @@ from fastapi import Request
 from starlette.responses import Response, StreamingResponse
 
 
-from open_webui.models.users import UserModel
+from open_webui.models.users import UserModel, Users
 
 from open_webui.socket.main import (
     get_event_call,
@@ -285,7 +285,10 @@ async def chat_completed(request: Request, form_data: dict, user: Any):
 
         except Exception as e:
             return Exception(f"Error: {e}")
-
+    if user.role == "user":
+        # 减少用户剩余次数
+        res = Users.update_user_remaining_count_by_id(user.id, user.remaining_count - 1)
+        
     return data
 
 
