@@ -10,14 +10,14 @@
 	let tourSteps = [
 		{
 			element: '#sidebar',
-			title: '左侧导航栏',
-			content: '这里是主要的导航区域，你可以在这里创建新的聊天、查看历史记录、管理聊天。',
+			title: $i18n.t('左侧导航栏'),
+			content: $i18n.t('这里是主要的导航区域，你可以在这里创建新的聊天、查看历史记录、管理聊天。'),
             ignoreCheck: false
 		},
 		{
 			element: '#sidebar-user-info',
-			title: '个人菜单',
-			content: '在这里你可以访问个人资料、钱包持币信息、五行信息，切换语言，以及退出登录等操作。',
+			title: $i18n.t('个人菜单'),
+			content: $i18n.t('在这里你可以访问个人资料、钱包持币信息、五行信息，切换语言，以及退出登录等操作。'),
             ignoreCheck: false,
             action: () => {
                 const event = new CustomEvent('show-user-menu');
@@ -26,8 +26,8 @@
 		},
         {
 			element: '#fortune-info',
-			title: '点击【账号设置】会看到你的运势',
-			content: '这里显示了你的运势信息, 切换性别后会重新计算运势',
+			title: $i18n.t('点击【账号设置】会看到你的运势'),
+			content: $i18n.t('这里显示了你的运势信息, 切换性别后会重新计算运势'),
             ignoreCheck: true,
             action: async () => {
                 await showSettings.set(true);
@@ -35,8 +35,8 @@
 		},
         {
 			element: '#chat-wrapper',
-			title: '聊天区域，Have fun!',
-			content: '在这里输入你想说的话，可以是问题、指令或者任何你想与AI讨论的内容。',
+			title: $i18n.t('聊天区域，Have fun!'),
+			content: $i18n.t('在这里输入你想说的话，可以是问题、指令或者任何你想与AI讨论的内容。'),
             ignoreCheck: false,
             action: async () => {
                 await showSettings.set(false);

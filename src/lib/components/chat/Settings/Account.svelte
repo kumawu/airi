@@ -33,7 +33,7 @@
 	let APIKey = '';
 	let APIKeyCopied = false;
 	let profileImageInputElement: HTMLInputElement;
-
+	let saving = false;
 	const submitHandler = async () => {
 		// if (name !== $user.name) {
 		// 	if (profileImageUrl === generateInitialsImage($user.name) || profileImageUrl === '') {
@@ -469,16 +469,26 @@
 	<div class="flex justify-end pt-3">
 		<button
 			class="px-3.5 py-1.5 text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:bg-purple-800  dark:hover:bg-purple-400 transition rounded-full"
+			disabled={saving}
 			on:click={async () => {
+				saving = true;
 				const res = await submitHandler();
 				console.log(res)
 
 				if (res) {
 					saveHandler();
 				}
+				saving = false;
 			}}
 		>
-			{$i18n.t('Save')}
+			{#if saving}
+				<div class="flex items-center gap-1">
+					<div class="size-3.5 border-2 border-t-transparent rounded-full animate-spin" />
+					{$i18n.t('Saving')}
+				</div>
+			{:else}
+				{$i18n.t('Save')}
+			{/if}
 		</button>
 	</div>
 </div>
