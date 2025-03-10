@@ -386,10 +386,15 @@
 			}
 		}
 	};
-
+	// Event handlers
+	const handleNewChat = async (event) => {
+		// console.log('handleNewChat', event);
+		const { msg } = event.detail;
+		await initNewChat(msg);
+	};
 	onMount(async () => {
-		console.log('mounted');
 		window.addEventListener('message', onMessageHandler);
+		window.addEventListener('new-chat', handleNewChat);
 		$socket?.on('chat-events', chatEventHandler);
 
 		if (!$chatId) {
@@ -639,7 +644,16 @@
 	// Web functions
 	//////////////////////////
 
-	const initNewChat = async () => {
+	const initNewChat = async (msg ='') => {
+		// console.log('initNewChat', msg)
+		if (msg) {
+			prompt = msg;
+			const chatInput = document.getElementById('chat-input');
+			if (chatInput) {
+				chatInput.focus();
+			}
+		}
+
 		if ($page.url.searchParams.get('models')) {
 			selectedModels = $page.url.searchParams.get('models')?.split(',');
 		} else if ($page.url.searchParams.get('model')) {

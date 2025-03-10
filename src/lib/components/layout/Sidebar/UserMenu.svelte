@@ -16,7 +16,7 @@
 	import languages from '$lib/i18n/locales/languages.json';
 	import { truncateName } from '$lib/utils/index';
 	import { generateInitialsImage, canvasPixelTest } from '$lib/utils';
-
+	import Modal from '$lib/components/common/Modal.svelte';
 
 	const currentLanguage = writable(i18next.language);
 
@@ -31,6 +31,8 @@
 	export let show = false;
 	export let role = '';
 	export let className = 'max-w-[240px]';
+
+	let showWalletBalanceModal = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -61,9 +63,18 @@
 			align="start"
 			transition={(e) => fade(e, { duration: 100 })}
 		>
-			<div class="flex flex-col px-3 py-2 w-full space-y-2">
+			<div class="flex flex-col px-3 py-2 w-full cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition">
 				<!-- 钱包地址和总余额 -->
-				<div class="flex items-center justify-between">
+				<div class="flex items-center justify-between" 
+					on:click={
+						async () => {
+							showWalletBalanceModal = true
+							show = false;
+							if ($mobile) {
+								showSidebar.set(false);
+							}
+						}
+					}>
 					<div class="flex items-center gap-2">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 dark:text-gray-500">
 							<path d="M2.273 5.625A4.483 4.483 0 0 1 5.25 4.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 3H5.25a3 3 0 0 0-2.977 2.625ZM2.273 8.625A4.483 4.483 0 0 1 5.25 7.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 6H5.25a3 3 0 0 0-2.977 2.625ZM5.25 9a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h13.5a3 3 0 0 0 3-3v-6a3 3 0 0 0-3-3H15a.75.75 0 0 0-.75.75 2.25 2.25 0 0 1-4.5 0A.75.75 0 0 0 9 9H5.25Z" />
@@ -77,7 +88,7 @@
 
 				<!-- 代币列表 -->
 				{#if $user?.wallet_balance?.totalValueUsd}
-					<div class="space-y-2 ml-1">
+					<!-- <div class="space-y-2 ml-1">
 						{#each $user.wallet_balance.balanceInfo.slice(0, 3) as token}
 							<div class="flex items-center justify-between">
 								<div class="flex items-center gap-2">
@@ -91,12 +102,13 @@
 								</span>
 							</div>
 						{/each}
-					</div>
+					</div> -->
 				{:else}
-					<div class="text-sm text-gray-500">{$i18n.t('No Balance')}</div>
+					<!-- <div class="text-sm text-gray-500">{$i18n.t('No Balance')}</div> -->
 				{/if}
 			</div>
 
+			
 			<hr class=" border-gray-50 dark:border-gray-850 my-1 p-0" />
 			<button
 				class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
@@ -338,3 +350,100 @@
 		</DropdownMenu.Content>
 	</slot>
 </DropdownMenu.Root>
+
+<Modal
+	title={$i18n.t('Portfolio')}
+	showClose={true}
+	on:close={() => showWalletBalanceModal = false}
+	bind:show={showWalletBalanceModal}
+>
+	<div class="wallet-balance-detail p-8 space-y-4">
+		<div class="flex items-center justify-between">
+			<div class="flex items-center gap-2 dark:text-gray-200">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+					<path d="M2.273 5.625A4.483 4.483 0 0 1 5.25 4.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 3H5.25a3 3 0 0 0-2.977 2.625ZM2.273 8.625A4.483 4.483 0 0 1 5.25 7.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 6H5.25a3 3 0 0 0-2.977 2.625ZM5.25 9a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h13.5a3 3 0 0 0 3-3v-6a3 3 0 0 0-3-3H15a.75.75 0 0 0-.75.75 2.25 2.25 0 0 1-4.5 0A.75.75 0 0 0 9 9H5.25Z" />
+				</svg>
+				<span class="text-sm">{truncateName($user?.wallet_balance?.accountOwner ?? $i18n.t('Unknown Address'), 30)}</span>
+			</div>
+			
+		</div>
+		<div class="space-y-2">
+			<div class="text-sm font-medium mb-2 dark:text-gray-200 flex">
+				<span class="flex-1">{$i18n.t('Tokens')}</span>	
+				<span class="flex-1 text-right">
+					${$user?.wallet_balance?.totalValueUsd?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
+				</span>
+			</div>
+			{#if $user?.wallet_balance?.balanceInfo?.length}
+				<div class="w-full text-sm dark:text-gray-200 border border-purple-200 dark:border-purple-900 px-2 space-y-3">
+					<!-- 表头 -->
+					<div class="grid grid-cols-6 border-b border-purple-200 dark:border-purple-900 font-medium text-gray-600 dark:text-gray-200 ">
+						<div class="text-left py-2 pl-4 col-span-2">{$i18n.t('Tokens')}</div>
+						<div class="text-right py-2">{$i18n.t('Balance')}</div>
+						<div class="text-right py-2">{$i18n.t('Price')}</div>
+						<div class="text-right py-2">{$i18n.t('Value')}</div>
+						<div class="text-right py-2 pr-4">{$i18n.t('Action')}</div>
+					</div>
+					<!-- 数据行 -->
+					<div class="divide-y divide-purple-200 dark:divide-purple-900">
+						{#each $user.wallet_balance.balanceInfo as token}
+							<div class="grid grid-cols-6 hover:bg-gray-100 dark:hover:bg-gray-800">
+								<div class="py-2 pl-4 col-span-2">
+									<div class="flex items-center gap-2">
+										<img src={token.logo??generateInitialsImage(token.symbol)} alt="Token Logo" class="w-6 h-6 rounded-full" />
+										<div>
+											<div class="font-medium">{token.name}</div>
+										</div>
+									</div>
+								</div>
+								<div class="text-right py-2">
+									<div>{token.amount?.toLocaleString('en-US', { maximumFractionDigits: 2 })}</div>
+								</div>
+								<div class="text-right py-2">
+									<div>${token.priceUsd?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</div>
+								</div>
+								<div class="text-right py-2">
+									<div>${token.valueUsd?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</div>
+								</div>
+								<div class="text-right py-2 pr-4">
+									<button
+										class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-white bg-purple-500 rounded hover:bg-purple-600 transition-colors"
+										on:click={() => {
+											const event = new CustomEvent('new-chat', {detail: { "msg": `看下和 ${token.name} 的合盘信息, 合约地址:${token.contactAddress}` }});
+											window.dispatchEvent(event);
+											showWalletBalanceModal = false;
+											show = false;
+											if ($mobile) {
+												showSidebar.set(false);
+											}
+										}}
+									>
+										<!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+											<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+											<line x1="12" y1="7" x2="12" y2="13" />
+											<line x1="9" y1="10" x2="15" y2="10" />
+										</svg> -->
+										{$i18n.t('合盘')}
+									</button>
+								</div>
+							</div>
+						{/each}
+					</div>
+				</div>
+				{:else}
+					<div class="text-sm text-gray-500">{$i18n.t('No Tokens')}</div>
+				{/if}
+		</div>
+		<div class="flex justify-end pt-3">
+			<button
+				class="px-3.5 py-1.5 text-sm font-medium bg-black text-white dark:bg-white dark:text-black hover:bg-purple-800  dark:hover:bg-purple-400 transition rounded-full"
+				on:click={async () => {
+					showWalletBalanceModal = false;
+				}}
+			>
+				{$i18n.t('Close')}
+			</button>
+		</div>
+	</div>
+	
+</Modal>
