@@ -1,9 +1,9 @@
 {
 	"Joined on": "加入时间",
 	"No Balance": "暂无余额",
-	"Gender": "性别",
-	"Male": "男",
-	"Female": "女",
+	"Wallet Gender": "钱包性别",
+	"Male": "属阳",
+	"Female": "属阴",
 	"Unknown": "未知",
 	"-1 for no limit, or a positive integer for a specific limit": "-1 表示无限制，正整数表示具体限制”",
 	"'s', 'm', 'h', 'd', 'w' or '-1' for no expiration.": "'s', 'm', 'h', 'd', 'w' 或 '-1' 表示无过期时间。",

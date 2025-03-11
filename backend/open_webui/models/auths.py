@@ -80,7 +80,7 @@ class ProfileImageUrlForm(BaseModel):
 class UpdateProfileForm(BaseModel):
     profile_image_url: str
     # name: str
-    gender: int
+    # gender: int
 
 
 class UpdatePasswordForm(BaseModel):

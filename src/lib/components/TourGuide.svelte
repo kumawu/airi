@@ -27,7 +27,7 @@
         {
 			element: '#fortune-info',
 			title: $i18n.t('点击【账号设置】会看到你的运势'),
-			content: $i18n.t('这里显示了你的运势信息, 切换性别后会重新计算运势'),
+			content: $i18n.t('这里显示了你的运势信息'),
             ignoreCheck: true,
             action: async () => {
                 await showSettings.set(true);

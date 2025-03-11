@@ -23,7 +23,6 @@
 	let profileImageUrl = '';
 	let name = '';
 	let id = ''
-	let gender = 0;
 
 	// let webhookUrl = '';
 	let showAPIKeys = false;
@@ -50,7 +49,7 @@
 		// 	});
 		// }
 
-		const updatedUser = await updateUserProfile(localStorage.token, profileImageUrl, gender).catch(
+		const updatedUser = await updateUserProfile(localStorage.token, profileImageUrl).catch(
 			(error) => {
 				toast.error(`${error}`);
 			}
@@ -76,7 +75,6 @@
 		name = $user?.name??'';
 		id = $user?.id??'';
 		profileImageUrl = $user?.profile_image_url??'';
-		gender = $user?.gender?? 0;
 		// webhookUrl = $settings?.notifications?.webhook_url ?? '';
 
 		// APIKey = await getAPIKey(localStorage.token).catch((error) => {
@@ -314,7 +312,7 @@
 		</div> -->
 		<div class="flex flex-col gap-4" id="fortune-info">
 			<!-- <div class=" mb-1 text-xs font-medium">{$i18n.t('命局综述')}</div> -->
-			<FortuneInfo  bind:gender/>
+			<FortuneInfo />
 		</div>
 		<!-- {#if showAPIKeys}
 			<div class="flex flex-col gap-4">

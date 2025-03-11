@@ -640,6 +640,7 @@
 						{saveSettings}
 						saveHandler={() => {
 							toast.success($i18n.t('Settings saved successfully!'));
+							show = false;
 						}}
 					/>
 				{:else if selectedTab === 'about'}

@@ -14,6 +14,11 @@ log.setLevel(SRC_LOG_LEVELS["MAIN"])
 # GetSessionUser
 ############################
 
+WALLET_GENDER_DICT = {
+    '属阴': 0,
+    '属阳': 1
+}
+
 def format_timestamp(ts: int) -> str:
     return dt.fromtimestamp(ts, tz=datetime.timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
 
@@ -28,7 +33,8 @@ async def fetch_and_update_fortune(user):
             "inputs": {
                 "language": "zh-CN",
                 "birthday": format_timestamp(user.created_at),
-                "sex": str(user.gender),
+                "wallet_address": user.name
+                # "sex": str(user.gender),
             },
             "response_mode": "blocking",
             "user": user.id
@@ -59,8 +65,18 @@ async def fetch_and_update_fortune(user):
                 if 'wu_xing_value' not in fortune_data or 'web_format_data' not in fortune_data:
                     raise ValueError("Invalid fortune data: missing required fields 'wu_xing_value' or 'web_format_data'")
                 
+                gender = 2  # 默认值设为2
+                try:
+                    if ('yong_hu_xin_xi' in fortune_data['web_format_data'] and 
+                        'xing_bie' in fortune_data['web_format_data']['yong_hu_xin_xi'] and 
+                        fortune_data['web_format_data']['yong_hu_xin_xi']['xing_bie'] in WALLET_GENDER_DICT):
+                        gender = WALLET_GENDER_DICT[fortune_data['web_format_data']['yong_hu_xin_xi']['xing_bie']]
+                except Exception as e:
+                    log.error(f"Error getting gender: {str(e)}")
+                    gender = 2  # 发生异常时设为2
+
                 # 更新数据库
-                Users.update_user_fortune_by_id(user.id, fortune_data)
+                Users.update_user_fortune_by_id(user.id, fortune_data, gender)
 
                 # 发送 socket.io 事件
                 await sio.emit(

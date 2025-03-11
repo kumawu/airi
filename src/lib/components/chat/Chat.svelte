@@ -645,7 +645,6 @@
 	//////////////////////////
 
 	const initNewChat = async (msg ='') => {
-		// console.log('initNewChat', msg)
 		if (msg) {
 			prompt = msg;
 			const chatInput = document.getElementById('chat-input');

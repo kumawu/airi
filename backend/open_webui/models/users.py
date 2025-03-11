@@ -337,12 +337,12 @@ class UsersTable:
             return [user.id for user in users]
 
     def update_user_fortune_by_id(
-        self, id: str, fortune: dict
+        self, id: str, fortune: dict, gender: int
     ) -> Optional[UserModel]:
         try:
             with get_db() as db:
                 db.query(User).filter_by(id=id).update(
-                    {"fortune": fortune}
+                    {"fortune": fortune, "gender": gender}
                 )
                 db.commit()
 
@@ -351,20 +351,20 @@ class UsersTable:
         except Exception:
             return None
             
-    def update_user_gender_by_id(
-        self, id: str, gender: int
-    ) -> Optional[UserModel]:
-        try:
-            with get_db() as db:
-                db.query(User).filter_by(id=id).update(
-                    {"gender": gender}
-                )
-                db.commit()
+    # def update_user_gender_by_id(
+    #     self, id: str, gender: int
+    # ) -> Optional[UserModel]:
+    #     try:
+    #         with get_db() as db:
+    #             db.query(User).filter_by(id=id).update(
+    #                 {"gender": gender}
+    #             )
+    #             db.commit()
 
-                user = db.query(User).filter_by(id=id).first()
-                return UserModel.model_validate(user)
-        except Exception:
-            return None
+    #             user = db.query(User).filter_by(id=id).first()
+    #             return UserModel.model_validate(user)
+    #     except Exception:
+    #         return None
 
     def update_user_wallet_balance_by_id(
         self, id: str, wallet_balance: dict

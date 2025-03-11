@@ -1,9 +1,9 @@
 {
 	"Joined on": "登録日",
 	"No Balance": "残高なし",
-	"Gender": "性別",
-	"Male": "男",
-	"Female": "女",
+	"Wallet Gender": "ウォレットの性別",
+	"Male": "男性",
+	"Female": "女性",
 	"Unknown": "未設定",
 	"-1 for no limit, or a positive integer for a specific limit": "",
 	"'s', 'm', 'h', 'd', 'w' or '-1' for no expiration.": "'s', 'm', 'h', 'd', 'w' または '-1' で無期限。",

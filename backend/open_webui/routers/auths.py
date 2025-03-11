@@ -136,7 +136,7 @@ async def update_profile(
     if session_user:
         user = Users.update_user_by_id(
             session_user.id,
-            {"profile_image_url": form_data.profile_image_url, "gender": form_data.gender},
+            {"profile_image_url": form_data.profile_image_url},
         )
         if user:
             await fetch_and_update_fortune(user)
