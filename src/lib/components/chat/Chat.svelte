@@ -16,6 +16,7 @@
 
 	import {
 		chatId,
+		conversionId,
 		chats,
 		config,
 		type Model,
@@ -284,8 +285,14 @@
 					allTags.set(await getAllTags(localStorage.token));
 				} else if (type === 'message') {
 					message.content += data.content;
+					if(data.conversation_id){
+						conversionId.set(data.conversation_id)
+					}
 				} else if (type === 'replace') {
 					message.content = data.content;
+					if(data.conversation_id){
+						conversionId.set(data.conversation_id)
+					}
 				} else if (type === 'action') {
 					if (data.action === 'continue') {
 						const continueButton = document.getElementById('continue-response-button');
@@ -715,6 +722,7 @@
 
 		await chatId.set('');
 		await chatTitle.set('');
+		await conversionId.set('');
 
 		history = {
 			messages: {},
@@ -786,7 +794,7 @@
 			await goto('/');
 			return null;
 		});
-
+		conversionId.set(chat?.conversation_id??'')
 		if (chat) {
 			tags = await getTagsById(localStorage.token, $chatId).catch(async (error) => {
 				return [];
@@ -1095,7 +1103,9 @@
 	};
 
 	const chatCompletionEventHandler = async (data, message, chatId) => {
-		const { id, done, choices, content, sources, selected_model_id, error, usage } = data;
+		console.log('chatCompletionEventHandler  ',data)
+
+		const { id, done, choices, content, sources, selected_model_id, error, usage, conversation_id} = data;
 
 		if (error) {
 			await handleOpenAIError(error, message);
@@ -1226,6 +1236,10 @@
 
 			history.messages[message.id] = message;
 			await chatCompletedHandler(chatId, message.model, message.id, createMessagesList(message.id));
+		}
+
+		if(conversation_id){
+			conversionId.set(conversation_id);
 		}
 
 		console.log(data);
@@ -1586,6 +1600,7 @@
 
 				session_id: $socket?.id,
 				chat_id: $chatId,
+				conversation_id: $conversionId??'',
 				id: responseMessageId,
 
 				...(!$temporaryChatEnabled &&

@@ -1086,6 +1086,7 @@ async def process_chat_response(
 
                 reasoning_content = ""
                 ongoing_content = ""
+                conversation_id = ''
 
                 async for line in response.body_iterator:
                     line = line.decode("utf-8") if isinstance(line, bytes) else line
@@ -1104,7 +1105,8 @@ async def process_chat_response(
 
                     try:
                         data = json.loads(data)
-
+                        if data.get('conversation_id','') :
+                            conversation_id = data.get('conversation_id')
                         if "selected_model_id" in data:
                             Chats.upsert_message_to_chat_by_id_and_message_id(
                                 metadata["chat_id"],
@@ -1219,7 +1221,12 @@ async def process_chat_response(
 
                 title = Chats.get_chat_title_by_id(metadata["chat_id"])
                 data = {"done": True, "content": content, "title": title}
-
+               
+                if conversation_id:
+                    Chats.update_chat_conversation_id_by_id(
+                        metadata["chat_id"],
+                        conversation_id
+                    )
                 if not ENABLE_REALTIME_CHAT_SAVE:
                     # Save message in the database
                     Chats.upsert_message_to_chat_by_id_and_message_id(

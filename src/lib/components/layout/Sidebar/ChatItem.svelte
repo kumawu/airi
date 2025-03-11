@@ -25,7 +25,10 @@
 		pinnedChats,
 		showSidebar,
 		currentChatPage,
-		tags
+		tags,
+
+		conversionId
+
 	} from '$lib/stores';
 
 	import ChatMenu from './ChatMenu.svelte';
@@ -113,6 +116,8 @@
 				await goto('/');
 
 				await chatId.set('');
+				await conversionId.set('');
+
 				await tick();
 			}
 

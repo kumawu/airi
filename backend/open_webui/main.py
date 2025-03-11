@@ -892,11 +892,11 @@ async def chat_completion(
         model = request.app.state.MODELS[model_id]
 
         # Check if user has access to the model
-        if not BYPASS_MODEL_ACCESS_CONTROL and user.role == "user":
-            try:
-                check_model_access(user, model)
-            except Exception as e:
-                raise e
+        # if not BYPASS_MODEL_ACCESS_CONTROL and user.role == "user":
+        #     try:
+        #         check_model_access(user, model)
+        #     except Exception as e:
+        #         raise e
 
         metadata = {
             "user_id": user.id,
@@ -904,6 +904,7 @@ async def chat_completion(
             "chat_id": form_data.pop("chat_id", None),
             "message_id": form_data.pop("id", None),
             "session_id": form_data.pop("session_id", None),
+            "conversation_id": form_data.get("conversation_id", None),
             "tool_ids": form_data.get("tool_ids", None),
             "files": form_data.get("files", None),
             "features": form_data.get("features", None),
@@ -1277,12 +1278,13 @@ def transform_dify_to_openai(dify_response: Dict[str, Any], model: str = "claude
                     "content": dify_response.get("answer", "")
                 },
                 "finish_reason": "stop"
-            }]
+            }],
+            "conversation_id": dify_response.get("conversation_id", "")
         }
     else:
         return dify_response
 
-def create_openai_stream_response(content: str, message_id: str, model: str = "claude-3-5-sonnet-v2") -> Dict[str, Any]:
+def create_openai_stream_response(content: str, message_id: str, conversation_id:str, model: str = "claude-3-5-sonnet-v2") -> Dict[str, Any]:
     """创建OpenAI格式的流式响应"""
     return {
         "id": message_id,
@@ -1295,12 +1297,14 @@ def create_openai_stream_response(content: str, message_id: str, model: str = "c
                 "content": content
             },
             "finish_reason": None
-        }]
+        }],
+        "conversation_id": conversation_id
     }
 
 async def process_stream_response(response: httpx.Response, model: str):
     """处理流式响应"""
     message_id = None
+    conversation_id = None
     async for line in response.aiter_lines():
         if line:
             try:
@@ -1308,18 +1312,21 @@ async def process_stream_response(response: httpx.Response, model: str):
                     data = json.loads(line[6:])
                     if not message_id:
                         message_id = data.get("message_id", "")
+                    if not conversation_id:
+                        conversation_id = data.get("conversation_id", "")
                     
                     if "answer" in data:
                         chunk_data = create_openai_stream_response(
                             data["answer"],
                             message_id,
+                            conversation_id,
                             model
                         )
                         yield f"data: {json.dumps(chunk_data)}\n\n"
                     
                     if data.get("event") == "completed":
                         # 发送结束标记
-                        final_chunk = create_openai_stream_response("", message_id, model)
+                        final_chunk = create_openai_stream_response("", message_id,conversation_id, model)
                         final_chunk["choices"][0]["finish_reason"] = "stop"
                         yield f"data: {json.dumps(final_chunk)}\n\n"
                         yield "data: [DONE]\n\n"

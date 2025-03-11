@@ -48,7 +48,6 @@
 	import { getAllTags, getChatList } from '$lib/apis/chats';
 	import NotificationToast from '$lib/components/NotificationToast.svelte';
 	import AppSidebar from '$lib/components/app/AppSidebar.svelte';
-	import { getUserFortune } from '$lib/apis/users';
 	import TourGuide from '$lib/components/TourGuide.svelte';
 
 	setContext('i18n', i18n);

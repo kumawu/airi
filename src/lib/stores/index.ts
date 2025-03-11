@@ -42,6 +42,8 @@ export const shortCodesToEmojis = writable(
 );
 
 export const chatId = writable('');
+export const conversionId = writable('');
+
 export const chatTitle = writable('');
 
 export const channels = writable([]);

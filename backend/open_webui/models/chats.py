@@ -34,6 +34,7 @@ class Chat(Base):
 
     meta = Column(JSON, server_default="{}")
     folder_id = Column(Text, nullable=True)
+    conversation_id = Column(String, nullable=True)
 
 
 class ChatModel(BaseModel):
@@ -53,6 +54,7 @@ class ChatModel(BaseModel):
 
     meta: dict = {}
     folder_id: Optional[str] = None
+    conversation_id: Optional[str] = None
 
 
 ####################
@@ -91,7 +93,7 @@ class ChatResponse(BaseModel):
     pinned: Optional[bool] = False
     meta: dict = {}
     folder_id: Optional[str] = None
-
+    conversation_id: Optional[str] = None
 
 class ChatTitleIdResponse(BaseModel):
     id: str
@@ -177,6 +179,18 @@ class ChatTable:
         chat["title"] = title
 
         return self.update_chat_by_id(id, chat)
+
+    def update_chat_conversation_id_by_id(self, id: str, conversation_id: str) -> Optional[ChatModel]:
+        try:
+            with get_db() as db:
+                chat = db.get(Chat, id)
+                chat.conversation_id = conversation_id
+                chat.updated_at = int(time.time())
+                db.commit()
+                db.refresh(chat)
+                return ChatModel.model_validate(chat)
+        except Exception:
+            return None
 
     def update_chat_tags_by_id(
         self, id: str, tags: list[str], user
