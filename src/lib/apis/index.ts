@@ -1153,3 +1153,21 @@ export const updateModelConfig = async (token: string, config: GlobalModelConfig
 
 	return res;
 };
+
+
+/**
+ * 获取全国地址数据
+ */
+export const getAdressInfoApi = async () => {
+  try {
+    const response = await fetch('https://js.t.sinajs.cn/t6/ec/statics/cmn/sources/regions_mainland.json');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('获取地址数据失败:', error);
+    throw error;
+  }
+};

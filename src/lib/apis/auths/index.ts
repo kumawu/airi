@@ -388,7 +388,7 @@ export const addUser = async (
 	return res;
 };
 
-export const updateUserProfile = async (token: string, profileImageUrl: string) => {
+export const updateUserProfile = async (token: string, params: object) => {
 	let error = null;
 
 	const res = await fetch(`${WEBUI_API_BASE_URL}/auths/update/profile`, {
@@ -397,9 +397,7 @@ export const updateUserProfile = async (token: string, profileImageUrl: string) 
 			'Content-Type': 'application/json',
 			...(token && { authorization: `Bearer ${token}` })
 		},
-		body: JSON.stringify({
-			profile_image_url: profileImageUrl
-		})
+		body: JSON.stringify(params)
 	})
 		.then(async (res) => {
 			if (!res.ok) throw await res.json();

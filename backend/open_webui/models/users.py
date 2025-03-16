@@ -44,6 +44,9 @@ class User(Base):
     fortune = Column(JSONField, nullable=True)
     wallet_balance = Column(JSONField, nullable=True)
     remaining_count = Column(Integer, default=10)
+    birth_place = Column(String, nullable=True)
+    wallet_address = Column(String, nullable=True)
+    birthday = Column(BigInteger)
 
 class UserSettings(BaseModel):
     ui: Optional[dict] = {}
@@ -69,9 +72,13 @@ class UserModel(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     gender: int = Gender.FEMALE
+    birthday: int
     fortune: Optional[dict] = None
     wallet_balance: Optional[dict] = None
     remaining_count: int
+    birth_place: Optional[str] = None
+    wallet_address: Optional[str] = None
+
 
 
 ####################
@@ -90,6 +97,9 @@ class UserResponse(BaseModel):
     fortune: Optional[dict] = None
     wallet_balance: Optional[dict] = None
     remaining_count: int
+    birth_place: Optional[str] = None
+    wallet_address: Optional[str] = None
+    birthday: int
 
 class UserNameResponse(BaseModel):
     id: str
@@ -122,7 +132,8 @@ class UsersTable:
         gender: int = Gender.FEMALE,
         fortune: Optional[dict] = None,
         wallet_balance: Optional[dict] = None,
-        remaining_count: int = 10
+        remaining_count: int = 10,
+        birth_place: Optional[str] = None
     ) -> Optional[UserModel]:
         with get_db() as db:
             user = UserModel(
@@ -140,6 +151,9 @@ class UsersTable:
                     "fortune": fortune,
                     "wallet_balance": wallet_balance,
                     "remaining_count": remaining_count,
+                    "birth_place": birth_place,
+                    "wallet_address": name,
+                    "birthday": int(time.time()),
                 }
             )
             result = User(**user.model_dump())
@@ -337,12 +351,12 @@ class UsersTable:
             return [user.id for user in users]
 
     def update_user_fortune_by_id(
-        self, id: str, fortune: dict, gender: int
+        self, id: str, fortune: dict
     ) -> Optional[UserModel]:
         try:
             with get_db() as db:
                 db.query(User).filter_by(id=id).update(
-                    {"fortune": fortune, "gender": gender}
+                    {"fortune": fortune}
                 )
                 db.commit()
 

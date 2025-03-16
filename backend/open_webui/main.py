@@ -900,7 +900,7 @@ async def chat_completion(
 
         metadata = {
             "user_id": user.id,
-            "wallet_address": user.name,
+            "wallet_address": user.wallet_address,
             "chat_id": form_data.pop("chat_id", None),
             "message_id": form_data.pop("id", None),
             "session_id": form_data.pop("session_id", None),
@@ -1232,12 +1232,13 @@ def transform_openai_to_dify(openai_request: Dict[str, Any], endpoint: str, raw_
         bazi_info = fortune_data.get("bazi_info", None) if fortune_data else None
         wallet_balance = user_info.wallet_balance if user_info else None
         balance_desc = wallet_balance.get("balanceDesc", None) if wallet_balance else None
-        wallet_date = user_info.created_at if user_info else None
+        wallet_date = user_info.birthday if user_info else None
+        wallet_address = user_info.wallet_address if user_info else None
 
         dify_request = {
             "inputs": {
                 'language': raw_data.get("locale", "en-US"),
-                'wallet_address': user_info.name,
+                'wallet_address': wallet_address,
                 'bazi_info': bazi_info,
                 'balance_desc': balance_desc,
                 'wallet_date': format_timestamp(wallet_date),

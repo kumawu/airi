@@ -231,6 +231,9 @@ type SessionUser = {
 	gender: number;
 	fortune: Fortune;
 	wallet_balance: WalletBalance;
+	wallet_address: string;
+	birthday: number;
+	birth_place: string;
 };
 
 

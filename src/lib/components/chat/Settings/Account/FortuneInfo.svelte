@@ -22,8 +22,8 @@
         return temp.join('、');
     })();
 
-    export let gender = $user?.gender ?? 0;
-    const walletGender = [$i18n.t('Female'), $i18n.t('Male'), $i18n.t('Unknown')];
+    // export let gender = $user?.gender ?? 0;
+    // const walletGender = [$i18n.t('Female'), $i18n.t('Male'), $i18n.t('Unknown')];
     
 </script>
 
@@ -32,18 +32,18 @@
         <img src="/assets/images/answer-sign-title.png" alt="title" class="mt-1 h-[37px]" />
         <div class="flex mt-2 gap-6">
             <div class="flex-1 flex flex-col gap-1 mt-[18px] w-full self-center text-right">
-                <div class="flex flex-[1.3] gap-3">
-                    <div class="w-[80px] text-[#717171] dark:text-[#fff]">{$i18n.t('Wallet Gender')}:</div>
+                <!-- <div class="flex flex-[1.3] gap-3">
+                    <div class="w-[80px] text-[#717171] dark:text-[#fff]">{$i18n.t('Gender')}:</div>
                     <div class="text-[#333]  dark:text-[#fff] text-left flex-1">{walletGender[gender]}</div>
-                    <!-- <select 
+                    <select 
                         bind:value={gender}
                         class="w-[100px] px-2 py-0.5 rounded text-sm bg-transparent border border-purple-400 dark:border-purple-800 outline-none"
                     >
                         <option value={0}>{$i18n.t('Female')}</option>
                         <option value={1}>{$i18n.t('Male')}</option>
                         <option value={2}>{$i18n.t('Unknown')}</option>
-                    </select> -->
-                </div>
+                    </select>
+                </div> -->
                 <div class="flex gap-3 font-[PingFang SC] text-sm leading-7">
                     <div class="w-[80px] text-[#717171] dark:text-[#fff] ">阳历:</div>
                     <div class="text-[#333]  dark:text-[#fff] text-left flex-1">{dayjs($user?.created_at * 1000).format('YYYY年MM月DD日HH时')}</div>

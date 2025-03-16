@@ -1,7 +1,7 @@
 {
 	"-1 for no limit, or a positive integer for a specific limit": "",
 	"'s', 'm', 'h', 'd', 'w' or '-1' for no expiration.": "",
-	"Wallet Gender": "Wallet Gender",
+	"Gender": "Gender",
 	"Male": "Yang",
 	"Female": "Yin",
 	"Unknown": "Unknown",

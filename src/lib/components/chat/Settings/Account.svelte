@@ -7,13 +7,15 @@
 
 	import UpdatePassword from './Account/UpdatePassword.svelte';
 	import { getGravatarUrl } from '$lib/apis/utils';
-	import { generateInitialsImage, canvasPixelTest } from '$lib/utils';
+	import { generateInitialsImage, canvasPixelTest, getFormattedTime } from '$lib/utils';
 	import { copyToClipboard } from '$lib/utils';
 	import Plus from '$lib/components/icons/Plus.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
 	import SensitiveInput from '$lib/components/common/SensitiveInput.svelte';
 	import FortuneInfo from './Account/FortuneInfo.svelte';
+	import AddressEdit from './Account/AddressEdit.svelte';
 	import { truncateName } from '$lib/utils/index';
+	import LunarSolarPicker from './Account/LunarSolarPicker.svelte';
 
 	const i18n = getContext('i18n');
 
@@ -22,34 +24,47 @@
 
 	let profileImageUrl = '';
 	let name = '';
-	let id = ''
-
-	// let webhookUrl = '';
-	let showAPIKeys = false;
-
-	let JWTTokenCopied = false;
-
-	let APIKey = '';
-	let APIKeyCopied = false;
+	let gender = 2;
+	let birthday = 0;
+	let birthdayStr = '';
+	let birthdayArr = [
+		new Date().getFullYear(),
+		new Date().getMonth() + 1,
+		new Date().getDate(),
+		new Date().getHours(),
+		new Date().getMinutes()
+	];
+	let birthPlace = '';
+	let id = '';
 	let profileImageInputElement: HTMLInputElement;
 	let saving = false;
+	let showAddressPicker = false;
+	let showBirthdayPicker = false;
+	const onChangeBirthday = (e) => {
+		birthdayArr = e?.detail?.selectedValues??[];
+		birthday = new Date(birthdayArr[0], birthdayArr[1] - 1, birthdayArr[2], birthdayArr[3]).getTime() / 1000;
+		birthdayStr = `${birthdayArr[0]}-${birthdayArr[1]}-${birthdayArr[2]} ${birthdayArr[3]}:00`;
+	}
+	const changeAddress = (e) =>{
+		console.log(e.detail.selectedValues, e.detail.selectedOptions)
+		birthPlace = [...e.detail.selectedValues].join(",");
+		// showAddressPicker = false;
+	}
 	const submitHandler = async () => {
-		// if (name !== $user.name) {
-		// 	if (profileImageUrl === generateInitialsImage($user.name) || profileImageUrl === '') {
-		// 		profileImageUrl = generateInitialsImage(name);
-		// 	}
-		// }
+		if (name !== $user.name) {
+			if (profileImageUrl === generateInitialsImage($user.name) || profileImageUrl === '') {
+				profileImageUrl = generateInitialsImage(name);
+			}
+		}
 
-		// if (webhookUrl !== $settings?.notifications?.webhook_url) {
-		// 	saveSettings({
-		// 		notifications: {
-		// 			...$settings.notifications,
-		// 			webhook_url: webhookUrl
-		// 		}
-		// 	});
-		// }
-
-		const updatedUser = await updateUserProfile(localStorage.token, profileImageUrl).catch(
+		const updatedUser = await updateUserProfile(
+			localStorage.token, 
+			{
+				"profile_image_url": profileImageUrl, 
+				name, birthday, gender, 
+				"birth_place": birthPlace
+			}
+		).catch(
 			(error) => {
 				toast.error(`${error}`);
 			}
@@ -62,25 +77,28 @@
 		return false;
 	};
 
-	// const createAPIKeyHandler = async () => {
-	// 	APIKey = await createAPIKey(localStorage.token);
-	// 	if (APIKey) {
-	// 		toast.success($i18n.t('API Key created.'));
-	// 	} else {
-	// 		toast.error($i18n.t('Failed to create API Key.'));
-	// 	}
-	// };
-
 	onMount(async () => {
 		name = $user?.name??'';
 		id = $user?.id??'';
 		profileImageUrl = $user?.profile_image_url??'';
-		// webhookUrl = $settings?.notifications?.webhook_url ?? '';
-
-		// APIKey = await getAPIKey(localStorage.token).catch((error) => {
-		// 	console.log(error);
-		// 	return '';
-		// });
+		gender = $user?.gender?? '';
+		birthPlace = $user?.birth_place?? '';
+		// 如果用户没有生日信息则使用当前时间
+		birthday = $user?.birthday ?? new Date().getTime() / 1000;
+		 // 格式化时间
+		const date = new Date(birthday * 1000);
+		birthdayArr = [
+			date.getFullYear(),
+			date.getMonth() + 1,
+			date.getDate(),
+			date.getHours(),
+		]
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const day = String(date.getDate()).padStart(2, '0');
+		const hours = String(date.getHours()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, '0');
+		birthdayStr = `${year}-${month}-${day} ${hours}:${minutes}`;
 	});
 </script>
 
@@ -188,52 +206,12 @@
 				</div>
 				<div class="flex-1 self-center flex flex-col gap-1">
 					<div class="text-xl font-semibold">	{truncateName(name)} </div>
-					<div class="text-xs text-gray-300">
+					<div class="text-xs text-gray-500">
 						{$i18n.t('Joined on')} {new Date($user?.created_at * 1000).toISOString().slice(0, 10)} {new Date($user?.created_at * 1000).toTimeString().slice(0, 5)}
 					</div>
-				</div>
-				<div class="flex-1 flex flex-col self-center gap-0.5 items-end">
-					<!-- <div> -->
-						<!-- <button
-							class=" text-xs text-center text-gray-800 dark:text-gray-400 rounded-full px-4 py-0.5 bg-gray-100 dark:bg-gray-850"
-							on:click={async () => {
-								if (canvasPixelTest()) {
-									profileImageUrl = generateInitialsImage(name);
-								} else {
-									toast.info(
-										$i18n.t(
-											'Fingerprint spoofing detected: Unable to use initials as avatar. Defaulting to default profile image.'
-										),
-										{
-											duration: 1000 * 10
-										}
-									);
-								}
-							}}>{$i18n.t('Use Initials')}</button
-						> -->
-
-						<button
-							class=" h-12 px-8 py-1.5 text-base font-medium bg-black text-white dark:bg-white dark:text-black hover:bg-purple-800  dark:hover:bg-purple-400 transition rounded-full "
-							on:click={() => {
-								profileImageInputElement.click();
-							}}
-						>{$i18n.t('Change Profile Picture')}</button>
-					<!-- </div> -->
-				</div>
-			</div>
-
-			<div class="pt-1">
-				<div class="flex flex-col w-full">
-					<div class=" mb-1 text-sm font-medium">{$i18n.t('Connected Wallet')}</div>
-					<div class="flex-1 flex">
-						<input
-							class="w-full rounded-lg py-2 px-4 text-sm bg-gray-200 dark:text-gray-300 dark:bg-gray-850 outline-none"
-							type="text"
-							disabled={true}
-							bind:value={name}
-							required
-						/>
-						<button class="-ml-10 px-2 py-1 hover:text-purple-800 dark:hover:text-purple-400 transition rounded-lg"
+					<div class="text-sm text-gray-800 flex">
+						<div class="flex-1">{$i18n.t('Connected Wallet')} <span class="bg-gray-200 px-1 py-1">{truncateName($user?.wallet_address, 50)}</span></div>
+						<button class="w-2 hover:text-purple-800 dark:hover:text-purple-400 transition rounded-lg"
 								on:click={() => {
 									copyToClipboard(name);
 									toast.success($i18n.t('Copied to clipboard'));
@@ -243,7 +221,7 @@
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 16 16"
 									fill="currentColor"
-									class="w-5 h-5"
+									class="w-4 h-4"
 								>
 									<path
 										fill-rule="evenodd"
@@ -259,209 +237,113 @@
 						</button>
 					</div>
 				</div>
-			</div>
-
-			<div class="pt-1">
-				<div class="flex flex-col w-full">
-					<div class=" mb-1 text-sm font-medium">{$i18n.t('User ID')}</div>
-					<div class="flex-1 flex">
-						<input
-							class="flex-1 w-full rounded-lg py-2 px-4 text-sm bg-gray-200 dark:text-gray-300 dark:bg-gray-850 outline-none"
-							type="text"
-							disabled={true}
-							bind:value={id}
-							required
-						/>
-					</div>
+				<div class="w-40 flex flex-col self-center gap-0.5 items-end">
+					<button
+						class=" h-12 px-8 py-1.5 text-base font-medium bg-black text-white dark:bg-white dark:text-black hover:bg-purple-800  dark:hover:bg-purple-400 transition rounded-full "
+						on:click={() => {
+							profileImageInputElement.click();
+						}}
+					>{$i18n.t('Change Profile Picture')}</button>
 				</div>
 			</div>
-
-
-			<!-- <div class="pt-2">
-				<div class="flex flex-col w-full">
-					<div class=" mb-1 text-xs font-medium">{$i18n.t('Notification Webhook')}</div>
-
-					<div class="flex-1">
-						<input
-							class="w-full rounded-lg py-2 px-4 text-sm dark:text-gray-300 dark:bg-gray-850 outline-none"
-							type="url"
-							placeholder={$i18n.t('Enter your webhook URL')}
-							bind:value={webhookUrl}
-							required
-						/>
-					</div>
-				</div>
-			</div> -->
 		</div>
 
-		<!-- <div class="py-0.5">
-			<UpdatePassword />
-		</div> -->
+		<div class="py-1" id="profile-settings">
+			<div class="space-y-3 flex flex-col">
+				<div class="grid grid-cols-3 gap-3">
+					<div class="flex col-span-1 items-center">
+						<label class="w-16 text-right text-sm font-medium text-gray-700 mr-3">{$i18n.t('姓名')}</label>
+						<input
+							type="text"
+							bind:value={name}
+							required
+							maxlength="8"
+							placeholder={$i18n.t("填写您的姓名")}
+							class="w-40 px-4 py-1.5 border rounded-lg focus:ring-1 focus:ring-orange-400 focus:border-orange-400 focus:outline-none transition-colors"
+						/>
+					</div>
+					<div class="flex col-span-2 items-center">
+						<label class="w-16 text-right text-sm font-medium text-gray-700 mr-3">{$i18n.t('出生时间')}</label>
+						{#if !showBirthdayPicker}
+							<button
+								show={!showBirthdayPicker}
+								type="button"
+								on:click={() => showBirthdayPicker = true}
+								class="px-4 py-1.5 text-left border rounded-lg focus:ring-2 focus:ring-amber-500 "
+							>
+								{birthdayStr  || $i18n.t("点击选择生日")}
+							</button>
+						{/if}
+						<LunarSolarPicker 
+							show={showBirthdayPicker} 
+							type = 'solar'
+							curTime={birthdayArr} 
+							on:change={onChangeBirthday}
+						/>
+					</div>
+					<div class="flex col-span-1 items-center">
+						<label class="w-16 text-right text-sm font-medium text-gray-700 mr-3">{$i18n.t('Gender')}</label>
+						<div class="w-40 flex space-x-2">
+							<label class="flex items-center">
+								<input
+									type="radio"
+									bind:group={gender}
+									value=1
+									class="hidden"
+									on:click={() => {
+										gender = 1;
+									}}
+								/>
+								<div class={`px-4 py-1.5 rounded-full cursor-pointer transition-colors ${gender === 1 ? 'bg-amber-400 text-white' : 'bg-gray-100 text-gray-600'}`}>{$i18n.t('Male')}</div>
+							</label>
+							<label class="flex items-center">
+								<input
+									type="radio"
+									bind:group={gender}
+									value=0
+									class="hidden"
+									on:click={() => {
+										gender = 0;
+									}}
+								/>
+								<div class={`px-4 py-1.5 rounded-full cursor-pointer transition-colors ${gender === 0? 'bg-amber-400 text-white' : 'bg-gray-100 text-gray-600'}`}>{$i18n.t('Female')}</div>
+							</label>
+						</div>
+					</div>
+					<div class="flex col-span-2 items-center">
+						<label class="w-16 text-right text-sm font-medium text-gray-700 mr-3">{$i18n.t('出生地点')}</label>
+						{#if !showAddressPicker}
+							<button
+								type="button"
+								on:click={() => showAddressPicker = true}
+								class="w-80 px-4 py-1.5 text-left border rounded-lg focus:ring-2 focus:ring-amber-500 "
+							>
+								{birthPlace || $i18n.t("点击选择省市区")}
+							</button>
+						{/if}
+						<AddressEdit show={showAddressPicker} val={birthPlace.split(',')} on:change={changeAddress} />
+					</div>
+				</div>
+			</div>
+			
+			<p class="text-gray-500 text-xs mt-3 text-center">
+			温馨提示：若不确定出生日期，时间可填写12:00；出生地点可选择默认地址，对结果可能造成一定影响
+			</p>
+			<!-- {#if showAddressPicker}
+				<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+					<div class="bg-white rounded-lg p-4 w-full max-w-md mx-4">
+						<h3 class="text-lg font-medium mb-4">选择地址</h3>
+						<AddressEdit show={showAddressPicker} title="出生地址" on:confirm={changeAddress} on:cancel={() => showAddressPicker = false} />
+					</div>
+				</div>
+			{/if} -->
+		</div>
 
 		<hr class=" dark:border-gray-850 my-4" />
-
-		<!-- <div class="flex justify-between items-center text-sm">
-			<div class="  font-medium">{$i18n.t('API keys')}</div>
-			<button
-				class=" text-xs font-medium text-gray-500"
-				type="button"
-				on:click={() => {
-					showAPIKeys = !showAPIKeys;
-				}}>{showAPIKeys ? $i18n.t('Hide') : $i18n.t('Show')}</button
-			>
-		</div> -->
 		<div class="flex flex-col gap-4" id="fortune-info">
 			<!-- <div class=" mb-1 text-xs font-medium">{$i18n.t('命局综述')}</div> -->
 			<FortuneInfo />
 		</div>
-		<!-- {#if showAPIKeys}
-			<div class="flex flex-col gap-4">
-				<div class="justify-between w-full">
-					<div class="flex justify-between w-full">
-						<div class="self-center text-xs font-medium">{$i18n.t('JWT Token')}</div>
-					</div>
-
-					<div class="flex mt-2">
-						<SensitiveInput value={localStorage.token} readOnly={true} />
-
-						<button
-							class="ml-1.5 px-1.5 py-1 dark:hover:bg-gray-850 transition rounded-lg"
-							on:click={() => {
-								copyToClipboard(localStorage.token);
-								JWTTokenCopied = true;
-								setTimeout(() => {
-									JWTTokenCopied = false;
-								}, 2000);
-							}}
-						>
-							{#if JWTTokenCopied}
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-									class="w-4 h-4"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-										clip-rule="evenodd"
-									/>
-								</svg>
-							{:else}
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 16 16"
-									fill="currentColor"
-									class="w-4 h-4"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z"
-										clip-rule="evenodd"
-									/>
-									<path
-										fill-rule="evenodd"
-										d="M3 6a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H3Zm1.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5ZM4 11.75a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z"
-										clip-rule="evenodd"
-									/>
-								</svg>
-							{/if}
-						</button>
-					</div>
-				</div>
-				{#if $config?.features?.enable_api_key ?? true}
-					<div class="justify-between w-full">
-						<div class="flex justify-between w-full">
-							<div class="self-center text-xs font-medium">{$i18n.t('API Key')}</div>
-						</div>
-						<div class="flex mt-2">
-							{#if APIKey}
-								<SensitiveInput value={APIKey} readOnly={true} />
-
-								<button
-									class="ml-1.5 px-1.5 py-1 dark:hover:bg-gray-850 transition rounded-lg"
-									on:click={() => {
-										copyToClipboard(APIKey);
-										APIKeyCopied = true;
-										setTimeout(() => {
-											APIKeyCopied = false;
-										}, 2000);
-									}}
-								>
-									{#if APIKeyCopied}
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 20 20"
-											fill="currentColor"
-											class="w-4 h-4"
-										>
-											<path
-												fill-rule="evenodd"
-												d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-												clip-rule="evenodd"
-											/>
-										</svg>
-									{:else}
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 16 16"
-											fill="currentColor"
-											class="w-4 h-4"
-										>
-											<path
-												fill-rule="evenodd"
-												d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z"
-												clip-rule="evenodd"
-											/>
-											<path
-												fill-rule="evenodd"
-												d="M3 6a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H3Zm1.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5ZM4 11.75a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z"
-												clip-rule="evenodd"
-											/>
-										</svg>
-									{/if}
-								</button>
-
-								<Tooltip content={$i18n.t('Create new key')}>
-									<button
-										class=" px-1.5 py-1 dark:hover:bg-gray-850transition rounded-lg"
-										on:click={() => {
-											createAPIKeyHandler();
-										}}
-									>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke-width="2"
-											stroke="currentColor"
-											class="size-4"
-										>
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-											/>
-										</svg>
-									</button>
-								</Tooltip>
-							{:else}
-								<button
-									class="flex gap-1.5 items-center font-medium px-3.5 py-1.5 rounded-lg bg-gray-100/70 hover:bg-gray-100 dark:bg-gray-850 dark:hover:bg-gray-850 transition"
-									on:click={() => {
-										createAPIKeyHandler();
-									}}
-								>
-									<Plus strokeWidth="2" className=" size-3.5" />
-
-									{$i18n.t('Create new secret key')}</button
-								>
-							{/if}
-						</div>
-					</div>
-				{/if}
-			</div>
-		{/if} -->
 	</div>
 
 	<div class="flex justify-end pt-3">
@@ -485,7 +367,7 @@
 					{$i18n.t('Saving')}
 				</div>
 			{:else}
-				{$i18n.t('Save')}
+				{$i18n.t('保存个人信息')}
 			{/if}
 		</button>
 	</div>

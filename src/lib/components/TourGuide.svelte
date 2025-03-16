@@ -24,23 +24,30 @@
                 window.dispatchEvent(event);
             }
 		},
+		{
+			element: '#chat-wrapper',
+			title: $i18n.t('聊天区域'),
+			content: $i18n.t('在这里输入你想说的话，可以是问题、指令或者任何你想与AI讨论的内容。'),
+            ignoreCheck: false,
+            action: async () => {
+				// await showSettings.set(true);
+                await showSettings.set(false);
+            }
+		},
         {
 			element: '#fortune-info',
-			title: $i18n.t('点击【账号设置】会看到你的运势'),
+			title: $i18n.t('【账号设置】中会看到你的运势'),
 			content: $i18n.t('这里显示了你的运势信息'),
             ignoreCheck: true,
             action: async () => {
                 await showSettings.set(true);
             }
 		},
-        {
-			element: '#chat-wrapper',
-			title: $i18n.t('聊天区域，Have fun!'),
-			content: $i18n.t('在这里输入你想说的话，可以是问题、指令或者任何你想与AI讨论的内容。'),
-            ignoreCheck: false,
-            action: async () => {
-                await showSettings.set(false);
-            }
+		{
+			element: '#profile-settings',
+			title: $i18n.t('从设置你的个人信息开始'),
+			content: $i18n.t('在这里设置你的个人信息，便于AI更好的理解你, 【保存个人信息】后会重新计算你的运势'),
+            ignoreCheck: true
 		}
 	];
 
@@ -105,9 +112,19 @@
                                 {
                                     name: 'flip',
                                     options: {
-                                        fallbackPlacements: ['top', 'right', 'bottom', 'left']
+                                        fallbackPlacements: ['top', 'right', 'bottom', 'left'],
+										padding: 20
                                     }
                                 },
+                                {
+                                    name: 'preventOverflow',
+                                    options: {
+                                        boundary: 'viewport', // 使用视口作为边界而不是文档体
+                                        padding: 20, // 增加边距
+                                        altAxis: true, // 同时防止两个轴上的溢出
+                                        tether: false // 禁用tether效果，优先保证在视口内
+                                    }
+                                }
                             ]
                         },
                     });

@@ -57,6 +57,9 @@ class UserResponse(BaseModel):
     gender: int
     fortune: Optional[dict] = None
     wallet_balance: Optional[dict] = None
+    birthday: Optional[int] = None
+    wallet_address: Optional[str] = None
+    birth_place: Optional[str] = None
 
 
 class SigninResponse(Token, UserResponse):
@@ -79,8 +82,10 @@ class ProfileImageUrlForm(BaseModel):
 
 class UpdateProfileForm(BaseModel):
     profile_image_url: str
-    # name: str
-    # gender: int
+    name: str
+    gender: int
+    birthday: int
+    birth_place: str
 
 
 class UpdatePasswordForm(BaseModel):

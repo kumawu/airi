@@ -120,6 +120,9 @@ async def get_session_user(
         "gender": user.gender,
         "fortune": user.fortune,
         "wallet_balance": user.wallet_balance,
+        "birthday": user.birthday,
+        "wallet_address": user.wallet_address,
+        "birth_place": user.birth_place,
     }
 
 
@@ -136,7 +139,13 @@ async def update_profile(
     if session_user:
         user = Users.update_user_by_id(
             session_user.id,
-            {"profile_image_url": form_data.profile_image_url},
+            {
+                "profile_image_url": form_data.profile_image_url,
+                "name": form_data.name,
+                "birthday": form_data.birthday,
+                "birth_place": form_data.birth_place,
+                "gender": form_data.gender,
+            },
         )
         if user:
             await fetch_and_update_fortune(user)
@@ -309,6 +318,9 @@ async def ldap_auth(request: Request, response: Response, form_data: LdapForm):
                     "gender": user.gender,
                     "fortune": user.fortune,
                     "wallet_balance": user.wallet_balance,
+                    "birthday": user.birthday,
+                    "wallet_address": user.wallet_address,
+                    "birth_place": user.birth_place,
                 }
             else:
                 raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -416,6 +428,9 @@ async def signin(request: Request, response: Response, form_data: SigninForm):
             "gender": user.gender,
             "fortune": user.fortune,
             "wallet_balance": user.wallet_balance,
+            "birthday": user.birthday,
+            "wallet_address": user.wallet_address,
+            "birth_place": user.birth_place,
         }
     else:
         raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -531,6 +546,9 @@ async def signup(request: Request, response: Response, form_data: SignupForm):
                 "gender": user.gender,
                 "fortune": user.fortune,
                 "wallet_balance": user.wallet_balance,
+                "birthday": user.birthday,
+                "wallet_address": user.wallet_address,
+                "birth_place": user.birth_place,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)
@@ -606,6 +624,9 @@ async def add_user(form_data: AddUserForm, user=Depends(get_admin_user)):
                 "gender": user.gender,
                 "fortune": user.fortune,
                 "wallet_balance": user.wallet_balance,
+                "birthday": user.birthday,
+                "wallet_address": user.wallet_address,
+                "birth_place": user.birth_place,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)
