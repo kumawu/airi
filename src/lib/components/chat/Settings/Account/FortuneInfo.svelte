@@ -44,10 +44,10 @@
                         <option value={2}>{$i18n.t('Unknown')}</option>
                     </select>
                 </div> -->
-                <div class="flex gap-3 font-[PingFang SC] text-sm leading-7">
+                <!-- <div class="flex gap-3 font-[PingFang SC] text-sm leading-7">
                     <div class="w-[80px] text-[#717171] dark:text-[#fff] ">阳历:</div>
                     <div class="text-[#333]  dark:text-[#fff] text-left flex-1">{dayjs($user?.created_at * 1000).format('YYYY年MM月DD日HH时')}</div>
-                </div>
+                </div> -->
 
                 <div class="flex gap-3 font-[PingFang SC] text-sm leading-7 ">
                     <div class="w-[80px]  text-[#717171] dark:text-[#fff]">五行强弱:</div>
