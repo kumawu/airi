@@ -31,7 +31,7 @@
     <div class="rounded-t-[15px] flex flex-col items-center mb-1.5" >
         <img src="/assets/images/answer-sign-title.png" alt="title" class="mt-1 h-[37px]" />
         <div class="flex mt-2 gap-6">
-            <div class="flex-1 flex flex-col gap-1 mt-[18px] w-full self-center text-right">
+            <div class="flex-1 flex flex-col gap-2 mt-[18px] w-full self-center text-right">
                 <!-- <div class="flex flex-[1.3] gap-3">
                     <div class="w-[80px] text-[#717171] dark:text-[#fff]">{$i18n.t('Gender')}:</div>
                     <div class="text-[#333]  dark:text-[#fff] text-left flex-1">{walletGender[gender]}</div>
