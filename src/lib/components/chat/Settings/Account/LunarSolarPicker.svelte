@@ -179,8 +179,8 @@
 </script>
 
 {#if visible}
-<div class="w-[75%]" on:click={cancel}>
-  <div class=" w-full max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-t-xl" on:click|stopPropagation>
+<div class="w-[75%]" >
+  <div class=" w-full max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-t-xl">
     <div class="relative">
       <!-- <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
         <button class="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg" on:click={cancel}>取消</button>
@@ -205,7 +205,7 @@
         {#if curType === 'lunar'}
           {#each columnsLunar as column, i}
             <select
-              class="{i === 0 ? 'col-span-3' : 'col-span-2'} h-8 py-1 px-2.5 text-sm rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 appearance-none bg-[url('data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e')] bg-[right_0.5rem_center] bg-no-repeat bg-[length:1.5em_1.5em]"
+              class="{i === 0 ? 'col-span-3' : 'col-span-2'} h-8 py-1 px-2.5 text-sm rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 appearance-none bg-[url('data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e')] bg-[right_0.5rem_center] bg-no-repeat bg-[length:1.5em_1.5em]"
               value={lunarVal[i]}
               on:change={(e) => handleChange(i, e)}
             >
@@ -217,7 +217,7 @@
         {:else}
           {#each columnsSolar as column, i}
             <select
-              class="{i === 0 ? 'col-span-3' : 'col-span-2'} h-8 py-1 px-2.5 text-sm rounded-lg text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 appearance-none bg-[url('data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e')] bg-[right_0.5rem_center] bg-no-repeat bg-[length:1.5em_1.5em]"
+              class="{i === 0 ? 'col-span-3' : 'col-span-2'} h-8 py-1 px-2.5 text-sm rounded-lg text-gray-900 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 appearance-none bg-[url('data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e')] bg-[right_0.5rem_center] bg-no-repeat bg-[length:1.5em_1.5em]"
               value={solarVal[i]}
               on:change={(e) => handleChange(i, e)}
             >

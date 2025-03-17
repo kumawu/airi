@@ -113,7 +113,7 @@
       {#each [0, 1, 2] as level, index}
         <div class="flex flex-col">
           <select
-            class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+            class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 dark:text-white border-gray-200 dark:border-gray-700"
             value={modelVal[index]}
             on:change={(e) => { handleChange(index, e)}}
           >

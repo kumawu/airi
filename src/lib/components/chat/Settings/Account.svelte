@@ -210,7 +210,7 @@
 						{$i18n.t('Joined on')} {new Date($user?.created_at * 1000).toISOString().slice(0, 10)} {new Date($user?.created_at * 1000).toTimeString().slice(0, 5)}
 					</div>
 					<div class="text-sm text-gray-800 flex">
-						<div class="flex-1">{$i18n.t('Connected Wallet')} <span class="bg-gray-200 px-1 py-1">{truncateName($user?.wallet_address, 50)}</span></div>
+						<div class="flex-1 text-gray-700 dark:text-gray-200">{$i18n.t('Connected Wallet')} <span class="bg-gray-200 px-1 py-0.5  border rounded-lg bg-white dark:bg-gray-800 dark:text-white border-gray-200 dark:border-gray-700  ">{truncateName($user?.wallet_address, 50)}</span></div>
 						<button class="w-2 hover:text-purple-800 dark:hover:text-purple-400 transition rounded-lg"
 								on:click={() => {
 									copyToClipboard(name);
@@ -221,7 +221,7 @@
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 16 16"
 									fill="currentColor"
-									class="w-4 h-4"
+									class="w-4 h-4 dark:text-white"
 								>
 									<path
 										fill-rule="evenodd"
@@ -252,18 +252,18 @@
 			<div class="space-y-3 flex flex-col">
 				<div class="grid grid-cols-3 gap-3">
 					<div class="flex col-span-1 items-center">
-						<label class="w-16 text-right text-sm font-medium text-gray-700 mr-3">{$i18n.t('姓名')}</label>
+						<label class="w-16 text-right text-sm font-medium text-gray-700 dark:text-gray-200 mr-3">{$i18n.t('姓名')}</label>
 						<input
 							type="text"
 							bind:value={name}
 							required
 							maxlength="8"
 							placeholder={$i18n.t("填写您的姓名")}
-							class="w-40 px-4 py-1.5 border rounded-lg focus:ring-1 focus:ring-orange-400 focus:border-orange-400 focus:outline-none transition-colors"
+							class="w-40 px-4 py-1.5 border rounded-lg bg-white dark:bg-gray-800 dark:text-white border-gray-200 dark:border-gray-700 focus:ring-1 focus:ring-orange-400 focus:border-orange-400 focus:outline-none transition-colors"
 						/>
 					</div>
 					<div class="flex col-span-2 items-center">
-						<label class="w-16 text-right text-sm font-medium text-gray-700 mr-3">{$i18n.t('出生时间')}</label>
+						<label class="w-16 text-right text-sm font-medium text-gray-700 dark:text-gray-200 mr-3">{$i18n.t('出生时间')}</label>
 						{#if !showBirthdayPicker}
 							<button
 								show={!showBirthdayPicker}
@@ -282,7 +282,7 @@
 						/>
 					</div>
 					<div class="flex col-span-1 items-center">
-						<label class="w-16 text-right text-sm font-medium text-gray-700 mr-3">{$i18n.t('Gender')}</label>
+						<label class="w-16 text-right text-sm font-medium text-gray-700 dark:text-gray-200 mr-3">{$i18n.t('Gender')}</label>
 						<div class="w-40 flex space-x-2">
 							<label class="flex items-center">
 								<input
@@ -294,7 +294,7 @@
 										gender = 1;
 									}}
 								/>
-								<div class={`px-4 py-1.5 rounded-full cursor-pointer transition-colors ${gender === 1 ? 'bg-amber-400 text-white' : 'bg-gray-100 text-gray-600'}`}>{$i18n.t('Male')}</div>
+								<div class={`px-4 py-1.5 rounded-full cursor-pointer transition-colors ${gender === 1 ? 'bg-amber-400 text-white ' : 'bg-gray-100 dark:bg-gray-600 text-gray-900 dark:text-white'}`}>{$i18n.t('Male')}</div>
 							</label>
 							<label class="flex items-center">
 								<input
@@ -306,12 +306,12 @@
 										gender = 0;
 									}}
 								/>
-								<div class={`px-4 py-1.5 rounded-full cursor-pointer transition-colors ${gender === 0? 'bg-amber-400 text-white' : 'bg-gray-100 text-gray-600'}`}>{$i18n.t('Female')}</div>
+								<div class={`px-4 py-1.5 rounded-full cursor-pointer transition-colors ${gender === 0? 'bg-amber-400 text-white' : 'bg-gray-100 dark:bg-gray-600 text-gray-900 dark:text-white'}`}>{$i18n.t('Female')}</div>
 							</label>
 						</div>
 					</div>
 					<div class="flex col-span-2 items-center">
-						<label class="w-16 text-right text-sm font-medium text-gray-700 mr-3">{$i18n.t('出生地点')}</label>
+						<label class="w-16 text-right text-sm font-medium text-gray-700 dark:text-gray-200 mr-3">{$i18n.t('出生地点')}</label>
 						{#if !showAddressPicker}
 							<button
 								type="button"
