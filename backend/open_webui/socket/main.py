@@ -158,6 +158,9 @@ async def connect(sid, environ, auth):
             else:
                 USER_POOL[user.id] = [sid]
 
+            # 将用户加入以其ID命名的房间
+            await sio.enter_room(sid, user.id)
+
             # print(f"user {user.name}({user.id}) connected with session ID {sid}")
             await sio.emit("user-list", {"user_ids": list(USER_POOL.keys())})
             await sio.emit("usage", {"models": get_models_in_use()})
@@ -183,6 +186,9 @@ async def user_join(sid, data):
         USER_POOL[user.id] = USER_POOL[user.id] + [sid]
     else:
         USER_POOL[user.id] = [sid]
+        
+    # 将用户加入以其ID命名的房间
+    await sio.enter_room(sid, user.id)
 
     # Join all the channels
     channels = Channels.get_channels_by_user_id(user.id)

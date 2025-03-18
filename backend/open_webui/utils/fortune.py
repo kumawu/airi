@@ -86,6 +86,7 @@ async def fetch_and_update_fortune(user):
                 await sio.emit(
                     'fortune_updated',
                     {"user_id": user.id, "fortune": fortune_data},
+                    room=user.id  # 使用用户ID作为房间名
                 )
             else:
                 log.error(f"Dify API returned error: {response.status_code}, {response.text}")
