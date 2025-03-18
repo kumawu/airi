@@ -1244,7 +1244,7 @@ def transform_openai_to_dify(openai_request: Dict[str, Any], endpoint: str, raw_
                 'bazi_info': bazi_info,
                 'balance_desc': balance_desc,
                 'birthday_date': format_timestamp(birthday_date),
-                'sex': gender,
+                'sex': str(gender),
                 'wallet_date': format_timestamp(wallet_date),
             },
             "query": messages[-1]["content"] if messages else "",
@@ -1396,7 +1396,7 @@ async def chat_completions(request: Request):
             )
             
             if response.status_code != 200:
-                error_msg = f"Dify API returned error: {response.status_code}"
+                error_msg = f"Dify API returned error: {response.text}"
                 log.error(error_msg)
                 return JSONResponse(
                     status_code=response.status_code,
