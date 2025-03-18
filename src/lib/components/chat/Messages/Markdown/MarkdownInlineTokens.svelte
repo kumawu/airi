@@ -34,7 +34,7 @@
 			{token.text}
 		{/if}
 	{:else if token.type === 'link'}
-		{#if token.href.includes('https://www.gmgn.cc/')}
+		{#if token.href.includes('https://www.gmgn.cc/') || token.href.includes('amazonaws.com/ai3c.ai-sg')}
 			<iframe
 				src={token.href}
 				title="GMGN Website"
