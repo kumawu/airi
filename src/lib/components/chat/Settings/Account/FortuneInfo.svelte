@@ -31,7 +31,16 @@
     <div class="rounded-t-[15px] flex flex-col items-center mb-1.5" >
         <img src="/assets/images/answer-sign-title.png" alt="title" class="mt-1 h-[37px]" />
         <div class="flex mt-2 gap-6">
-            <div class="flex-1 flex flex-col gap-2 mt-[18px] w-full self-center text-right">
+            <div class="flex-1 flex flex-col gap-3 mt-[18px] w-full self-center text-right">
+                <div class="flex gap-3 font-[PingFang SC] font-medium text-md items-center self-center text-[#b39961] mb-3">
+                    <svg width="32" height="4" viewBox="0 0 32 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 0L3.73205 1V3L2 4L0.267949 3V1L2 0Z" fill="#CE994F"/>
+                        <line y1="-0.25" x2="20" y2="-0.25" transform="matrix(1 0 0 -1 12 2)" stroke="#CE994F" stroke-width="0.5"/>
+                    </svg>专业解盘，敬请期待！<svg width="32" height="4" viewBox="0 0 32 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M30 0L28.2679 1V3L30 4L31.7321 3V1L30 0Z" fill="#CE994F"/>
+                        <line x1="20" y1="2.25" y2="2.25" stroke="#CE994F" stroke-width="0.5"/>
+                    </svg>
+                </div>
                 <!-- <div class="flex flex-[1.3] gap-3">
                     <div class="w-[80px] text-[#717171] dark:text-[#fff]">{$i18n.t('Gender')}:</div>
                     <div class="text-[#333]  dark:text-[#fff] text-left flex-1">{walletGender[gender]}</div>
