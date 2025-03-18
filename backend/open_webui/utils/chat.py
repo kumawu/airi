@@ -17,6 +17,7 @@ from open_webui.models.users import UserModel, Users
 from open_webui.socket.main import (
     get_event_call,
     get_event_emitter,
+    sio,
 )
 from open_webui.functions import generate_function_chat_completion
 
@@ -287,7 +288,14 @@ async def chat_completed(request: Request, form_data: dict, user: Any):
             return Exception(f"Error: {e}")
     # 减少用户剩余次数
     if user.role == "user":
-        res = Users.update_user_remaining_count_by_id(user.id, user.remaining_count - 1)
+        remaining_count = user.remaining_count - 1
+        res = Users.update_user_remaining_count_by_id(user.id, remaining_count)
+        # 发送 socket.io 事件
+        await sio.emit(
+            'remaining_count_updated',
+            {"user_id": user.id, "remaining_count": remaining_count},
+            room=user.id
+        )
         
     return data
 

@@ -48,6 +48,7 @@ async def fetch_and_update_wallet_balance(user):
                 await sio.emit(
                     'wallet_balance_updated',
                     {"user_id": user.id, "wallet_balance": wallet_balance_data},
+                    room=user.id
                 )
             else:
                 log.error(f"Dify API returned error: {response.status_code}, {response.text}")

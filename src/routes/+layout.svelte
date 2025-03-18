@@ -151,13 +151,34 @@
 				return;
 			}
 			
-			const updatedUser = { ...$user, fortune: data['wallet_balance'] };
+			const updatedUser = { ...$user, wallet_balance: data['wallet_balance'] };
 			user.set(updatedUser);
 		});
-		// _socket.on('wallet', (data) => {
-		// 	console.log('new-wallet-data', data);
-		// 	wallet.set(data['wallet']);
-		// });
+
+		_socket.on('remaining_count_updated', (data) => {
+			// 更新 user store 中的 remaining_count 数据
+			console.log('remaining_count', data, $user);
+			
+			if (!$user) {
+				console.warn('用户数据为空，尝试延迟处理更新');
+				// 延迟一段时间后再次尝试更新
+				setTimeout(() => {
+					if ($user) {
+						console.log('延迟后用户数据已加载，更新数据');
+						const updatedUser = { ...$user, remaining_count: data['remaining_count'] };
+						user.set(updatedUser);
+					} else {
+						console.error('延迟后用户数据仍为空，无法更新数据');
+						// 将数据保存到 localStorage，以便后续使用
+						localStorage.setItem('pendingRemainingCount', JSON.stringify(data['remaining_count']));
+					}
+				}, 2000); // 延迟2秒再尝试
+				return;
+			}
+			
+			const updatedUser = { ...$user, remaining_count: data['remaining_count'] };
+			user.set(updatedUser);
+		});
 	};
 
 	const chatEventHandler = async (event) => {
@@ -384,6 +405,19 @@
 								localStorage.removeItem('pendingWalletBalance'); // 清除已处理的数据
 							} catch (e) {
 								console.error('解析待处理钱包数据失败', e);
+							}
+						}
+
+						// 检查是否有待处理的剩余次数数据
+						const pendingRemainingCount = localStorage.getItem('pendingRemainingCount');
+						if (pendingRemainingCount) {
+							try {
+								const remaining_count = JSON.parse(pendingRemainingCount);
+								const updatedUser = { ...sessionUser, remaining_count: remaining_count };
+								user.set(updatedUser);
+								localStorage.removeItem('pendingRemainingCount'); // 清除已处理的数据
+							} catch (e) {
+								console.error('解析待处理剩余次数数据失败', e);
 							}
 						}
 						
