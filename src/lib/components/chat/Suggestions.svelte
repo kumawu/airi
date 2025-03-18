@@ -22,7 +22,7 @@
 	</div>
 {/if}
 
-<div class=" h-40 max-h-full overflow-auto scrollbar-none {className}">
+<div class=" h-60 max-h-full overflow-auto scrollbar-none {className}">
 	{#each prompts as prompt, promptIdx}
 		<button
 			class="flex flex-col flex-1 shrink-0 w-full justify-between px-3 py-2 rounded-xl bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition group"
@@ -50,4 +50,16 @@
 			</div>
 		</button>
 	{/each}
+	<div
+		class="flex flex-col flex-1 shrink-0 w-full justify-between px-3 py-2 rounded-xl bg-transparent hover:bg-purple-50 dark:hover:bg-white/5 transition group"
+	>
+		<div class="flex flex-col text-left">
+			<div
+				class="  font-medium dark:text-gray-300 dark:group-hover:text-gray-200 transition line-clamp-1"
+			>
+				{$i18n.t('专业解盘')}
+			</div>
+			<div class="text-xs text-gray-500 font-normal line-clamp-1">{$i18n.t('👀敬请期待！🎉')}</div>
+		</div>
+	</div>
 </div>
