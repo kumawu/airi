@@ -123,6 +123,7 @@ async def get_session_user(
         "birthday": user.birthday,
         "wallet_address": user.wallet_address,
         "birth_place": user.birth_place,
+        "remaining_count": user.remaining_count,
     }
 
 
@@ -321,6 +322,7 @@ async def ldap_auth(request: Request, response: Response, form_data: LdapForm):
                     "birthday": user.birthday,
                     "wallet_address": user.wallet_address,
                     "birth_place": user.birth_place,
+                    "remaining_count": user.remaining_count,
                 }
             else:
                 raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -431,6 +433,7 @@ async def signin(request: Request, response: Response, form_data: SigninForm):
             "birthday": user.birthday,
             "wallet_address": user.wallet_address,
             "birth_place": user.birth_place,
+            "remaining_count": user.remaining_count,
         }
     else:
         raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -549,6 +552,7 @@ async def signup(request: Request, response: Response, form_data: SignupForm):
                 "birthday": user.birthday,
                 "wallet_address": user.wallet_address,
                 "birth_place": user.birth_place,
+                "remaining_count": user.remaining_count,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)
@@ -627,6 +631,7 @@ async def add_user(form_data: AddUserForm, user=Depends(get_admin_user)):
                 "birthday": user.birthday,
                 "wallet_address": user.wallet_address,
                 "birth_place": user.birth_place,
+                "remaining_count": user.remaining_count,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)

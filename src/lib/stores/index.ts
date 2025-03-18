@@ -234,6 +234,7 @@ type SessionUser = {
 	wallet_address: string;
 	birthday: number;
 	birth_place: string;
+	remaining_count: number;
 };
 
 

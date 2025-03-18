@@ -60,6 +60,7 @@ class UserResponse(BaseModel):
     birthday: Optional[int] = None
     wallet_address: Optional[str] = None
     birth_place: Optional[str] = None
+    remaining_count: Optional[int] = None
 
 
 class SigninResponse(Token, UserResponse):

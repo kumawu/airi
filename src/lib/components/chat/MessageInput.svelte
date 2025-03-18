@@ -1266,6 +1266,10 @@
 								</div>
 							</div>
 						</form>
+						<div class="flex justify-center items-center text-sm text-gray-500 dark:text-gray-400 py-1.5 mt-1">
+							<span>{$i18n.t('剩余可用聊天次数：')}</span>
+							<span class="ml-1 px-2 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full font-medium">{$_user?.remaining_count}</span>
+						</div>
 					{/if}
 				</div>
 			</div>
