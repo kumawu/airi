@@ -1895,7 +1895,7 @@
 	}}
 />
 
-{#if isLoading}
+<!-- {#if isLoading}
 	<div class="fixed inset-0 flex items-center justify-center z-50 backdrop-blur bg-black/20">
 		<div class="relative w-[80vw] max-w-[1280px] aspect-[1280/768] rounded-xl overflow-hidden">
 			<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/40 backdrop-blur-sm" />
@@ -1911,7 +1911,7 @@
 			/>
 		</div>
 	</div>
-{/if}
+{/if} -->
 
 <div
 	class="h-screen max-h-[100dvh] transition-width duration-200 ease-in-out {$showSidebar
