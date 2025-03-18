@@ -1232,8 +1232,10 @@ def transform_openai_to_dify(openai_request: Dict[str, Any], endpoint: str, raw_
         bazi_info = fortune_data.get("bazi_info", None) if fortune_data else None
         wallet_balance = user_info.wallet_balance if user_info else None
         balance_desc = wallet_balance.get("balanceDesc", None) if wallet_balance else None
-        wallet_date = user_info.birthday if user_info else None
         wallet_address = user_info.wallet_address if user_info else None
+        birthday_date = user_info.birthday if user_info else None
+        wallet_date = user_info.created_at if user_info else None
+        gender = user_info.gender if user_info else 0
 
         dify_request = {
             "inputs": {
@@ -1241,6 +1243,8 @@ def transform_openai_to_dify(openai_request: Dict[str, Any], endpoint: str, raw_
                 'wallet_address': wallet_address,
                 'bazi_info': bazi_info,
                 'balance_desc': balance_desc,
+                'birthday_date': format_timestamp(birthday_date),
+                'sex': gender,
                 'wallet_date': format_timestamp(wallet_date),
             },
             "query": messages[-1]["content"] if messages else "",
