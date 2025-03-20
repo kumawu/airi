@@ -94,7 +94,7 @@
 				}}
 			/>
 		{:else if command?.charAt(0) === '@'}
-			<Models
+			<!-- <Models
 				bind:this={commandElement}
 				{command}
 				on:select={(e) => {
@@ -105,7 +105,7 @@
 						data: e.detail
 					});
 				}}
-			/>
+			/> -->
 		{/if}
 	{:else}
 		<div
