@@ -880,20 +880,20 @@
 													if (clipboardData && clipboardData.items) {
 														for (const item of clipboardData.items) {
 															if (item.type.indexOf('image') !== -1) {
-																const blob = item.getAsFile();
-																const reader = new FileReader();
+																// const blob = item.getAsFile();
+																// const reader = new FileReader();
 
-																reader.onload = function (e) {
-																	files = [
-																		...files,
-																		{
-																			type: 'image',
-																			url: `${e.target.result}`
-																		}
-																	];
-																};
+																// reader.onload = function (e) {
+																// 	files = [
+																// 		...files,
+																// 		{
+																// 			type: 'image',
+																// 			url: `${e.target.result}`
+																// 		}
+																// 	];
+																// };
 
-																reader.readAsDataURL(blob);
+																// reader.readAsDataURL(blob);
 															} else if (item.type === 'text/plain') {
 																if ($settings?.largeTextAsFile ?? false) {
 																	const text = clipboardData.getData('text/plain');
@@ -1073,20 +1073,20 @@
 												if (clipboardData && clipboardData.items) {
 													for (const item of clipboardData.items) {
 														if (item.type.indexOf('image') !== -1) {
-															const blob = item.getAsFile();
-															const reader = new FileReader();
+															// const blob = item.getAsFile();
+															// const reader = new FileReader();
 
-															reader.onload = function (e) {
-																files = [
-																	...files,
-																	{
-																		type: 'image',
-																		url: `${e.target.result}`
-																	}
-																];
-															};
+															// reader.onload = function (e) {
+															// 	files = [
+															// 		...files,
+															// 		{
+															// 			type: 'image',
+															// 			url: `${e.target.result}`
+															// 		}
+															// 	];
+															// };
 
-															reader.readAsDataURL(blob);
+															// reader.readAsDataURL(blob);
 														} else if (item.type === 'text/plain') {
 															if ($settings?.largeTextAsFile ?? false) {
 																const text = clipboardData.getData('text/plain');
