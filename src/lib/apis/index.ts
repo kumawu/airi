@@ -1,30 +1,106 @@
 import { WEBUI_API_BASE_URL, WEBUI_BASE_URL } from '$lib/constants';
 
 export const getModels = async (token: string = '', base: boolean = false) => {
-	let error = null;
-	const res = await fetch(`${WEBUI_BASE_URL}/api/models${base ? '/base' : ''}`, {
-		method: 'GET',
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-			...(token && { authorization: `Bearer ${token}` })
+	// let error = null;
+	// const res = await fetch(`${WEBUI_BASE_URL}/api/models${base ? '/base' : ''}`, {
+	// 	method: 'GET',
+	// 	headers: {
+	// 		Accept: 'application/json',
+	// 		'Content-Type': 'application/json',
+	// 		...(token && { authorization: `Bearer ${token}` })
+	// 	}
+	// })
+	// 	.then(async (res) => {
+	// 		if (!res.ok) throw await res.json();
+	// 		return res.json();
+	// 	})
+	// 	.catch((err) => {
+	// 		error = err;
+	// 		console.log(err);
+	// 		return null;
+	// 	});
+
+	// if (error) {
+	// 	throw error;
+	// }
+
+	// let models = res?.data ?? [];
+
+	//固定模型
+	let models = [
+		{
+			"id": "【Web3】Airie-Chat-代币运势",
+			"object": "model",
+			"created": 1742443389,
+			"owned_by": "openai",
+			"name": "Airie",
+			"openai": {
+				"id": "【Web3】Airie-Chat-代币运势",
+				"object": "model",
+				"created": 1742443389,
+				"owned_by": "dify"
+			},
+			"urlIdx": 0,
+			"info": {
+				"id": "【Web3】Airie-Chat-代币运势",
+				"user_id": "4f26b1a7-94ad-4393-b9f1-1ae1a60ab76f",
+				"base_model_id": null,
+				"name": "Airie",
+				"params": {},
+				"meta": {
+					"profile_image_url": "/static/favicon.png",
+					"description": null,
+					"capabilities": {
+						"vision": false,
+						"citations": true
+					},
+					"suggestion_prompts": null,
+					"tags": []
+				},
+				"access_control": null,
+				"is_active": true,
+				"updated_at": 1739208479,
+				"created_at": 1739208479
+			},
+			"actions": []
+		},
+		{
+			"id": "Title-Generation",
+			"object": "model",
+			"created": 1742443389,
+			"owned_by": "openai",
+			"name": "Title-Generation",
+			"openai": {
+				"id": "Title-Generation",
+				"object": "model",
+				"created": 1742443389,
+				"owned_by": "dify"
+			},
+			"urlIdx": 0,
+			"info": {
+				"id": "Title-Generation",
+				"user_id": "f6fd4322-ecca-4ed6-a31e-ac8995c8fbc1",
+				"base_model_id": null,
+				"name": "Title-Generation",
+				"params": {},
+				"meta": {
+					"profile_image_url": "/static/favicon.png",
+					"description": null,
+					"capabilities": {
+						"vision": true,
+						"citations": true
+					},
+					"suggestion_prompts": null,
+					"tags": []
+				},
+				"access_control": null,
+				"is_active": true,
+				"updated_at": 1740488970,
+				"created_at": 1740488970
+			},
+			"actions": []
 		}
-	})
-		.then(async (res) => {
-			if (!res.ok) throw await res.json();
-			return res.json();
-		})
-		.catch((err) => {
-			error = err;
-			console.log(err);
-			return null;
-		});
-
-	if (error) {
-		throw error;
-	}
-
-	let models = res?.data ?? [];
+	]
 	return models;
 };
 
