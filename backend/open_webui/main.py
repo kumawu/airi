@@ -881,7 +881,7 @@ async def chat_completion(
     if user.remaining_count <= 0:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="剩余次数不足, X关注 @airie_agent，私信获取更多次数",
+            detail="剩余次数不足, 关注 <a href='https://x.com/airie_agent' target='_blank'>@airie_agent</a>，私信获取更多次数",
         )
 
     tasks = form_data.pop("background_tasks", None)

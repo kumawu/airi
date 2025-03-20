@@ -10,6 +10,6 @@
 	</div>
 
 	<div class=" self-center text-sm">
-		{typeof content === 'string' ? content : JSON.stringify(content)}
+		{@html typeof content === 'string' ? content : JSON.stringify(content)}
 	</div>
 </div>
