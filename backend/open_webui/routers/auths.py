@@ -124,6 +124,7 @@ async def get_session_user(
         "wallet_address": user.wallet_address,
         "birth_place": user.birth_place,
         "remaining_count": user.remaining_count,
+        "change_times": user.change_times,
     }
 
 
@@ -138,6 +139,15 @@ async def update_profile(
     form_data: UpdateProfileForm, session_user=Depends(get_verified_user)
 ):
     if session_user:
+        # 判断是否应该更新 fortune data
+        # should_update = False
+        change_times = session_user.change_times
+        if session_user.birthday != form_data.birthday or session_user.birth_place!= form_data.birth_place or session_user.gender!= form_data.gender:
+            change_times = change_times+1
+            # should_update = True
+            if change_times > 1:
+                raise HTTPException(400, detail=ERROR_MESSAGES.CHANGE_TIMES_EXCEEDED)
+        
         user = Users.update_user_by_id(
             session_user.id,
             {
@@ -146,9 +156,11 @@ async def update_profile(
                 "birthday": form_data.birthday,
                 "birth_place": form_data.birth_place,
                 "gender": form_data.gender,
+                "change_times": change_times,
             },
         )
         if user:
+            # if should_update:
             await fetch_and_update_fortune(user)
             return user
         else:
@@ -323,6 +335,7 @@ async def ldap_auth(request: Request, response: Response, form_data: LdapForm):
                     "wallet_address": user.wallet_address,
                     "birth_place": user.birth_place,
                     "remaining_count": user.remaining_count,
+                    "change_times": user.change_times,
                 }
             else:
                 raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -434,6 +447,7 @@ async def signin(request: Request, response: Response, form_data: SigninForm):
             "wallet_address": user.wallet_address,
             "birth_place": user.birth_place,
             "remaining_count": user.remaining_count,
+            "change_times": user.change_times,
         }
     else:
         raise HTTPException(400, detail=ERROR_MESSAGES.INVALID_CRED)
@@ -553,6 +567,7 @@ async def signup(request: Request, response: Response, form_data: SignupForm):
                 "wallet_address": user.wallet_address,
                 "birth_place": user.birth_place,
                 "remaining_count": user.remaining_count,
+                "change_times": user.change_times,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)
@@ -632,6 +647,7 @@ async def add_user(form_data: AddUserForm, user=Depends(get_admin_user)):
                 "wallet_address": user.wallet_address,
                 "birth_place": user.birth_place,
                 "remaining_count": user.remaining_count,
+                "change_times": user.change_times,
             }
         else:
             raise HTTPException(500, detail=ERROR_MESSAGES.CREATE_USER_ERROR)

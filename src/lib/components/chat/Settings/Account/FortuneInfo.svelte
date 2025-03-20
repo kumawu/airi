@@ -3,8 +3,6 @@
     import dayjs from 'dayjs';
     import { user} from '$lib/stores';
     import FortuneChart from './FortuneChart.svelte';
-    import { updateUserProfile } from '$lib/apis/auths';
-    import { toast } from 'svelte-sonner';
 
     const i18n = getContext('i18n');
 

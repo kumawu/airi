@@ -102,6 +102,7 @@ class ERROR_MESSAGES(str, Enum):
         "Duplicate content detected. Please provide unique content to proceed."
     )
     FILE_NOT_PROCESSED = "Extracted content is not available for this file. Please ensure that the file is processed before proceeding."
+    CHANGE_TIMES_EXCEEDED = "性别、生日、出生地修改次数超过限制，如需修改，请X私信@airie_agent"
 
 
 class TASKS(str, Enum):

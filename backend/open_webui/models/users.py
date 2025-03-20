@@ -47,6 +47,7 @@ class User(Base):
     birth_place = Column(String, nullable=True)
     wallet_address = Column(String, nullable=True)
     birthday = Column(BigInteger)
+    change_times = Column(Integer, default=0)
 
 class UserSettings(BaseModel):
     ui: Optional[dict] = {}
@@ -78,6 +79,7 @@ class UserModel(BaseModel):
     remaining_count: int
     birth_place: Optional[str] = None
     wallet_address: Optional[str] = None
+    change_times: int
 
 
 
@@ -100,6 +102,7 @@ class UserResponse(BaseModel):
     birth_place: Optional[str] = None
     wallet_address: Optional[str] = None
     birthday: int
+    change_times: int
 
 class UserNameResponse(BaseModel):
     id: str
@@ -133,7 +136,8 @@ class UsersTable:
         fortune: Optional[dict] = None,
         wallet_balance: Optional[dict] = None,
         remaining_count: int = 10,
-        birth_place: Optional[str] = None
+        birth_place: Optional[str] = None,
+        change_times: int = 0,
     ) -> Optional[UserModel]:
         with get_db() as db:
             user = UserModel(
@@ -154,6 +158,7 @@ class UsersTable:
                     "birth_place": birth_place,
                     "wallet_address": name,
                     "birthday": int(time.time()),
+                    "change_times": change_times,
                 }
             )
             result = User(**user.model_dump())

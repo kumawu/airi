@@ -16,6 +16,7 @@
 	import AddressEdit from './Account/AddressEdit.svelte';
 	import { truncateName } from '$lib/utils/index';
 	import LunarSolarPicker from './Account/LunarSolarPicker.svelte';
+	import Modal from '$lib/components/common/Modal.svelte';
 
 	const i18n = getContext('i18n');
 
@@ -40,6 +41,8 @@
 	let saving = false;
 	let showAddressPicker = false;
 	let showBirthdayPicker = false;
+	let showConfirmModal = false;
+    let pendingSubmit = false;
 	const onChangeBirthday = (e) => {
 		birthdayArr = e?.detail?.selectedValues??[];
 		birthday = new Date(birthdayArr[0], birthdayArr[1] - 1, birthdayArr[2], birthdayArr[3]).getTime() / 1000;
@@ -52,30 +55,39 @@
 	}
 	const submitHandler = async () => {
 		if (name !== $user.name) {
-			if (profileImageUrl === generateInitialsImage($user.name) || profileImageUrl === '') {
-				profileImageUrl = generateInitialsImage(name);
-			}
-		}
+            if (profileImageUrl === generateInitialsImage($user.name) || profileImageUrl === '') {
+                profileImageUrl = generateInitialsImage(name);
+            }
+        }
+        if(birthday!== $user.birthday || birthPlace!== $user.birth_place || gender!== $user.gender){
+            showConfirmModal = true;
+            pendingSubmit = true;
+            return false;
+        }
 
-		const updatedUser = await updateUserProfile(
-			localStorage.token, 
-			{
-				"profile_image_url": profileImageUrl, 
-				name, birthday, gender, 
-				"birth_place": birthPlace
-			}
-		).catch(
-			(error) => {
-				toast.error(`${error}`);
-			}
-		);
-
-		if (updatedUser) {
-			await user.set(updatedUser);
-			return true;
-		}
-		return false;
+        return await doSubmit();
 	};
+	const doSubmit = async () => {
+        pendingSubmit = false;
+        const updatedUser = await updateUserProfile(
+            localStorage.token, 
+            {
+                "profile_image_url": profileImageUrl, 
+                name, birthday, gender, 
+                "birth_place": birthPlace
+            }
+        ).catch(
+            (error) => {
+                toast.error(`${error}`);
+            }
+        );
+
+        if (updatedUser) {
+            await user.set(updatedUser);
+            return true;
+        }
+        return false;
+    };
 
 	onMount(async () => {
 		name = $user?.name??'';
@@ -257,7 +269,7 @@
 							type="text"
 							bind:value={name}
 							required
-							maxlength="8"
+							maxlength="100"
 							placeholder={$i18n.t("填写您的姓名")}
 							class="w-40 px-4 py-1.5 border rounded-lg bg-white dark:bg-gray-800 dark:text-white border-gray-200 dark:border-gray-700 focus:ring-1 focus:ring-orange-400 focus:border-orange-400 focus:outline-none transition-colors"
 						/>
@@ -372,3 +384,46 @@
 		</button>
 	</div>
 </div>
+{#if showConfirmModal}
+    <Modal
+		size="sm" 
+        on:close={() => {
+            showConfirmModal = false;
+            pendingSubmit = false;
+        }}
+    >
+        <div class="px-6 pt-6 pb-6">
+            <div class="flex items-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                <p class="text-gray-700 dark:text-gray-200 text-md">
+                    {$i18n.t('性别、生日、出生地只能修改一次，您确定要修改吗？')}
+                </p>
+            </div>
+            <div class="flex justify-end gap-3">
+                <button
+                    class="min-w-[80px] px-4 py-1.5 rounded-full text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors"
+                    on:click={() => {
+                        showConfirmModal = false;
+                        pendingSubmit = false;
+                    }}
+                >
+                    {$i18n.t('取消')}
+                </button>
+                <button
+                    class="min-w-[80px] px-4 py-1.5 rounded-full text-sm bg-black text-white hover:bg-purple-500 transition-colors"
+                    on:click={async () => {
+                        showConfirmModal = false;
+                        const res = await doSubmit();
+                        if (res) {
+                            saveHandler();
+                        }
+                    }}
+                >
+                    {$i18n.t('确认')}
+                </button>
+            </div>
+        </div>
+    </Modal>
+{/if}

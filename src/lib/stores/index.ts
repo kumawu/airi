@@ -235,6 +235,7 @@ type SessionUser = {
 	birthday: number;
 	birth_place: string;
 	remaining_count: number;
+	change_times: number;
 };
 
 
