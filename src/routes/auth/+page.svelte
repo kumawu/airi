@@ -179,7 +179,8 @@
 					config={{
 						defaultChain: mainnet,
 						supportedChains: [mainnet],
-						loginMethods: ['email', 'wallet', 'google'],
+						// loginMethods: ['email', 'wallet', 'google'],
+						loginMethods: ['wallet'],
 						appearance: {
 							theme: 'dark',
 							walletChainType: 'solana-only',
