@@ -737,6 +737,8 @@ ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "https://static.airie.fun",
     "http://static.airie.fun",
+    "https://www.airie.fun",
+    "https://airie.fun",
     "http://localhost:3000",
     "http://127.0.0.1:8080",
     "http://127.0.0.1:5173",
@@ -752,7 +754,7 @@ ALLOWED_ORIGINS = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=False,
+    allow_credentials=True,  # 允许发送cookies
     # allow_methods=["*"],
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
